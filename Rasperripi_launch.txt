@@ -1,0 +1,40 @@
+1. Set Raspberry Pi to boot to console, not desktop:
+
+sudo raspi-config
+
+2. Create a Minimal X Session Script
+
+mkdir -p ~/.xsession.d
+nano ~/.xsession.d/startup.sh
+
+///////////////////////////////////////////////////////////////////////////////////////
+#!/bin/bash
+
+# Start your Django server
+/usr/local/bin/four_channel/four_channel &
+
+# Wait for server to start (adjust timing if needed)
+sleep 5
+
+# Launch Chromium in kiosk mode pointing to the local Django app
+chromium-browser --noerrdialogs --disable-infobars --kiosk http://127.0.0.1:8000
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+chmod +x ~/.xsession.d/startup.sh
+
+
+
+3. Create a Custom .xinitrc File
+
+nano ~/.xinitrc
+~/.xsession.d/startup.sh
+
+
+4. Auto-launch X session at boot
+crontab -e
+
+1st one la use pannu paste at the last
+@reboot startx

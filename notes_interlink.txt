@@ -1,0 +1,141 @@
+install odbc driver:
+sudo apt-get install freetds-bin tdsodbc
+
+
+Configure FreeTDS
+
+sudo nano /etc/freetds/freetds.conf
+
+
+[your_sqlserver_alias]
+    host = <WINDOWS_SQL_SERVER_IP_OR_HOSTNAME> -----replace the servername with acutal servber name
+    port = 1433
+    tds version = 7.4
+
+
+test the connection
+    ping 192.168.1.100
+
+    tsql -S your_sqlserver_alias -U sa -P 'sai@123'
+    1> ----------as like means it correct
+
+
+
+Configure ODBC driver to use FreeTDS
+
+    sudo nano /etc/odbcinst.ini
+
+    find /usr/lib -name libtdsodbc.so ---------------this helps to find the path for libtdsodbc.so
+
+    [FreeTDS]
+    Description=FreeTDS Driver for Linux & MSSQL
+    Driver=/usr/lib/aarch64-linux-gnu/odbc/libtdsodbc.so
+    Setup=/usr/lib/aarch64-linux-gnu/odbc/libtdsS.so
+    UsageCount=1
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'mssql',
+        'NAME': 'CHECKDB',
+        'USER': 'sa',
+        'PASSWORD': 'sai@123',
+        'HOST': 'your_sqlserver_alias',  # use the alias you configured in freetds.conf
+        'PORT': '1433',
+        'OPTIONS': {
+            'driver': 'FreeTDS',
+            'extra_params': 'TDS_Version=7.4',
+        },
+    },
+}
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+
+interlink with the server name
+
+
+1. Install Samba Tools (if not done yet):
+
+    sudo apt install samba-common-bin -y
+
+2. Create Script
+
+    nano ~/update_sac_gate_ip.sh
+
+
+
+/////////////// update these values --------------------
+
+#!/bin/bash
+
+# Resolve sac-gate hostname to IP using nmblookup
+IP=$(nmblookup sac-gate | awk '/^192\./ { print $1; exit }')
+
+# Check if IP was found
+if [[ -n "$IP" ]]; then
+    echo "🧠 sac-gate resolved to IP: $IP"
+
+    # Backup /etc/hosts before modifying
+    sudo cp /etc/hosts /etc/hosts.bak
+
+    # Update or add the sac-gate entry in /etc/hosts
+    if grep -qE '\s+sac-gate' /etc/hosts; then
+        # Replace existing line
+        sudo sed -i "s/^.*sac-gate\$/$IP   sac-gate/" /etc/hosts
+    else
+        # Append new entry
+        echo "$IP   sac-gate" | sudo tee -a /etc/hosts > /dev/null
+    fi
+
+    echo "✅ Updated /etc/hosts: sac-gate → $IP"
+else
+    echo "❌ Could not resolve sac-gate using nmblookup"
+    exit 1
+fi
+
+
+
+3.Make it executable:
+    chmod +x ~/update_sac_gate_ip.sh
+
+
+4.Run it:
+    ./update_sac_gate_ip.sh
+
+    ✅ sac-gate mapped to 192.168.x.x in /etc/hosts
+
+
+
+5.Verify
+    ping sac-gate
+
+
+ERROR OCCURE MEANS :
+
+❌ Could not resolve sac-gate using nmblookup
+
+    1. Check NetBIOS is enabled on Windows (sac-gate)
+        On sac-gate:
+
+        Open Control Panel → Network and Sharing Center
+
+        Click your network → Properties
+
+        Select Internet Protocol Version 4 (TCP/IPv4) → Properties
+
+        Click Advanced → WINS tab
+
+        Under NetBIOS setting, ensure Enable NetBIOS over TCP/IP is selected
+
+        Restart the Windows PC or at least reconnect to the network.
+
+
+
+
+

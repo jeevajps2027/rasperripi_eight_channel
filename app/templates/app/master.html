@@ -1,0 +1,2419 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+Mastering Page
+{% endblock title %}
+{% block content %}
+<style>
+
+html, body{
+    margin: 0;
+    padding: 0;
+    /* overflow: hidden; */
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+   
+    background-color: black;
+   
+    padding: 5px;
+}
+
+.master_page{
+    height: 100%;
+    width: 100%;
+   
+}
+
+.clock_box{
+    height: 5%;
+    width: 100%;
+    background-color: black;
+    display: flex;
+}
+#clock-box{
+         background-color:white;
+         height: 100%;
+         width: 20%;
+         border: 1px solid black;
+         font-size: 1.5vw;
+         font-weight: bold;
+       text-align: center; 
+ 
+        }
+        .back_button{
+            height: 100%;
+            width: 20%; 
+            margin-left: 55%;
+        }
+
+        
+#back-btn{
+        background-color: red;
+        height: 100%;
+        width: 40%; 
+        float: right;
+        font-size: 1.5vw;
+        color: white;
+        font-weight: bold;
+               
+         }
+
+  
+
+
+
+     
+     .wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+       
+
+
+        .full-page-box {
+         display: flex;
+         background-color: lightgrey;
+         padding: 1px; 
+         border: 2px solid black;
+         width: 100%;
+         height: 15%;
+     }
+      
+ 
+     .left-box {
+         width: 35%;
+         height: 100%;
+         margin-right: 10px;
+         border: 2px solid black; 
+     }
+
+    
+
+     .radio_container {
+        width: 25%;
+         height: 100%;
+        border: 2px solid black; 
+    display: flex;
+    flex-direction: column;
+   background-color: white;
+    font-family: Arial, sans-serif;
+}
+.radio_container label{
+    width: 60%;
+    margin-left: 10%;
+    margin-top: 3%;
+    font-size: 1.2vw;
+    color: black;
+    font-weight: bold;
+}
+
+.radio_option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    accent-color: blue; /* modern browsers only */
+    cursor: pointer;
+    margin-top: 5%;
+}
+
+
+
+
+
+
+
+     .mastering_group_container{
+        width: 25%;
+         height: 100%;
+        margin-left: 1%;
+        border: 2px solid black;
+        background-color: white;
+     }
+
+     .mastering_group_container label{
+        width: 40%;
+        font-weight: bold;
+        font-size: 1.2vw;
+        margin-left: 2%;
+     }
+
+     .mastering_group_container select{
+        width: 50%;
+        height: 50%;
+        font-weight: bold;
+        font-size: 1.5vw;
+     }
+     
+
+     .button_container{
+        
+        width: 25%;
+         height: 100%;
+         background-color: white; 
+         border: 2px solid black;
+         margin-left: 1%;
+     }
+
+
+
+
+   .left-box label {
+             display: inline-block;
+             width: 35%; 
+             margin-top: 0%;
+             text-align: center;
+             font-weight: bold;
+             font-size: 1.5vw;
+         }
+ 
+         .left-box  select {
+             margin-top: 2%;
+             box-sizing: border-box;
+             width: 50%; 
+             height: 30px;
+             font-size: 1.3vw;
+             text-align: center;
+             font-weight: bold;
+         } 
+         #cancel-btn{
+             background-color: orange;
+             color:black;
+             height: 35%;
+             width: 35%;
+             margin-left: 5%;
+             margin-top: 5%;
+               
+         }
+         #select-btn{
+             background-color: green;
+             color:black;           
+             height: 35%;
+             width: 35%;
+             margin-left: 65px; 
+             margin-top: 5%;
+         }
+
+
+
+
+         #lowMasterBtn{
+             width: 15vw;
+             height: 5vh;
+             font-size: 1.2vw;
+            margin-left: 10%;
+            margin-top: 1%;
+             background-color: blue;
+             color: white;
+         }
+
+         #lowMasterBtn:hover {
+            background-image: linear-gradient(45deg, #1e90ff, #00bfff,#013263);
+        }
+
+
+        #lowMasterBtn:active {
+    background-image: linear-gradient(to right, #ff512f, #dd2476); /* reddish gradient */
+}
+
+        #highMasterBtn{
+            width: 15vw;
+            height: 5vh;
+            font-size: 1.2vw;
+             margin-left: 10%;
+             background-color: blue;
+             color: white;
+         }
+
+
+                  #highMasterBtn:hover {
+            background-image: linear-gradient(45deg, #1e90ff, #00bfff,#013263);
+        }
+
+
+        #highMasterBtn:active {
+    background-image: linear-gradient(to right, #ff512f, #dd2476); /* reddish gradient */
+}
+
+         
+         #singleMasterBtn{
+            width: 15vw;
+             height: 50%;
+             font-size: 1.2vw;
+             margin-left: 10%;
+             margin-top: 10px;
+             background-color: blue;
+             color: white;
+         }
+
+         #measureBtn{
+            width: 70%;
+             height: 50%;
+            margin-left: 15%;
+       font-weight: bold;
+       font-size: 1.8vw;
+             background-color: rgb(255, 0, 76);
+             color: white;
+         }
+         #highMasterBtn{    
+             margin-top: 10px;   
+         }
+         
+         
+        
+ .probe-container{
+    color: white;
+ }
+       
+ 
+         #probe-A,
+         #probe-B,
+         #probe-C,
+         #probe-D,
+         #probe-E,
+         #probe-F,
+         #probe-G,
+         #probe-H,
+         #probe-I,
+         #probe-J,
+         #probe-K {
+             display: inline-block;
+             max-height: 100px;
+             width: 100px;
+             margin-right: 10px; 
+            
+             
+         }
+ 
+        
+ #pre{
+         margin-top: 10px;
+         color:white;
+         font-size: 3vh;
+         font-weight: bold;
+         text-align: center;
+         background-color: rgb(250, 106, 54)
+ 
+        }
+       
+
+
+.reset-button {
+  position: relative;
+  background-color: #007bff;
+  border: none;
+  border-radius: 30%;
+  width: 40px;
+  height: 40px;
+  margin-top: -40px;
+  margin-left: 1200px;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.reset-symbol {
+  font-size: 20px;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.reset-button:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotateX(55deg) rotateY(30deg);
+  transition: transform 0.5s ease;
+}
+
+.reset-button:hover:before {
+  transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+}
+
+
+#customAlert{
+    display: none;
+    position: fixed; 
+    top: 50%;
+    width: 35%;
+    height: 25%;
+    left: 50%;
+    top: 50%;
+    font-size: 5vh;
+    text-align: center;
+    font-weight: bold;
+    transform: translateX(-50%);
+    background-color: yellow; 
+    color: black; 
+    border: 1px solid black ; 
+    z-index: 1000;
+}
+   
+.probe-container {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Add space between the elements */
+}
+
+
+
+
+
+
+
+
+
+/* Reserve space at the top for radio button */
+.input-box-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem;
+    border: 2px solid black;
+    padding: 0;
+    border-radius: 4px;
+    width: 18%;
+    height: 33vh;
+    box-sizing: border-box;
+    position: relative;
+    padding-top: 2rem;  /* ✅ reserve space for radio */
+}
+
+/* Position radio button in the reserved space */
+.input-box-container input[type="radio"] {
+    position: absolute;
+    top: -0.5rem;   /* adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* Grid: left side (L/H), right side (Input2) */
+.grid-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* left/right halves */
+    grid-template-rows: 1fr 1fr;    /* two rows for L/H */
+    width: 100%;
+    height: 90%;
+    border-bottom: 2px solid black; /* horizontal line separating from pre */
+     border-top: 2px solid black; 
+}
+
+/* Left column has its own right border (vertical line) */
+.l-wrapper, .h-wrapper {
+    border-right: 2px solid black;  /* vertical line */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Positioning L and H */
+.l-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+}
+.h-wrapper {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/* Right big box spans both rows */
+.input2-box {
+    margin-top: 5px;
+    margin-left: 5px;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 95%;
+    height: 90%;
+   font-size: 1.7vw;  
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+/* Smaller L/H inputs */
+.input1-box,
+.input3-box {
+    width: 90%;
+    height: 7vh;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;  
+}
+
+/* Bottom parameter name with top border */
+.input-box-container pre {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2vw;
+    border-top: 2px solid black; /* horizontal line */
+    padding: 0.3rem 0;
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.plc-item {
+    display: flex;
+    align-items: center;   /* vertically center bulb with text */
+    gap: 10px;             /* space between text and bulb */
+}
+
+
+.plc-light {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;          /* makes it a circle */
+    background-color: red;       /* default OFF state */
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    margin-left: 10px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* Glow Green */
+.plc-light.green {
+    background-color: limegreen;
+    box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.9);
+}
+
+/* Glow Red */
+.plc-light.red {
+    background-color: red;
+    box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.9);
+}
+
+/* Blinking animation */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+.blink {
+    animation: blink 0.3s infinite;  /* fast blink */
+}
+
+
+             
+ </style>
+ 
+<div class="master_page">
+    <div class="clock_box">
+        <div class="box" id="clock-box"></div>
+
+         <div class="plc-item">
+        <span class="plc-label" style="color: white;font-weight: bold;margin-left: 10px;">COMMUNICATION</span>
+        <div id="com1-light" class="plc-light"></div>
+    </div>
+        <div class="back_button">
+        <a href="{% url 'measurebox' %}">
+            <button type="button" id="back-btn">BACK<button>
+        </a>
+    </div>
+    </div>
+ <div class="full-page-box">
+    
+
+    <div class="left-box">
+        <label for="partModel">PART MODEL:</label>
+        <select id="partModel" name="partModel">
+            {% for value in part_model_values %}
+                <option value="{{ value }}">{{ value }}</option>
+            {% endfor %}
+        </select>
+
+        <button id="measureBtn" type="button" onclick="MeasureBtnClick()"><b>MEASUREMENT [F1]</b></button>
+       
+    </div>
+
+
+    <div class="radio_container">
+        <div class="radio_option">
+            <label for="all_parameter">ALL PARAMETERS</label>
+            <input type="radio" name="radio_selection" id="all_parameter" checked onclick="handleRadioClick(this)">
+        </div>
+    
+        <div class="radio_option">
+            <label for="parameterwise">PARAMETERWISE</label>
+            <input type="radio" name="radio_selection" id="parameterwise" onclick="handleRadioClick(this)">
+        </div>
+    </div>
+    
+
+
+
+<div class="mastering_group_container">
+    <label for="mastering" >MASTERING GROUP:</label>
+    <select id="mastering" name="mastering" onchange="updateMastering()">
+        <script>
+            for (var i = 1; i <= 30; i++) {
+                document.write('<option value="' + i + '">' + i + '</option>');
+            }
+        </script>
+    </select><br>
+    
+</div>
+
+
+
+<div class="button_container">
+    <button id="lowMasterBtn" type="button" onclick="lowMasteringClick()"><b>LOW MASTERING</b></button>
+    <button id="highMasterBtn" type="button" onclick="highMasteringClick()"><b>HIGH MASTERING</b></button>
+    <button id="singleMasterBtn" type="button" onclick="singleMasteringClick()"><b>SINGLE MASTERING</b></button>
+</div>
+</div>
+
+<div class="probe_box_container">
+    <pre id="pre" style="border: 2px solid black;"></pre>
+
+    <div>
+        <!-- <h5 style="color: white;">RAW COUNT:</h5> -->
+        <div class="probe-container" style="display: none;">
+            <textarea id="probe-A" ></textarea>
+            <textarea id="probe-B" ></textarea>
+            <textarea id="probe-C" style="display: none;"></textarea>
+            <textarea id="probe-D" style="display: none;"></textarea>
+            <textarea id="probe-E" style="display: none;"></textarea>
+            <textarea id="probe-F" style="display: none;"></textarea>
+            <textarea id="probe-G" style="display: none;"></textarea>
+            <textarea id="probe-H" style="display: none;"></textarea>
+            <textarea id="probe-I" style="display: none;"></textarea>
+            <textarea id="probe-J" style="display: none;"></textarea>
+            <textarea id="probe-K" style="display: none;"></textarea>
+            <textarea id="probe-L" style="display: none;"></textarea>
+            <textarea id="probe-M" style="display: none;"></textarea>
+            <textarea id="probe-N" style="display: none;"></textarea>
+            <textarea id="probe-O" style="display: none;"></textarea>
+            <textarea id="probe-P" style="display: none;"></textarea>
+            <textarea id="probe-Q" style="display: none;"></textarea>
+            <textarea id="probe-R" style="display: none;"></textarea>
+            <textarea id="probe-S" style="display: none;"></textarea>
+            <textarea id="probe-T" style="display: none;"></textarea>
+            <textarea id="probe-U" style="display: none;"></textarea>
+            <textarea id="probe-V" style="display: none;"></textarea>
+            <textarea id="probe-W" style="display: none;"></textarea>
+            <textarea id="probe-X" style="display: none;"></textarea>
+            <textarea id="probe-Y" style="display: none;"></textarea>
+            <textarea id="probe-Z" style="display: none;"></textarea>
+            <textarea id="probe-AA" style="display: none;"></textarea>
+            <textarea id="probe-AB" style="display: none;"></textarea>
+            <textarea id="probe-AC" style="display: none;"></textarea>
+            <textarea id="probe-AD" style="display: none;"></textarea>
+            <textarea id="probe-AE" style="display: none;"></textarea>
+            <textarea id="probe-AF" style="display: none;"></textarea>
+            <textarea id="probe-AG" style="display: none;"></textarea>
+            <textarea id="probe-AH" style="display: none;"></textarea>
+            <textarea id="probe-AI" style="display: none;"></textarea>
+            <textarea id="probe-AJ" style="display: none;"></textarea>
+            <textarea id="probe-AK" style="display: none;"></textarea>
+            <textarea id="probe-AL" style="display: none;"></textarea>
+            <textarea id="probe-AM" style="display: none;"></textarea>
+            <textarea id="probe-AN" style="display: none;"></textarea>
+            <textarea id="probe-AO" style="display: none;"></textarea>
+            <textarea id="probe-AP" style="display: none;"></textarea>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="output_box_container" style="overflow-y: auto; max-height: 100vh;">
+    <!-- Ensure wrapper has overflow-y applied -->
+    <div class="second_box" >
+        <div id="wrapper" class="wrapper" style="overflow-y: auto; max-height: 100vh;">
+            <!-- Content inside wrapper -->
+        </div>
+    </div>
+
+    <div id="container-wrapper" ></div>
+    <div id="customAlert"></div>
+</div>
+</div>
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+
+
+
+    
+</div>
+
+
+<script>
+
+
+
+
+  
+function getCSRFToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.querySelectorAll("select").forEach(select => {
+//         select.addEventListener("focus", function () {
+//             let rect = this.getBoundingClientRect(); // Get current position of select box
+//             let optionCount = Math.min(this.options.length, 8); // Show max 8 options at a time
+//             let optionHeight = 30; // Approximate height of each option in px
+//             let totalHeight = optionCount * optionHeight;
+
+//             // Create a floating dropdown
+//             this.style.overflowY = "auto"; // Enable scrolling inside dropdown
+//             this.style.height = `${totalHeight}px`; // Set height for visible options
+//             this.size = optionCount; // Expand dropdown
+//             this.style.top = `${rect.top - totalHeight}px`; // Move dropdown above
+
+//             // Prevent page scroll when dropdown is open
+//             document.body.style.overflow = "hidden";
+//         });
+
+//         select.addEventListener("blur", function () {
+//             this.style.zIndex = "1";
+//             this.style.overflow = "hidden";
+//             this.style.height = "30px"; // Reset height
+//             this.size = 1; // Collapse dropdown
+
+//             // Restore page scrolling
+//             document.body.style.overflow = "auto";
+//         });
+
+//         select.addEventListener("change", function () {
+//             this.blur(); // Collapse after selection
+//         });
+//     });
+// });
+
+
+    const operatorValues = "{{ operator_values|safe }}";
+    const shiftValues = "{{ shift_values|safe }}";
+    const machineValues = "{{ machine_values|safe }}";
+    
+    
+    function MeasureBtnClick() {
+    const btn = document.getElementById("measureBtn");
+    if (btn.disabled) {
+        console.log("⛔ Measurement blocked: button disabled");
+        return; // stop if disabled
+    }
+    window.location.href = '/measurement/';
+}
+
+function redirectToMasterPage(event) {
+    const btn = document.getElementById("measureBtn");
+
+    // ✅ Block F1 when button disabled
+    if (btn.disabled && event.key === 'F1') {
+        console.log("⛔ F1 blocked: button disabled");
+        event.preventDefault();
+        return;
+    }
+
+    if (event.key === 'F1') {
+        event.preventDefault();
+        window.location.href = '/measurement/';
+    }
+}
+
+document.addEventListener('keydown', redirectToMasterPage);
+
+ 
+
+function updateClock() {
+    var currentDate = new Date();
+            var hours = currentDate.getHours();
+            var minutes = currentDate.getMinutes();
+            var seconds = currentDate.getSeconds();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Handle midnight (0 hours)
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            var currentTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth() + 1; // Month is zero-based
+            var year = currentDate.getFullYear();
+            var currentDateFormatted = day + '/' + month + '/' + year;
+    document.getElementById("clock-box").innerHTML = currentDateFormatted + ' ' + currentTime;
+    // Call this function again after 1 second
+    setTimeout(updateClock, 1000);
+}
+// Call the function to initially display the clock
+updateClock();
+
+
+
+// Trigger click event on page load
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        document.getElementById('all_parameter').click();
+        if (element.id === 'all_parameter') {
+        radioButtons.forEach(function(radio) {
+            radio.style.display = 'none'; // Hide the radio buttons
+        });
+    }}, 1000);
+});
+
+ 
+
+// Global variable to store the selected radio button
+var selectedRadioOption = 'All Parameters';
+
+// Function to handle radio button click
+function handleRadioClick(element) {
+    selectedRadioOption = element.id === 'all_parameter' ? 'All Parameters' : 'Parameterwise';
+    
+    // Update the 'pre' element with the selected radio option and its group
+    updatePreText();
+
+    // Show or hide the dynamically created radio buttons
+    var radioButtons = document.querySelectorAll('.container_radio');
+    if (element.id === 'all_parameter') {
+        radioButtons.forEach(function(radio) {
+            radio.style.display = 'none'; // Hide the radio buttons
+        });
+    } else if (element.id === 'parameterwise') {
+        radioButtons.forEach(function(radio) {
+            radio.style.display = 'inline'; // Show the radio buttons
+        });
+    }
+}
+
+// Function to update 'pre' text with selected radio and mastering group
+function updatePreText() {
+    var selectedMastering = parseInt(document.getElementById('mastering').value);
+    var preTag = document.getElementById('pre');
+    preTag.textContent = selectedRadioOption + " selected for mastering Group " + selectedMastering ;
+}
+
+
+
+
+
+
+//////////////////////////////
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function displayContainerValues(container) {
+    console.log('Container values:', container);
+}
+
+var lowMasteringIntervalIds = [];
+var highMasteringIntervalIds = [];
+var containerIntervals = {}; // Track container-specific intervals
+
+function lowMasteringClick(response) {
+    console.log('Low Mastering button clicked');
+    showCustomAlert("LOW MASTER DATA CAPTURED")
+
+    // setTimeout(function () {
+    //     console.log("Starting watcher with:", textareaId, newa1_value,selectedMastering);
+    //     setupTextareaWatcher(textareaId, newa1_value,selectedMastering,response);
+    // }, 3000); // 5000ms = 5 seconds
+
+    const preTag = document.getElementById('pre');
+    preTag.innerText = `Low Mastering is Started for ${selectedRadioOption}`;
+
+    // Clear all previous intervals
+    lowMasteringIntervalIds.forEach(clearInterval);
+    lowMasteringIntervalIds = [];
+
+    highMasteringIntervalIds.forEach(clearInterval);
+    highMasteringIntervalIds = [];
+
+    const result = processContainers('low', response);
+    if (result && result.data) {
+        const csrfToken = "{{ csrf_token }}";
+        $.ajax({
+            type: "POST",
+            url: "/master/",
+            data: JSON.stringify({ data: result.data }),
+            contentType: "application/json",
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function(response) {
+                console.log('Low mastering DATA SAVED', response);
+
+                setTimeout(function () {
+                    const selectedValue = document.getElementById('partModel').value;
+                    const data = { selectedValue };
+
+                    $.ajax({
+                        url: '{% url "master" %}',
+                        type: 'POST',
+                        headers: { 'X-CSRFToken': getCookie('csrftoken') },
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            const selectedMastering = parseInt(document.getElementById('mastering').value);
+                            const containers = document.querySelectorAll('.input-box-container');
+
+                            const selectedRadioOption = document.querySelector('input[name="radio_selection"]:checked')?.id;
+                            const selectedContainerId = window.selectedRadioButtonContainerId || null;
+
+
+
+                containers.forEach(function (container) {
+                    const containerMastering = parseInt(container.dataset.mastering);
+                    const containerId = container.id;
+
+                    const isParameterwise = selectedRadioOption === "parameterwise";
+
+                    const isTargetContainer = isParameterwise
+                        ? containerId === selectedContainerId  // show only if container ID matches selected radio button
+                        : containerMastering === selectedMastering;  // default behavior if PARAMETERWISE not selected
+
+                    if (isTargetContainer) {
+                        const aValue = parseFloat(container.dataset.a);
+                        const inputBox2 = container.querySelector('.input2-box');
+
+                        if (inputBox2) {
+                            inputBox2.value = aValue;
+                            inputBox2.style.backgroundColor = '#00ff00';
+                        }
+
+                        const oldInterval = containerIntervals[containerId];
+                        if (oldInterval) clearInterval(oldInterval);
+
+                        const intervalId = setTimeout(function () {
+                            inputBox2.value = "";
+                            inputBox2.style.backgroundColor = '';
+                            calculateMastering(response);
+                        }, 2000);
+
+                        containerIntervals[containerId] = intervalId;
+                        lowMasteringIntervalIds.push(intervalId);
+                    }
+                });
+
+
+
+                            // setTimeout(function () {
+                            //     console.log("Starting watcher with:", textareaId, newa1_value, selectedMastering);
+                            //     setupTextareaWatcher(textareaId, newa1_value, selectedMastering);
+                            // }, 3000); // 5000ms = 5 seconds
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error retrieving new values:', error);
+                        }
+                    });
+                }, 500);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error sending low mastering data:', error);
+            }
+        });
+    }
+}
+
+
+
+// function setupTextareaWatcher(textareaId, newa1_value, selectedMastering, response) {
+//     console.log('Your received values:', textareaId, newa1_value, selectedMastering);
+//     const textarea = document.getElementById(textareaId);
+//     if (!textarea) {
+//         console.warn(`Textarea with ID ${textareaId} not found.`);
+//         return;
+//     }
+
+//     textarea.addEventListener('input', function () {
+//         const currentValue = parseFloat(textarea.value);
+//         if (isNaN(currentValue)) return;
+
+//         const difference = Math.abs(currentValue - newa1_value);
+//         console.log(`Current: ${currentValue}, Target: ${newa1_value}, Diff: ${difference}`);
+
+//         if (difference > 1000) {
+//             const containers = document.querySelectorAll('.input-box-container');
+
+//             containers.forEach(function (container) {
+//                 const containerMastering = parseInt(container.dataset.mastering);
+//                 if (containerMastering === selectedMastering) {
+//                     const inputBox2 = container.querySelector('.input2-box');
+//                     if (inputBox2) {
+//                         inputBox2.value = "";
+//                         inputBox2.style.backgroundColor = '';
+//                         console.log(`Cleared input2-box in container ${container.id}`);
+//                         calculateMastering(response);
+//                     }
+
+//                     const intervalId = containerIntervals[container.id];
+//                     if (intervalId) {
+//                         clearInterval(intervalId);
+//                         delete containerIntervals[container.id];
+//                         console.log(`Cleared timer for container ${container.id}`);
+//                     }
+
+//                     // ✅ Now safely pass the response object
+//                     calculateMastering(response);
+//                 }
+//             });
+//         }
+//     });
+// }
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+
+
+function showCustomAlert(message) {
+    const customAlert = document.getElementById('customAlert');
+    customAlert.innerText = message;
+    customAlert.style.display = 'block';
+    
+    setTimeout(function() {
+        customAlert.style.display = 'none';
+    }, 3000); // Hide after 3 seconds
+}
+
+// Function for high mastering button click
+function highMasteringClick(response) {
+    console.log('High Mastering button clicked');
+    const preTag = document.getElementById('pre');
+    preTag.innerText = `High Mastering is Started for ${selectedRadioOption}`;
+
+    // Process the containers (your existing logic)
+    const result = processContainers('high', response);
+    console.log("the data which is sent from the front end:", result);
+
+    // Get the active containers based on the current mastering group
+    var selectedMastering = parseInt(document.getElementById('mastering').value);
+    var activeContainers = [];
+    var containers = document.querySelectorAll('.input-box-container');
+
+    containers.forEach(function(container) {
+        var containerMastering = parseInt(container.getAttribute('data-mastering'));
+        if (containerMastering === selectedMastering) {
+            activeContainers.push(container);
+        }
+    });
+
+    // Clear intervals only for active containers
+    clearActiveIntervals(activeContainers);
+
+    // Clear all inputBox2 values after processing
+    clearInputValues();
+
+    if (result && result.data) {
+        var csrfToken = "{{ csrf_token }}";
+
+        // Send the data to the server (saving to the database)
+        $.ajax({
+            type: "POST",
+            url: "/master/",
+            data: JSON.stringify({ data: result.data }),
+            contentType: "application/json",
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function(response) {
+                console.log('DATA SAVED', response);
+                // Check if result.data contains values
+                if (result.data.length > 0) {
+                    // Only show alert if data is not empty
+                    showCustomAlert('DATA SAVED');
+                }
+
+                // Wait for 3 seconds and then retrieve the new values
+                setTimeout(function() {
+                    var selectedValue = document.getElementById('partModel').value;
+                    console.log('Selected Value: ' + selectedValue);
+
+                    var data = {
+                        selectedValue: selectedValue,
+                    };
+                    console.log("data in high mastering to backend",data);
+
+                    $.ajax({
+                        url: '{% url "master" %}', // Replace with your server URL if necessary
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken') // Include CSRF token in the request headers
+                        },
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function(response) {
+                            console.log('Response received:', response); // Log the response for debugging
+
+                            calculateMastering(response);
+
+                            
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error retrieving new values', error);
+                            
+                        }
+                    });
+                }, 3000); // Wait for 3 seconds before retrieving the new values
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending data', error);
+                console.log('Response text:', xhr.responseText); // Log the response text
+                
+            }
+        });
+    }
+}
+
+
+function clearInputValues() {
+    var selectedMastering = parseInt(document.getElementById('mastering').value); // Get the selected mastering group
+
+    // Get all containers
+    var containers = document.querySelectorAll('.input-box-container');
+
+    // Get selected radio button, if any
+    var selectedRadioButton = document.querySelector('input[name="radio-container"]:checked');
+    
+    containers.forEach(function(container) {
+        var containerMastering = parseInt(container.getAttribute('data-mastering'));
+        
+        // Determine if the container should be processed
+        var shouldClear = !selectedRadioButton || selectedRadioButton.closest('.input-box-container') === container;
+        
+        if (containerMastering === selectedMastering && shouldClear) {
+            var inputBox2 = container.querySelector('.input2-box');
+            if (inputBox2) {
+                inputBox2.value = ''; // Clear the value (or set to '0' if needed: inputBox2.value = '0')
+                inputBox2.style.backgroundColor = ''; // Reset the background color if needed
+                console.log('Cleared inputBox2 for container:', container.id); // Debugging line
+            }
+        }
+    });
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+function getCombinedTextareaParts(probeNumber) {
+    try {
+        if (probeNumber.includes('+')) {
+            const parts = probeNumber.split('+').map(p => p.trim());
+            const values = parts.map(part => {
+                const id = mapProbeToTextareaId(part);
+                const el = document.getElementById(id);
+                const val = el ? parseFloat(el.value) : 0;
+                return {
+                    probe: part,
+                    id,
+                    value: isNaN(val) ? 0 : val
+                };
+            });
+
+            const total = values.reduce((sum, item) => sum + item.value, 0);
+            return { total, parts: values };
+
+        } else if (probeNumber.includes('-')) {
+            const [part1, part2] = probeNumber.split('-').map(p => p.trim());
+            const id1 = mapProbeToTextareaId(part1);
+            const id2 = mapProbeToTextareaId(part2);
+            const val1 = parseFloat(document.getElementById(id1)?.value || 0);
+            const val2 = parseFloat(document.getElementById(id2)?.value || 0);
+
+            return {
+                total: (isNaN(val1) ? 0 : val1) - (isNaN(val2) ? 0 : val2),
+                parts: [
+                    { probe: part1, id: id1, value: isNaN(val1) ? 0 : val1 },
+                    { probe: part2, id: id2, value: isNaN(val2) ? 0 : val2 }
+                ]
+            };
+
+        } else {
+            const id = mapProbeToTextareaId(probeNumber);
+            const el = document.getElementById(id);
+            const val = el ? parseFloat(el.value) : 0;
+            return {
+                total: isNaN(val) ? 0 : val,
+                parts: [{ probe: probeNumber, id, value: isNaN(val) ? 0 : val }]
+            };
+        }
+    } catch (error) {
+        console.error('Error in getCombinedTextareaParts:', error);
+        return { total: 0, parts: [] };
+    }
+}
+
+
+function processContainers(type, response) {
+    const selectedMastering = parseInt(document.getElementById('mastering').value);
+
+    if (!response || !response.probe_no || !response.nominal || !response.job_dia) {
+        console.error('Response or required properties are undefined');
+        return;
+    }
+
+    const dataArray = [];
+    const containers = document.querySelectorAll('.input-box-container');
+    const selectedRadioButton = document.querySelector('input[name="radio-container"]:checked');
+
+    containers.forEach((container, index) => {
+        const containerMastering = parseInt(container.getAttribute('data-mastering'));
+        const shouldProcess = !selectedRadioButton || selectedRadioButton.closest('.input-box-container') === container;
+
+        if (containerMastering === selectedMastering && shouldProcess) {
+            const parameterName = response.parameter_names[index];
+            const probeNumber = response.probe_no[index];
+            const e = parseFloat(response.nominal[index]);
+            const lsl = parseFloat(response.lsl[index]);
+            const ltl = parseFloat(response.ltl[index]);
+            const usl = parseFloat(response.usl[index]);
+            const utl = parseFloat(response.utl[index]);
+            const digits = parseInt(response.digits[index]);
+            const jobDia = response.job_dia[index];
+
+            const inputBoxValue = type === 'low'
+                ? container.querySelector('.input1-box').value
+                : container.querySelector('.input3-box').value;
+
+            const { total: textareaValue, parts: serialParts } = getCombinedTextareaParts(probeNumber);
+
+
+            console.log('your data is this for probenumbers::', probeNumber);
+            console.log('Container ID:', container.id);
+            console.log('Input Box Value:', inputBoxValue);
+            console.log('Textarea Value:', textareaValue);
+
+            let a, a1, b, b1;
+
+            if (type === 'low') {
+                a = parseFloat(inputBoxValue);
+                a1 = textareaValue;
+                console.log('a:', a);
+                console.log('a1:', a1);
+                console.log('e:', e);
+
+                container.dataset.a = a;
+                container.dataset.a1 = a1;
+
+                const inputBox2 = container.querySelector('.input2-box');
+                if (inputBox2) {
+                    inputBox2.value = a.toFixed(digits);
+                    inputBox2.style.backgroundColor = '#00ff00';
+                    console.log("inputBox2 updated with low value:", a);
+                }
+
+            } else if (type === 'high') {
+                a = parseFloat(container.dataset.a);
+                a1 = parseFloat(container.dataset.a1);
+
+                if (isNaN(a) || isNaN(a1)) {
+                    console.error('Low mastering data missing. Cannot proceed with high mastering.');
+                    showCustomAlert("❌ Do proper low mastering.");
+                    return;
+                }
+
+                b = parseFloat(inputBoxValue);
+                b1 = textareaValue;
+                console.log('b:', b);
+                console.log('b1:', b1);
+                console.log('a:', a);
+                console.log('a1:', a1);
+                console.log('e:', e);
+
+                //const difference = Math.abs(a1 - b1);
+                // if (
+                //     (jobDia === "OD" && (b1 <= a1 || difference < 1000)) ||
+                //     (jobDia === "ID" && (b1 >= a1 || difference < 1000))
+                // ) {
+                //     showCustomAlert(`DO PROPER MASTERING`);
+                //     return;
+                // }
+
+                const c = b - a;
+                const c1 = b1 - a1;
+                const d = c / c1;
+                const o = e + (a1 * d);
+                const o1 = a - o;
+
+                console.log('Calculated values:');
+                console.log('c:', c);
+                console.log('c1:', c1);
+                console.log('d:', d);
+                console.log('o:', o);
+                console.log('o1:', o1);
+
+                const inputBox2 = container.querySelector('.input2-box');
+                if (inputBox2) {
+                    function updateDisplayOutput() {
+                        const { total: newSerialData } = getCombinedTextareaParts(probeNumber);
+
+                        if (!isNaN(newSerialData)) {
+                            const displayOutput = e + (newSerialData * d + o1);
+                            inputBox2.value = displayOutput.toFixed(digits);
+                            const k = displayOutput;
+
+                            if (k >= lsl && k <= usl) {
+                                inputBox2.style.backgroundColor = '#00ff00';
+                            } else if ((k > usl && k <= utl) || (k >= ltl && k < lsl)) {
+                                inputBox2.style.backgroundColor = 'yellow';
+                            } else if (k > utl || k < ltl) {
+                                inputBox2.style.backgroundColor = 'red';
+                            }
+                            console.log("displayOutput value is:", displayOutput);
+                        }
+                    }
+
+                    const intervalId = setInterval(updateDisplayOutput, 500);
+                    highMasteringIntervalIds.push(intervalId);
+                }
+
+                const rowData = {
+                    parameterName,
+                    probeNumber,
+                    a,
+                    a1,
+                    b,
+                    b1,
+                    e,
+                    d,
+                    o1,
+                    individualA1: serialParts,  // includes each probe number and value
+                    operatorValues: "{{ operator_values|safe }}",
+                    shiftValues: "{{ shift_values|safe }}",
+                    machineValues: "{{ machine_values|safe }}",
+                    dateTime: document.getElementById("clock-box").innerText,
+                    selectedValue: document.getElementById('partModel').value,
+                    selectedMastering: document.getElementById('mastering').value,
+                };
+
+                console.log('ypur dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:',rowData);
+                dataArray.push(rowData);
+
+            }
+        }
+    });
+
+    return { data: dataArray };
+}
+
+
+
+
+function calculateMastering(response) {
+    var containers = document.querySelectorAll('.input-box-container');
+
+    if (containers.length !== response.parameter_names.length) {
+        console.error('The number of containers does not match the number of parameters.');
+        return;
+    }
+
+    containers.forEach(function(container, index) {
+        var inputBox2 = container.querySelector('.input2-box');
+        if (inputBox2) {
+            var e = parseFloat(response.e_values[index]);
+            var d = parseFloat(response.d_values[index]);
+            var o1 = parseFloat(response.o1_values[index]);
+            var lsl = parseFloat(response.lsl[index]);
+            var ltl = parseFloat(response.ltl[index]);
+            var usl = parseFloat(response.usl[index]);
+            var utl = parseFloat(response.utl[index]);
+            var digits = parseInt(response.digits[index]);
+            var probeNumber = response.probe_no[index];
+
+            // Function to compute from multiple probe values
+            function getCombinedSerialData() {
+                if (probeNumber.includes('+')) {
+                    return probeNumber.split('+').reduce((sum, part) => {
+                        const el = document.getElementById(mapProbeToTextareaId(part.trim()));
+                        const val = el ? parseFloat(el.value) : 0;
+                        return sum + (isNaN(val) ? 0 : val);
+                    }, 0);
+                } else if (probeNumber.includes('-')) {
+                    const [part1, part2] = probeNumber.split('-').map(p => p.trim());
+                    const val1 = parseFloat(document.getElementById(mapProbeToTextareaId(part1))?.value || 0);
+                    const val2 = parseFloat(document.getElementById(mapProbeToTextareaId(part2))?.value || 0);
+                    return (isNaN(val1) ? 0 : val1) - (isNaN(val2) ? 0 : val2);
+                } else {
+                    const el = document.getElementById(mapProbeToTextareaId(probeNumber));
+                    const val = el ? parseFloat(el.value) : 0;
+                    return isNaN(val) ? 0 : val;
+                }
+            }
+
+            function updateDisplayOutput() {
+
+                const { total: newSerialData } = getCombinedTextareaParts(probeNumber);
+                if (!isNaN(newSerialData)) {
+                    const displayOutput = e + (newSerialData * d + o1);
+                    inputBox2.value = displayOutput.toFixed(digits);
+
+                    const k = displayOutput;
+                    if (k >= lsl && k <= usl) {
+                        inputBox2.style.backgroundColor = '#00ff00'; // Green
+                    } else if ((k > usl && k <= utl) || (k >= ltl && k < lsl)) {
+                        inputBox2.style.backgroundColor = 'yellow'; // Yellow
+                    } else if (k > utl || k < ltl) {
+                        inputBox2.style.backgroundColor = 'red'; // Red
+                    }
+                }
+            }
+
+            // Clear existing interval
+            if (containerIntervals[container.id]) {
+                clearInterval(containerIntervals[container.id]);
+            }
+
+            // Start interval and save
+            const intervalId = setInterval(updateDisplayOutput, 500);
+            containerIntervals[container.id] = intervalId;
+        }
+    });
+}
+
+
+
+
+
+let isRequestInProgress = false; // Flag to track request status
+
+function singleMasteringClick(response) {
+    console.log('single Mastering button clicked');
+
+    // Check if a request is already in progress
+    if (isRequestInProgress) {
+        console.log("Request already in progress. Please wait.");
+        return;
+    }
+
+    const preTag = document.getElementById('pre');
+    preTag.innerText = `Single Mastering is Started for ${selectedRadioOption}`;
+    var selectedValue = document.getElementById('partModel').value;
+    // const masteringType = document.getElementById('mastering_type').value;
+
+    // Process the containers (your existing logic)
+    const result = processSingleMastering('singlemastering', response);
+    console.log("the data which is sent from the front end:", result);
+
+    // Get the active containers based on the current mastering group
+    var selectedMastering = parseInt(document.getElementById('mastering').value);
+    var activeContainers = [];
+    var containers = document.querySelectorAll('.input-box-container');
+
+    containers.forEach(function (container) {
+        var containerMastering = parseInt(container.getAttribute('data-mastering'));
+        if (containerMastering === selectedMastering) {
+            activeContainers.push(container);
+        }
+    });
+
+    // Clear intervals only for active containers
+    clearActiveIntervals(activeContainers);
+
+    // Clear all inputBox2 values after processing
+    clearInputValues();
+
+    if (result && result.data) {
+        var csrfToken = "{{ csrf_token }}";
+
+        // Set the flag to true, indicating a request is in progress
+        isRequestInProgress = true;
+
+        // Send the data to the server (saving to the database)
+        $.ajax({
+            type: "POST",
+            url: "/master/",
+            data: JSON.stringify({
+                data: result.data,
+                selectedValue: selectedValue // Include selectedValue
+            }),
+            contentType: "application/json",
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function (response) {
+                console.log('Data sent successfully', response);
+                if (result.data.length > 0) {
+                    showCustomAlert('Data sent successfully: ' + response.message);
+                }
+
+                // Wait for 3 seconds and then retrieve the new values
+                setTimeout(function () {
+                    var selectedValue = document.getElementById('partModel').value;
+
+
+                    console.log('Selected Value: ' + selectedValue);
+
+                    var data = {
+                        selectedValue: selectedValue,
+
+                    };
+
+                    console.log("data in high mastering to backend", data);
+
+                    $.ajax({
+                        url: '{% url "master" %}', // Replace with your server URL if necessary
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken') // Include CSRF token in the request headers
+                        },
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            console.log('Response received:', response);
+                            calculateSingleMastering(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error retrieving new values', error);
+                        }
+                    });
+                }, 3000);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error sending data', error);
+                console.log('Response text:', xhr.responseText);
+            },
+            complete: function () {
+                // Reset the flag after the request completes
+                isRequestInProgress = false;
+            }
+        });
+    }
+}
+
+
+
+//for single mastering:::::::::::::::::::::::::::::
+
+function processSingleMastering(type, response) {
+    console.log("the value an the type and the response eeeeeeeeeeeeeeeeeeeeeeeee",response)
+    console.log("the value an the type and the response eeeeeeeeeeeeeeeeeeeeeeeee",type)
+    var selectedMastering = parseInt(document.getElementById('mastering').value); // Get the selected mastering group
+
+    if (!response || !response.probe_no || !response.nominal || !response.job_dia) {
+        console.error('Response or required properties are undefined');
+        return;
+    }
+
+    var dataArray = [];
+    var containers = document.querySelectorAll('.input-box-container');
+
+    // Get selected radio button, if any
+    var selectedRadioButton = document.querySelector('input[name="radio-container"]:checked');
+
+    containers.forEach(function (container, index) {
+        var containerMastering = parseInt(container.getAttribute('data-mastering')); // Get the mastering group of the container
+
+        // Check if this container should be processed based on radio button selection
+        var shouldProcess = !selectedRadioButton || selectedRadioButton.closest('.input-box-container') === container;
+
+        // Only process containers with matching mastering group and according to radio button selection
+        if (containerMastering === selectedMastering && shouldProcess) {
+            var parameterName = response.parameter_names[index];
+            var probeNumber = response.probe_no[index];
+            var e = response.nominal[index];
+            var lsl = response.lsl[index];
+            var ltl = response.ltl[index];
+            var usl = response.usl[index];
+            var utl = response.utl[index];
+            var digits = response.digits[index];
+            var jobDia = response.job_dia[index]; // Get the job_dia ("ID" or "OD")
+
+
+            var inputBoxValue;
+            var a, a1, b, b1;
+
+            if (type === 'singlemastering') {
+                inputBoxValue = container.querySelector('.input3-box').value;
+            }
+
+            var textareaId = mapProbeToTextareaId(probeNumber);
+
+            const { total: textareaValue, parts: serialParts } = getCombinedTextareaParts(probeNumber);
+                    
+                    console.log('Container ID:', container.id);
+                    console.log('Input Box Value:', inputBoxValue);
+                    console.log('Textarea ID:', textareaId);
+                    console.log('Textarea Value:', textareaValue);
+
+                    if (type === 'singlemastering') {
+                        // Retrieve 'a' and 'a1' from the container's dataset
+                        a = 0;
+                        a1 = 0;
+
+                        if (isNaN(a) || isNaN(a1)) {
+                            console.error('Cannot calculate high mastering values. Ensure "low" type process is completed first.');
+                            return;
+                        }
+
+                        b = parseFloat(inputBoxValue);
+                        b1 = textareaValue;
+                        console.log('b:', b);
+                        console.log('b1:', b1);
+                        console.log('a:', a);
+                        console.log('a1:', a1);
+                        console.log('e:', e); // Log 'e' for high mastering
+
+                        
+
+                        // Perform calculations
+                        const c = b - 0;
+                        const c1 = b1 - 0;
+                        const d = 0.0003246;
+                        const o = 0;
+                        const o1 = 0;
+
+                        console.log('Calculated values:');
+                        console.log('c:', c);
+                        console.log('c1:', c1);
+                        console.log('d:', d);
+                        console.log('o:', o);
+                        console.log('o1:', o1);
+
+                        // Ensure inputBox2 exists and update its value periodically
+                        var inputBox2 = container.querySelector('.input2-box');
+                        console.log("inputBox2",inputBox2)
+                        if (inputBox2) {
+                           
+                            function updateDisplayOutput() {
+                                
+                                const { total: newSerialData } = getCombinedTextareaParts(probeNumber);
+
+                               
+                                if (!isNaN(newSerialData)) {
+                                   
+                                    const displayOutput1 = (newSerialData -b1)*d;
+                                    const displayOutput = displayOutput1 + e + b;
+
+                                    console.log("displayOutput value is:", displayOutput);
+                                    inputBox2.value = displayOutput .toFixed(digits); // Update inputBox2 with the displayOutput value
+
+                                    if (containerIntervals[container.id]) {
+                                        clearInterval(containerIntervals[container.id]);
+                                    }
+
+                                    // Start the interval and store the interval ID for this container
+                                    var intervalId = setInterval(updateDisplayOutput, 500);
+                                    containerIntervals[container.id] = intervalId; // Store interval ID for this container
+                                
+
+                                    // Update background color based on 'k' value (displayOutput)
+                                    var k = displayOutput;
+                                    if (k >= lsl && k <= usl) {
+                                        inputBox2.style.backgroundColor = '#00ff00'; // Green
+                                    } else if ((k > usl && k <= utl) || (k >= ltl && k < lsl)) {
+                                        inputBox2.style.backgroundColor = 'yellow';
+                                    } else if (k > utl || k < ltl) {
+                                        inputBox2.style.backgroundColor = 'red';
+                                    }
+                                }
+                            }
+
+                            if (containerIntervals[container.id]) {
+                                clearInterval(containerIntervals[container.id]);
+                            }
+
+                            // Start the interval and store the interval ID for this container
+                            var intervalId = setInterval(updateDisplayOutput, 500);
+                            containerIntervals[container.id] = intervalId; // Store interval ID for this container
+                        
+                        }
+
+                        // Collect data for backend
+                        var rowData = {
+                            parameterName: parameterName,
+                            probeNumber: probeNumber,
+                            a: a,
+                            a1: a1,
+                            b: b,
+                            b1: b1,
+                            e: e,
+                            d: d,
+                            o1: o1,
+                            operatorValues: "{{ operator_values|safe }}",
+                            shiftValues: "{{ shift_values|safe }}",
+                            machineValues: "{{ machine_values|safe }}",
+                            dateTime: document.getElementById("clock-box").innerText,
+                            selectedValue: document.getElementById('partModel').value,
+                            selectedMastering: document.getElementById('mastering').value,
+                        };
+
+                        dataArray.push(rowData);
+                    }
+                 
+             else {
+                console.error('No textarea ID found for probe number:', probeNumber);
+            }
+        }
+    });
+
+    return { data: dataArray };
+}
+
+
+function calculateSingleMastering(response) {
+    console.log("Calculating Single Mastering...");
+
+    var filteredData = globalResponse.filtered_data_single; // Get filtered parameter names
+    var containers = document.querySelectorAll('.input-box-container');
+
+    if (!response || !response.parameter_names || !Array.isArray(response.parameter_names)) {
+        console.error("Invalid response or missing parameter_names.");
+        return;
+    }
+
+    containers.forEach(function(container, index) {
+        var parameterNameElement = document.getElementById('pre-tag-' + index);
+        if (!parameterNameElement) return; // Skip if the element is not found
+
+        var parameterName = parameterNameElement.textContent.trim();
+
+        // ✅ Check if this container's parameter name is in filtered_data_single
+        if (!filteredData.includes(parameterName)) {
+            return; // Skip calculation for non-matching containers
+        }
+
+        var inputBox2 = container.querySelector('.input2-box');
+        if (!inputBox2) return;
+
+        if (inputBox2) {
+            var e = response.e_values[index];
+            var b = response.b_values[index];
+            var b1 = response.b1_values[index];
+            var d = response.d_values[index];
+            var o1 = response.o1_values[index];
+            var id = response.id[index];
+            var lsl = response.lsl[index];
+            var ltl = response.ltl[index];
+            var usl = response.usl[index];
+            var utl = response.utl[index];
+            var digits = response.digits[index];
+            var probeNumber = response.probe_no[index];
+            
+            // Function to compute from multiple probe values
+            function getCombinedSerialData() {
+                if (probeNumber.includes('+')) {
+                    return probeNumber.split('+').reduce((sum, part) => {
+                        const el = document.getElementById(mapProbeToTextareaId(part.trim()));
+                        const val = el ? parseFloat(el.value) : 0;
+                        return sum + (isNaN(val) ? 0 : val);
+                    }, 0);
+                } else if (probeNumber.includes('-')) {
+                    const [part1, part2] = probeNumber.split('-').map(p => p.trim());
+                    const val1 = parseFloat(document.getElementById(mapProbeToTextareaId(part1))?.value || 0);
+                    const val2 = parseFloat(document.getElementById(mapProbeToTextareaId(part2))?.value || 0);
+                    return (isNaN(val1) ? 0 : val1) - (isNaN(val2) ? 0 : val2);
+                } else {
+                    const el = document.getElementById(mapProbeToTextareaId(probeNumber));
+                    const val = el ? parseFloat(el.value) : 0;
+                    return isNaN(val) ? 0 : val;
+                }
+            }
+
+
+            console.log("id",id);
+
+                    function updateSingleDisplayOutput() {
+                        const { total: newSerialData } = getCombinedTextareaParts(probeNumber);
+                        if (!isNaN(newSerialData)) {
+                            const displayOutput1 = (newSerialData -b1)*d;
+                            const displayOutput = displayOutput1 + e + b;
+                            // console.log("single mastering open reading ",displayOutput)
+                            inputBox2.value = displayOutput.toFixed(digits);
+
+                            var k = displayOutput;
+                            if (k >= lsl && k <= usl) {
+                                inputBox2.style.backgroundColor = '#00ff00'; // Green
+                            } else if ((k > usl && k <= utl) || (k >= ltl && k < lsl)) {
+                                inputBox2.style.backgroundColor = 'yellow'; // Yellow
+                            } else if (k > utl || k < ltl) {
+                                inputBox2.style.backgroundColor = 'red'; // Red
+                            }
+                        }
+                    }
+
+                    // Clear any existing interval for this container before starting a new one
+                    if (containerIntervals[container.id]) {
+                        clearInterval(containerIntervals[container.id]);
+                    }
+
+                    // Start the interval and store the interval ID for this container
+                    var intervalId = setInterval(updateSingleDisplayOutput, 500);
+                    containerIntervals[container.id] = intervalId; // Store interval ID for this container
+                
+            
+        }
+    });
+}
+
+
+// Function to stop intervals only for active containers
+function clearActiveIntervals(activeContainers) {
+    activeContainers.forEach(function(container) {
+        if (containerIntervals[container.id]) {
+            clearInterval(containerIntervals[container.id]); // Stop the interval
+            delete containerIntervals[container.id]; // Remove it from the tracking object
+        }
+    });
+}
+
+// Start open reading on page load
+window.onload = function() {
+    // Assuming `response` is fetched from somewhere
+    calculateMastering(response); // Call your open reading function
+    calculateSingleMastering(response);
+};
+
+
+
+function updateMastering(selectedRadioButtonId) {
+    console.log("The mastering group is being changed");
+
+    var selectedMastering = parseInt(document.getElementById('mastering').value);
+    console.log('ypour data is this :',selectedMastering);
+    var filteredData = globalResponse.filtered_data_single; // Array of parameter names
+    var containers = document.querySelectorAll('.input-box-container');
+    var matchingContainers = [];
+    var selectedRadioButton = document.getElementById(selectedRadioButtonId);
+    var isMasteringValid = false;
+
+    containers.forEach(function(container, index) {
+        var containerMastering = parseInt(container.getAttribute('data-mastering'));
+
+        if (containerMastering === selectedMastering) {
+            container.style.backgroundColor = '#9ec2e6'; // Highlight matching container
+            var parameterName = document.getElementById('pre-tag-' + index).textContent.trim();
+
+            if (filteredData.includes(parameterName)) {
+                isMasteringValid = true;
+            }
+
+            matchingContainers.push({
+                id: container.id,
+                masteringGroup: containerMastering,
+                low_mv: document.getElementById('input1-' + index).value,
+                high_mv: document.getElementById('input3-' + index).value,
+                parameterName: parameterName
+            });
+        } else {
+            container.style.backgroundColor = 'gray'; // Reset background color
+        }
+    });
+
+    // ✅ Log filtered_data_single if at least one matching parameter exists
+    if (isMasteringValid) {
+        console.log("filtered_data_single:", filteredData);
+        document.getElementById("lowMasterBtn").style.display = "none";
+        document.getElementById("highMasterBtn").style.display = "none";
+        document.getElementById("singleMasterBtn").style.display = "block"; // Show single mastering
+    } else {
+        console.log('No matching single mastering data for this group.');
+        document.getElementById("lowMasterBtn").style.display = "block";
+        document.getElementById("highMasterBtn").style.display = "block";
+        document.getElementById("singleMasterBtn").style.display = "none"; // Hide single mastering
+    }
+
+    if (matchingContainers.length > 0) {
+        console.log('Matching Containers for Mastering Group ' + selectedMastering + ':');
+        matchingContainers.forEach(function(container) {
+            console.log('Container ID:', container.id);
+            console.log('Mastering Group:', container.masteringGroup);
+            console.log('Low MV:', container.low_mv);
+            console.log('High MV:', container.high_mv);
+            console.log('Parameter Name:', container.parameterName);
+            console.log('---------------------');
+        });
+
+        console.log("Matching Containers:", matchingContainers);
+    } else {
+        console.log('No containers found for Mastering Group ' + selectedMastering);
+    }
+
+    if (selectedRadioButton) {
+        console.log('Selected Radio Button ID:', selectedRadioButton.id);
+
+
+        var containerId = selectedRadioButton.id.replace('_radioButton', '');
+        var selectedContainer = document.getElementById(containerId);
+
+        if (selectedContainer) {
+            var containerMastering = parseInt(selectedContainer.getAttribute('data-mastering'));
+
+             if (containerMastering === selectedMastering) {
+                selectedContainer.style.backgroundColor = 'lightgreen';
+            } else {
+                // ❌ Cancel selection
+                selectedRadioButton.checked = false;
+                showCustomAlert("❌ Please check the selected mastering group before proceeding.");
+                return; // Exit early
+            }
+        } else {
+            console.warn("No container found with ID: " + containerId);
+        }
+    
+    }
+
+    console.log("Full Response Data:", globalResponse); // Display the full response
+
+    updatePreText();
+}
+
+
+
+function onRadioButtonChange(event) {
+        // Get the selected radio button ID
+        var selectedRadioButtonId = event.target.id;
+        console.log('Selected Radio Button ID:', selectedRadioButtonId);
+
+        const container = event.target.closest('.input-box-container');
+    if (container) {
+        window.selectedRadioButtonContainerId = container.id;
+    }
+        
+        // Call updateMastering with the selected radio button ID
+        updateMastering(selectedRadioButtonId);
+    }
+
+
+
+
+// let plcCoilStates = [];  // This stores active addresses with value 1
+
+// // Flags to track if clicks have already happened
+// let group1StartClicked = false;
+// let group1StopClicked = false;
+
+// let group2StartClicked = false;
+// let group2StopClicked = false;
+
+// let group3StartClicked = false;
+// let group3StopClicked = false;
+
+// function fetchActiveCoils() {
+//     fetch("/get_plc_status/")
+//         .then(response => response.json())
+//         .then(data => {
+//             const activeCoils = data.active_coils || [];
+//             console.log("✅ Step 1 coils:", activeCoils);
+
+//                         const measureBtn = document.getElementById("measureBtn");
+//             if (measureBtn) {
+//                 if (activeCoils.includes(117)) {
+//                     measureBtn.disabled = true;
+//                     measureBtn.style.opacity = "0.5"; // optional visual feedback
+//                     console.log("⛔ Measurement disabled (coil 80 active)");
+//                     window.location.href = "/measurement/"
+//                 } else {
+//                     measureBtn.disabled = false;
+//                     measureBtn.style.opacity = "1"; 
+
+//                 }
+//             }
+
+            
+
+
+
+//             const masteringSelect = document.getElementById("mastering");
+//             if (masteringSelect) {
+//                 if (activeCoils.includes(85)) {
+//                     masteringSelect.value = "1";
+//                     masteringSelect.dispatchEvent(new Event("change"));
+//                     console.log("🎯 Group 1 selected (coil 85)");
+//                 } else if (activeCoils.includes(86)) {
+//                     masteringSelect.value = "2";
+//                     masteringSelect.dispatchEvent(new Event("change"));
+//                     console.log("🎯 Group 2 selected (coil 86)");
+//                 } else if (activeCoils.includes(87)) {
+//                     masteringSelect.value = "3";
+//                     masteringSelect.dispatchEvent(new Event("change"));
+//                     console.log("🎯 Group 3 selected (coil 87)");
+//                 }
+//             }
+
+//             // ✅ Group 1 logic (Start: 74+85, Stop: 75)
+//             if (activeCoils.includes(74) && activeCoils.includes(85)) {
+//                 if (!group1StartClicked) {
+//                     const startBtn = document.getElementById("lowMasterBtn");
+//                     if (startBtn) startBtn.click();
+//                     console.log("🚀 Group 1: Start clicked (74 + 85)");
+//                     group1StartClicked = true;
+
+//                 }
+
+//                 if (activeCoils.includes(75) && !group1StopClicked) {
+//                     const stopBtn = document.getElementById("highMasterBtn");
+//                     if (stopBtn) stopBtn.click();
+//                     console.log("🛑 Group 1: Stop clicked (75)");
+//                     group1StopClicked = true;
+
+//                 }
+//             } else {
+//                 // Reset only if both start and stop coils are inactive
+//                 if (!activeCoils.includes(74) && !activeCoils.includes(85) && !activeCoils.includes(75)) {
+//                     group1StartClicked = false;
+//                     group1StopClicked = false;
+//                 }
+//             }
+
+//             // ✅ Group 2 logic (Start: 76+86, Stop: 77)
+//             if (activeCoils.includes(76) && activeCoils.includes(86)) {
+//                 if (!group2StartClicked) {
+//                     const startBtn = document.getElementById("lowMasterBtn");
+//                     if (startBtn) startBtn.click();
+//                     console.log("🚀 Group 2: Start clicked (76 + 86)");
+//                     group2StartClicked = true;
+//                 }
+
+//                 if (activeCoils.includes(77) && !group2StopClicked) {
+//                     const stopBtn = document.getElementById("highMasterBtn");
+//                     if (stopBtn) stopBtn.click();
+//                     console.log("🛑 Group 2: Stop clicked (77)");
+//                     group2StopClicked = true;
+//                 }
+//             } else {
+//                 if (!activeCoils.includes(76) && !activeCoils.includes(86) && !activeCoils.includes(77)) {
+//                     group2StartClicked = false;
+//                     group2StopClicked = false;
+//                 }
+//             }
+
+//             // ✅ Group 3 logic (Start: 78+87, Stop: 79)
+//             if (activeCoils.includes(81) && activeCoils.includes(87)) {
+//                 if (!group3StartClicked) {
+//                     const startBtn = document.getElementById("lowMasterBtn");
+//                     if (startBtn) startBtn.click();
+//                     console.log("🚀 Group 3: Start clicked (78 + 87)");
+//                     group3StartClicked = true;
+
+                    
+//                 }
+
+//                 if (activeCoils.includes(83)  && !group3StopClicked) {
+//                     const stopBtn = document.getElementById("highMasterBtn");
+//                     if (stopBtn) stopBtn.click();
+//                     console.log("🛑 Group 3: Stop clicked (79)");
+//                     group3StopClicked = true;
+//                 }
+//             } else {
+//                 if (!activeCoils.includes(83) && !activeCoils.includes(97) && !activeCoils.includes(79)) {
+//                     group3StartClicked = false;
+//                     group3StopClicked = false;
+//                 }
+//             }
+
+//         })
+//         .catch(error => console.error("❌ PLC fetch error", error));
+// }
+
+// // Call every second
+// setInterval(fetchActiveCoils, 500);
+
+
+
+    var globalResponse = {}; // Declare a global variable
+
+function updateValues() {
+    var selectedValue = document.getElementById('partModel').value;
+    console.log('Selected Value: ' + selectedValue);
+
+    var data = {
+        selectedValue: selectedValue,
+    };
+
+    $.ajax({
+        url: '{% url "master" %}', // Replace with your server URL if necessary
+        type: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken') // Include CSRF token in the request headers
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+            globalResponse = response; // Assign response to the global variable
+            console.log('Response received:', globalResponse); // Use globalResponse for logging
+
+            console.log("response.mastering", globalResponse.mastering);
+
+            // Get unique values from response.mastering
+            const uniqueMasteringValues = [...new Set(globalResponse.mastering)];
+            console.log('Unique Mastering Values:', uniqueMasteringValues);
+
+            // Update the mastering dropdown with unique values
+            const masteringDropdown = document.getElementById('mastering');
+            masteringDropdown.innerHTML = ''; // Clear existing options
+
+            uniqueMasteringValues.forEach((value) => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                masteringDropdown.appendChild(option);
+            });
+
+            // Set the first value as selected
+            if (uniqueMasteringValues.length > 0) {
+                masteringDropdown.value = uniqueMasteringValues[0];
+            }
+
+            // Clear any existing containers
+            var wrapperDiv = document.getElementById('wrapper');
+            wrapperDiv.innerHTML = '';
+
+            // Dynamically set the first value of `response.mastering` to the `<select>` element
+            if (globalResponse.mastering && globalResponse.mastering.length > 0) {
+                const masteringSelect = document.getElementById('mastering');
+                masteringSelect.value = globalResponse.mastering[0];
+                console.log('Mastering selected value set to:', globalResponse.mastering[0]);
+            }
+
+            // Create containers based on the length of parameter_names
+            var parameterNames = globalResponse.parameter_names;
+            for (var i = 0; i < parameterNames.length; i++) {
+                // Create a new container div
+                var container = document.createElement('div');
+container.className = 'input-box-container';
+container.id = 'container-' + i;
+container.setAttribute('data-mastering', globalResponse.mastering[i]);
+
+// Create radio button
+var radioButton = document.createElement('input');
+radioButton.type = 'radio';
+radioButton.name = 'radio-container';
+radioButton.id = 'container-' + i + '_radioButton';
+radioButton.className = 'container_radio';
+radioButton.addEventListener('change', onRadioButtonChange);
+
+// Wrap content in a grid
+var grid = document.createElement('div');
+grid.className = 'grid-wrapper';
+
+// L label + input
+var lWrapper = document.createElement('div');
+lWrapper.className = 'l-wrapper';
+var label1 = document.createElement('label');
+label1.textContent = 'LOW MASTER:';
+label1.style.fontWeight = 'bold';
+label1.setAttribute('for', 'input1-' + i);
+var inputBox1 = document.createElement('input');
+inputBox1.type = 'text';
+inputBox1.id = 'input1-' + i;
+inputBox1.className = 'input1-box';
+inputBox1.value = parseFloat(globalResponse.low_mv[i]).toFixed(3);
+lWrapper.appendChild(label1);
+lWrapper.appendChild(inputBox1);
+
+// H label + input
+var hWrapper = document.createElement('div');
+hWrapper.className = 'h-wrapper';
+var label3 = document.createElement('label');
+label3.textContent = 'HIGH MASTER:';
+label3.style.fontWeight = 'bold';
+label3.setAttribute('for', 'input3-' + i);
+var inputBox3 = document.createElement('input');
+inputBox3.type = 'text';
+inputBox3.id = 'input3-' + i;
+inputBox3.className = 'input3-box';
+inputBox3.value = parseFloat(globalResponse.high_mv[i]).toFixed(3);
+hWrapper.appendChild(label3);
+hWrapper.appendChild(inputBox3);
+
+// Right side big input
+var inputBox2 = document.createElement('input');
+inputBox2.type = 'text';
+inputBox2.id = 'input2-' + i;
+inputBox2.className = 'input2-box';
+
+// Add L + H + input2 into grid
+grid.appendChild(lWrapper);
+grid.appendChild(hWrapper);
+grid.appendChild(inputBox2);
+
+// Bottom pre tag
+var preTag = document.createElement('pre');
+preTag.id = 'pre-tag-' + i;
+preTag.textContent = parameterNames[i];
+
+// Append everything
+container.appendChild(radioButton);
+container.appendChild(grid);
+container.appendChild(preTag);
+wrapperDiv.appendChild(container);
+
+
+                wrapperDiv.appendChild(container);
+
+                console.log('Parameter Name:', globalResponse.parameter_names[i]);
+                console.log('Digit:', globalResponse.digits[i]);
+                console.log('analog_zero:', globalResponse.analog_zero[i]);
+                console.log('reference_value:', globalResponse.reference_value[i]);
+                console.log('High MV:', globalResponse.high_mv[i]);
+                console.log('Low MV:', globalResponse.low_mv[i]);
+                console.log('LSL:', globalResponse.lsl[i]);
+                console.log('LTL:', globalResponse.ltl[i]);
+                console.log('Mastering:', globalResponse.mastering[i]);
+                console.log('Nominal:', globalResponse.nominal[i]);
+                console.log('Probe No:', globalResponse.probe_no[i]);
+                console.log('USL:', globalResponse.usl[i]);
+                console.log('UTL:', globalResponse.utl[i]);
+                console.log('job_dia:', globalResponse.job_dia[i]);
+                console.log('e_values:', globalResponse.e_values[i]);
+                console.log('d_values:', globalResponse.d_values[i]);
+                console.log('o1_values:', globalResponse.o1_values[i]);
+
+                var probeNumber = globalResponse.probe_no[i];
+                var textareaId = mapProbeToTextareaId(probeNumber);
+                console.log('Probe No:', probeNumber);
+                console.log('Mapped Textarea ID:', textareaId);
+            }
+
+            calculateMastering(globalResponse);
+            updateMastering(globalResponse);
+            calculateSingleMastering(globalResponse);
+
+
+            document.getElementById('lowMasterBtn').addEventListener('click', function() {
+                lowMasteringClick(globalResponse);
+            });
+            document.getElementById('highMasterBtn').addEventListener('click', function() {
+                highMasteringClick(globalResponse);
+            });
+            document.getElementById('singleMasterBtn').addEventListener('click', function() {
+                singleMasteringClick(globalResponse); // Use the latest response only
+            });
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateValues();
+});
+
+
+
+
+
+    // // Send the initial value when the page loads
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const initialMasteringType = document.getElementById('mastering_type').value;
+    //     updateValues(initialMasteringType);
+    // });
+
+    // // Send the updated value whenever the selection changes
+    // document.getElementById('mastering_type').addEventListener('change', (event) => {
+    //     const selectedMasteringType = event.target.value;
+    //     updateValues(selectedMasteringType);
+    // });
+
+   
+
+function mapProbeToTextareaId(probeNumber) {
+    const probeMap = {
+        '1': 'probe-A',
+        '2': 'probe-B',
+        '3': 'probe-C',
+        '4': 'probe-D',
+        '5': 'probe-E',
+        '6': 'probe-F',
+        '7': 'probe-G',
+        '8': 'probe-H',
+        '9': 'probe-I',
+        '10': 'probe-J',
+        '11': 'probe-K',
+        '12': 'probe-L',
+        '13': 'probe-M',
+        '14': 'probe-N',
+        '15': 'probe-O',
+        '16': 'probe-P',
+        '17': 'probe-Q',
+        '18': 'probe-R',
+        '19': 'probe-S',
+        '20': 'probe-T',
+        '21': 'probe-U',
+        '22': 'probe-V',
+        '23': 'probe-W',
+        '24': 'probe-X',
+        '25': 'probe-Y',
+        '26': 'probe-Z',
+        '27': 'probe-AA',
+        '28': 'probe-AB',
+        '29': 'probe-AC',
+        '30': 'probe-AD',
+        '31': 'probe-AE',
+        '32': 'probe-AF',
+        '33': 'probe-AG',
+        '34': 'probe-AH',
+        '35': 'probe-AI',
+        '36': 'probe-AJ',
+        '37': 'probe-AK',
+        '38': 'probe-AL',
+        '39': 'probe-AM',
+        '40': 'probe-AN',
+        '41': 'probe-AO',
+        '42': 'probe-AP',
+    };
+
+    // If it's a simple number, return the textarea ID directly
+    if (/^\d+$/.test(probeNumber)) {
+        return probeMap[probeNumber];
+    }
+
+    // Handle expressions like "1+2", "4-1", "3+5-2"
+    try {
+        const sanitized = probeNumber.replace(/[^0-9+\-*/().]/g, '');
+        const replaced = sanitized.replace(/\d+/g, (match) => {
+            const id = probeMap[match];
+            const el = document.getElementById(id);
+            if (!el) throw new Error(`Element not found for probe: ${match}`);
+            return parseFloat(el.value) || 0;
+        });
+
+        const result = eval(replaced);
+        return result;
+    } catch (error) {
+        console.error(`Error evaluating probe expression "${probeNumber}":`, error);
+        return null;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+$(document).ready(function () {
+    const settings = JSON.parse('{{ settings_json|safe }}');
+    console.log("Settings:", settings);
+
+    // Correct channel mapping per your new logic
+    const cardChannelMap = {
+        'PIEZO_4CH': 11,   // Originally 4, now 11
+        'PIEZO_11CH': 11,
+        'LVDT_4CH': 8      // Originally 4, now 8
+    };
+
+    // Display order based on card type (fixed, not based on COM port)
+    const cardDisplayOrder = ['PIEZO_4CH', 'PIEZO_11CH', 'LVDT_4CH'];
+
+    // All probe <textarea> IDs in order (DO NOT change these)
+    const probeIds = [
+        "probe-A", "probe-B", "probe-C", "probe-D", "probe-E", "probe-F", "probe-G", "probe-H", "probe-I",
+        "probe-J", "probe-K", "probe-L", "probe-M", "probe-N", "probe-O", "probe-P", "probe-Q", "probe-R",
+        "probe-S", "probe-T", "probe-U", "probe-V", "probe-W", "probe-X", "probe-Y", "probe-Z",
+        "probe-AA", "probe-AB", "probe-AC", "probe-AD", "probe-AE", "probe-AF", "probe-AG", "probe-AH",
+        "probe-AI", "probe-AJ", "probe-AK", "probe-AL", "probe-AM", "probe-AN", "probe-AO", "probe-AP"
+    ];
+
+    // Create mapping: card_type -> com_port
+    const cardPortMap = {};
+    settings.forEach(s => {
+        if (!cardPortMap[s.card]) {
+            cardPortMap[s.card] = s.com_port;
+        }
+    });
+
+    const mergedChannels = {};  // com_port -> channel data
+
+    const ws = new WebSocket('ws://localhost:8000/ws/comport/');
+
+    ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        if (!data.message) return;
+
+        const comPort = data.com_port;
+        const message = data.message;
+
+        const card = settings.find(s => s.com_port === comPort)?.card;
+        const matches = message.match(/[A-K][\+\-]\d+/g) || [];
+
+        // console.log(`📥 Received from ${comPort} (${card}):`, matches);
+
+        mergedChannels[comPort] = matches;
+
+        // Example usage:
+if (card === 'PIEZO_4CH') {
+    setLightColor("com1-light", "active");  // blink green
+} else if (card === 'PIEZO_11CH') {
+    setLightColor("com2-light", "active");
+} else if (card === 'LVDT_4CH') {
+    setLightColor("com3-light", "active");
+} else {
+    setLightColor("com1-light", "idle");    // fallback red
+}
+
+
+        // Reset all probes first
+        probeIds.forEach(id => $(`#${id}`).val(""));
+
+        // Final channel values in correct card type order
+        let allChannelValues = [];
+
+        cardDisplayOrder.forEach(cardType => {
+            const comPort = cardPortMap[cardType];
+            const channelCount = cardChannelMap[cardType] || 0;
+            const values = comPort && mergedChannels[comPort] ? mergedChannels[comPort] : [];
+
+            if (values.length > 0) {
+                allChannelValues = allChannelValues.concat(values.slice(0, channelCount));
+            } else {
+                const dummy = Array(channelCount).fill("A+000");
+                allChannelValues = allChannelValues.concat(dummy);
+            }
+        });
+
+        // console.log("🧾 Final Display Channel Values:", allChannelValues);
+
+        // Assign values to corresponding textareas
+        allChannelValues.forEach((channelData, index) => {
+            if (index < probeIds.length) {
+                const value = channelData.includes('-') ? channelData.substring(1) : channelData.substring(2);
+                $(`#${probeIds[index]}`).val(value);
+            }
+        });
+    };
+});
+
+function setLightColor(lightId, status) {
+    const el = document.getElementById(lightId);
+    if (!el) return;
+
+    el.classList.remove("green", "red", "blink");
+
+    if (status === "active") {
+        el.classList.add("green", "blink");  // fast blink green
+    } else if (status === "idle") {
+        el.classList.add("red");  // steady red glow
+    }
+}
+
+///////////////////////////////////
+
+
+
+</script>
+
+{% endblock content %}

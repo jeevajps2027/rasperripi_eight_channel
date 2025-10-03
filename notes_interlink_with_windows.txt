@@ -1,0 +1,128 @@
+1. Edit the hostname file:
+    sudo nano /etc/hostname
+
+    it contains  ----->    raspberrypi
+    changed the host name ------->  pi-client-1
+
+
+
+2. Edit the hosts file:
+
+        sudo nano /etc/hosts
+
+    Change the line:
+
+        127.0.1.1       raspberrypi
+    to:
+        127.0.1.1       pi-client-1
+
+And 
+    sudo reboot
+
+
+this change the hostname of the rasperripi
+
+-------------------------------------------------------------------------------------------------------
+ Expose SQLite DB via Samba from Raspberry Pi
+
+  1. Install Samba
+    sudo apt update
+    sudo apt install samba
+
+ 2.ADD PASSWORD FOR THE USER sai
+    sudo smbpasswd -a sai
+
+    It will ask for a password — use the same one you’ll enter in Windows (example: sai@123)
+
+
+
+
+
+
+
+
+2.Edit Samba config
+    sudo nano /etc/samba/smb.conf
+
+    Add at the bottom:
+
+       [four_channel_db]
+        path = /home/sai/Desktop/rasperri_sevenCh/four_channel
+        valid users = sai
+        browseable = yes
+        writable = yes
+        guest ok = no
+        read only = no
+
+3. Restart Samba
+    sudo systemctl restart smbd
+
+4: Set Folder Permissions
+    sudo chown -R sai:sai /home/sai/Desktop/rasperri_sevenCh/four_channel
+    sudo chmod -R 755 /home/sai/Desktop/rasperri_sevenCh/four_channel
+
+
+
+--------------------------------- WINDOWS CODE  ------------------------------------------
+
+Step 5: Connect from Windows
+
+    Press Win + R
+
+    Type: \\raspberrypi\four_channel_db
+  
+
+    Username: sai
+
+    Password: (what you set using smbpasswd -a sai)
+
+    You can check "Remember credentials" so you don’t get asked every time.
+
+step 6 :
+    Z: folder create 
+        file explorer ---> right click to pc ----> click Map Network Drive 
+            ----> choose any drive Z,Y ----->connect \\raspberrypi\four_channel_db
+
+
+
+def map_network_drive():
+    # net.exe location on Windows system
+    net_path = r'C:\Windows\System32\net.exe'  # must point to net.exe, NOT user folder
+
+    del_cmd = f'cmd /c "{net_path} use Z: /delete /yes"'
+    map_cmd = f'cmd /c "{net_path} use Z: \\\\raspberrypi\\four_channel_db /user:sai sai@123 /persistent:yes"'
+
+    print("Deleting existing Z: mapping (if any)...")
+    res_del = subprocess.run(del_cmd, shell=True)
+    if res_del.returncode != 0:
+        print("Warning: Failed to delete existing Z: mapping or it did not exist.")
+
+    print("Mapping Z: drive to \\\\raspberrypi\\four_channel_db ...")
+    res_map = subprocess.run(map_cmd, shell=True)
+    if res_map.returncode != 0:
+        print("Error: Failed to map Z: drive. Please check your credentials and network path.")
+        sys.exit(1)
+    print("Z: drive mapped successfully.")
+
+
+
+
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+client_db_path = 'Z:/db.sqlite3'
+if os.path.exists(client_db_path):
+    DATABASES['client_db'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': client_db_path,
+    }
+else:
+    print("⚠️ Warning: Z: drive not connected. client_db not available.")
+

@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.7.2-web/css/all.min.css' %}">
+    <script src="{% static 'jquery-jquery-f79d5f1/dist/jquery.min.js' %}"></script>
+  <!-- Add XLSX library for Excel conversion -->
+
+   <script src="{% static 'js-xlsx-master/dist/xlsx.full.min.js' %}"></script>
+
+   <!-- Add jsPDF library for PDF conversion -->
+   
+   <script src="{% static 'parallax-jsPDF-57cbe94/dist/jspdf.umd.min.js' %}"></script>
+    <title>X-bar and R Chart</title>
+    <script src="{% static 'plotly-plotly.js-c8e0bef/dist/plotly.min.js' %}"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            height: 700px;
+            margin: auto;
+            border: 2px solid black;
+            margin-top: 0px;
+        }
+
+        .chart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-height: 500px; /* Maximum height for both charts combined */
+        max-width: 800px;
+        float: left;
+        margin-top: 0px;
+        border: 1px solid black;
+       
+    }
+    .chart {
+        margin-bottom: 10px; /* Minimal space between charts */
+        width: 100%; /* Make sure charts take full width of the container */
+    }
+
+    #heading{
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        background-color: blue;
+        color: white;
+        height: 25px;
+        margin-top: 0px;
+    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        #value_list {
+    background-color: rgb(250, 181, 181);
+    height: 450px;
+    width: 400px;
+    margin-left: 750px;
+    margin-top: 0px;
+    display: grid; /* Use grid layout */
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    grid-template-rows: repeat(10, 1fr); /* Ten equal rows */
+    
+}
+
+.item {
+    display: flex; /* Center content */
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+    background-color: white; /* Change background for items */
+    border: 1px solid #000; /* Optional border for better visibility */
+    height: 100%; /* Use full height of the grid cell */
+    margin-left: 5px;
+    height: 40px;
+    font-size: 10px;
+    font-weight: bold;
+}
+#prevButton{
+            width: 80px;
+            height: 35px;
+            margin-top: -35px;
+            float: right;
+            background-color: red;
+            color: white;
+            font-weight: bold;
+        }
+        #mail_btn {
+    width: 150px;
+
+    height: 35px;
+    margin-top: -35px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    margin-left: 600px;
+}
+
+#pdf_btn {
+    width: 150px;
+    height: 35px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    float: left;
+}
+        #popupMessage{
+    display: none;
+    position: fixed; 
+    top: 20px;
+    width: 300px;
+    height: 70px;
+    left: 40%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    transform: translateX(-50%);
+    background-color: yellow; 
+    color: black; 
+    border: 1px solid black ; 
+    padding: 10px;
+    z-index: 1000;
+}
+.container-1{
+    height: 35px;
+    background-color: blue;
+}
+
+
+#loading_spinner {
+    position: fixed;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw;
+    color: #022244;
+    z-index: 9999; /* Ensure spinner appears on top */
+}
+
+.fa-spinner {
+    margin-top: 10%;
+    margin-right: 20%; /* Add space between spinner and text */
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="loading_spinner" style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i> 
+        <div style="text-align: center; margin-left: -120px; font-size: 50px; font-weight: bold; color: rgb(128, 36, 0);">
+            Please wait a moment...
+        </div>
+    </div>  
+
+    <div class="container">
+       
+        
+            <div class="container-1">
+                <div id="heading">X BAR R-CHART</div>
+                <form id="exportForm" method="post" action="{% url 'xBarRchart' %}" style="margin-top:-25px ;">
+                    {% csrf_token %}
+                    <div class="button-container">
+                        <!-- Send Mail Button (Left Side) -->
+                        <button type="submit" class="no-pdf" onclick="hideDropdown()" name="export_type" value="send_mail" id="mail_btn">Send Mail</button>
+                        
+                        <!-- Email Selection Dropdown -->
+                        <label for="email" class="no-pdf"></label>
+                        <select name="recipient_email" class="no-pdf" id="recipientEmail" style="background-color: yellow; height: 35px; ">
+                            <option class="no-pdf" value="{{ email_1 }}">{{ email_1 }}</option>
+                            <option class="no-pdf" value="{{ email_2 }}">{{ email_2 }}</option>
+                        </select>
+                    
+                        <!-- PDF Conversion Button (Right Side) -->
+                        <button type="submit" name="export_type" value="pdf" id="pdf_btn" class="no-pdf">PDF CONVERSION</button>
+                    </div>
+                    
+                </form>
+                <div><button id="prevButton" class="no-pdf" >BACK</button></div>  
+            </div>
+
+         <!-- Add this in your consolidateSrNo.html -->
+    <div id="popupMessage" class="no-pdf"></div>
+
+        <script>
+
+$(document).ready(function () {
+        $("#pdf_btn").click(function () {
+            $("#loading_spinner").show(); // Show the spinner
+        });
+
+        $("#mail_btn").click(function () {
+            $("#loading_spinner").show(); // Show the spinner
+        });
+    });
+
+
+        // Get the success message from the context if it exists
+        var successMessage = "{{ success_message|escapejs }}";  // Ensure safe rendering of message
+
+        if (successMessage) {
+        // If there is a success message, display the popup
+        var messageDiv = document.getElementById('popupMessage');
+        messageDiv.innerHTML = `<div>${successMessage}</div>`;  // Set the message content
+        messageDiv.style.display = 'block';  // Make the popup visible
+
+        // Optionally, hide the popup after 5 seconds
+        setTimeout(function() {
+        messageDiv.style.display = 'none';  // Hide the popup after 5 seconds
+        }, 3000);  // Adjust the time duration as needed
+        }
+
+        </script>
+        
+        {% if no_results %}
+        <p><h1 style="color: red;">No Data Found</h1></p>
+        {% else %}
+        <div class="chart-container">
+            {{ xbar_chart|safe }}
+        </div>
+        <div class="chart-container">
+            {{ r_chart|safe }}
+        </div>
+        
+
+        <div id="value_list">
+            {% for data in x_bar_R_values %}
+            <div class="item">Part Model:{{ data.part_model }}</div>
+            <div class="item">Current date:{{ data.current_date_time }}</div>
+            <div class="item">Parameter Name:{{ data.parameter_name }}</div>
+            <div class="item">Shift:{{ data.shift }}</div>
+            <div class="item">Machine:{{ data.machine }}</div>
+            <div class="item">Vendor Code:{{ data.vendor_code }}</div>
+            <div class="item">Operator:{{ data.operator }}</div>
+            <div class="item">From date:{{ data.formatted_from_date }}</div>
+            <div class="item">To date:{{ data.formatted_to_date }}</div>
+            <div class="item">Sample size:{{ data.sample_size }}</div>
+            {% endfor %}
+            <div class="item">Sub Group:{{subgroups_length}} </div>
+            <div class="item">UCLr:{{UCLr|floatformat:5}}</div>
+            <div class="item">LCLr:{{LCLr|floatformat:5}}</div>
+            <div class="item">UCLx:{{UCLx|floatformat:5}} </div>
+            <div class="item">LCLx:{{LCLx|floatformat:5}}</div>
+            <div class="item">XBAR: {{ x_bar|floatformat:5 }} </div>
+            <div class="item">RBAR:{{ r_bar|floatformat:5 }}</div>
+            <div class="item">Cp:{{ cp|floatformat:5 }}</div>
+            <div class="item">Cpk:{{ cpk|floatformat:5 }}</div>
+            <!-- <div class="item">Item 10</div> -->
+
+        </div>
+        {% endif %}
+        
+        <div id="table_html" style="margin-top: 40px;">
+            {{ table_html|safe }}
+        </div>
+        
+    </div>
+
+    <script>
+       // Wait for the DOM to load before adding event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('prevButton').addEventListener('click', function() {
+            console.log("the button is clicked");
+            // Redirect to the report page
+            window.location.href = '/spc/'; // Make sure this URL is correct
+        });
+    });
+    </script>
+    
+</body>
+</html>

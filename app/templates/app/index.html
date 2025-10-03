@@ -1,0 +1,510 @@
+{% extends 'app/layouts/main.html' %}
+{% load static %}
+{% block title %}
+Measurement Page
+{% endblock title %}
+{% block content %}
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            color: white;
+            text-shadow: 4px 4px 8px black;
+            border: 10px double white;
+    padding: 5px;
+        }
+
+        .container-1{
+            height: 99vh;
+            width: 30vw;
+            margin-left: 1%;
+        }
+
+        .container-2{
+            height: 99vh;
+            width: 30vw;
+            margin-left: 1%;
+        }
+
+        .container-3{
+            height: 99vh;
+            width: 30vw;
+            margin-left: 1%;
+        }
+
+        .centerImage1{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 5%;
+            margin-left: 50%;   
+        }
+
+        .centerImage2{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 20%;
+            margin-left: 50%;   
+        }
+
+        .centerImage3{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 20%;
+            margin-left: 50%;   
+        }
+
+        .centerImage4{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 20%;
+            margin-left: 2%;   
+        }
+
+        .centerImage5{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 20%;
+            margin-left: 2%;   
+        }
+
+        .centerImage6{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 20%;
+            margin-left: 2%;   
+        }
+
+        .centerImage7{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 30%;
+            margin-left: 30%;   
+        }
+
+        .centerImage8{
+            height: 15vh;
+            width: 10vw;
+            margin-top: 40%;
+            margin-left: 30%;   
+        }
+
+        #probe{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+           
+            border: 8px double blue; 
+            box-shadow: 0 0 15px 5px rgb(52, 52, 236); 
+           
+            
+        }
+
+        #parameter{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+           
+            border: 8px double orange; 
+            box-shadow: 0 0 15px 5px orange;
+        }
+
+        #partselect{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+           
+            border: 8px double blue; 
+            box-shadow: 0 0 15px 5px rgb(52, 52, 236); 
+        }
+
+        #utility{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+            border: 8px double blue; 
+            box-shadow: 0 0 15px 5px rgb(52, 52, 236); 
+            
+        }
+
+        #report{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+            border: 8px double orange; 
+            box-shadow: 0 0 15px 5px orange;
+            
+        }
+
+        #spc{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+           
+           border: 8px double blue; 
+            box-shadow: 0 0 15px 5px rgb(52, 52, 236); 
+            
+        }
+
+        #general{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+           
+            border: 8px double orange; 
+            box-shadow: 0 0 15px 5px orange;
+        }
+
+        #comport{
+            height: 15vh;
+            width: 10vw;
+            background-color: white;
+            border: 8px double orange; 
+            box-shadow: 0 0 15px 5px orange;
+            
+        }
+
+        .container-1 p{
+            font-weight: bold;
+            font-size: 1.2vw;
+            color: white;
+            margin-top: 3%;
+            margin-left: 15%;
+        }
+
+        .container-2 p{
+            font-weight: bold;
+            font-size: 1.2vw;
+            color: white;
+            margin-top: 3%;
+            margin-left: 15%;
+        }
+
+        .container-3 p{
+            font-weight: bold;
+            font-size: 1.2vw;
+            color: white;
+            margin-top: 3%;
+            margin-left: 40%;
+        }
+
+        .logout{
+            margin-top: -100%;
+        }
+        #logout-btn{
+            background-color: red;
+            font-weight: bold;
+            font-size: 1.2vw;
+            height: 5vh;
+            width: 12vw;
+            margin-left: 60%;
+            margin-top: -100%;
+            color: white;
+            border-radius: 5px;
+            border: 2px solid white;
+        }
+
+.com-light {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: gray; /* default OFF state */
+    margin: 5px;
+    display: inline-block;
+    box-shadow: 0 0 5px black;
+    transition: background-color 0.2s;
+}
+
+.plc-item {
+    display: flex;
+    align-items: center;   /* vertically center bulb with text */
+    gap: 10px;             /* space between text and bulb */
+}
+
+
+    </style>
+</head>
+<body>
+
+
+
+
+
+
+<div class="container-1">
+     <div class="plc-item" >
+        <span class="plc-label" style="color: white;font-weight: bold;margin-left: 10px;">COMMUNICATION</span>
+        <div id="notification1" class="com-light" style="margin-top: 10px;"></div>
+    </div>
+    <div class="notify">
+        <input type="text" id="notification1" readonly style="display: none;" ><br>
+        <input type="text" id="notification2" readonly style="display: none;" ><br>
+        <input type="text" id="notification3" readonly style="display: none;" >
+    </div>
+    <div class="centerImage1">
+        <a href="/probe/">
+            <img src="{% static 'images/calibration.jpg' %}" id="probe"></a>
+            <p>PROBE CALIBRATION</p>
+    </div>
+    <div class="centerImage2">
+        <a href="/parameter/">
+            <img src="{% static 'images/para.jpg' %}" id="parameter"></a>
+            <p>PARAMETER SETTINGS</p>
+    </div>
+
+    <div class="centerImage3">
+        <a href="/measurebox/">
+            <img src="{% static 'images/measure.jpg' %}" id="partselect"></a>
+            <p>PART SELECTION</p>
+    </div>
+</div>
+<div class="container-2">
+
+    
+
+    <div class="centerImage7">
+        <a href="/trace/">
+            <img src="{% static 'images/general_settings.png' %}" id="general"></a>
+            <p>GENERAL SETTINGS</p>
+    </div>
+
+    <div class="centerImage8">
+        <a href="/comport/">
+            <img src="{% static 'images/comport_settings.png' %}" id="comport"></a>
+            <p>COMPORT SETTINGS</p>
+    </div>
+
+</div>
+    <div class="container-3">
+    <div class="centerImage4">
+        <a href="/utility/">
+            <img src="{% static 'images/master.jpg' %}" id="utility"></a>
+            <p>UTILITY</p>
+    </div>   
+
+    <div class="centerImage5">
+        <a href="/report/">
+            <img src="{% static 'images/report.jpg' %}" id="report"></a>
+            <p>REPORT</p>
+    </div>
+
+    <div class="centerImage6">
+        <a href="/spc/">
+            <img src="{% static 'images/spc.jpg' %}" id="spc"></a>
+            <p>SPC</p>
+    </div>
+
+    <input type="text" id="db_port" value="{{ comport_com_port }}" hidden>
+    <input type="text" id="com_ports" value="{{ ports_string }}" hidden>
+    <input type="text" id="baud_rate" value="{{ comport_baud_rate }}" hidden>
+    <input type="text" id="parity" value="{{ comport_parity }}" hidden>
+    <input type="text" id="stopbit" value="{{ comport_stopbit }}" hidden>
+    <input type="text" id="databit" value="{{ comport_databit }}" hidden>
+    <input type="text" id="card" value="{{ comport_card }}" hidden>
+    <textarea id="serial-data-display" cols="50" rows="10" readonly hidden></textarea>
+
+
+        
+    <div class="logout">
+    <button id="logout-btn">LOGOUT</button>
+    <div>
+    </div> 
+
+   
+</div>
+
+
+    
+    <script>
+
+// Initialize WebSocket connection
+const socket1 = new WebSocket('ws://localhost:8000/ws/index/');
+
+// Track received data and order
+let comPortStatus = {};
+let comPortOrder = [];
+
+// Track initialized ports (persist across page reload)
+let initializedPorts = new Set(JSON.parse(sessionStorage.getItem('initializedPorts') || "[]"));
+
+function displayNotification(elementId, message, isSuccess, blink=false) {
+    const notificationBox = document.getElementById(elementId);
+
+    if (blink) {
+        let on = true;
+        const interval = setInterval(() => {
+            if (on) {
+                notificationBox.style.backgroundColor = isSuccess ? 'limegreen' : 'red';
+                notificationBox.style.boxShadow = isSuccess 
+                    ? '0 0 15px 5px limegreen' 
+                    : '0 0 15px 5px red';
+            } else {
+                notificationBox.style.backgroundColor = 'gray';
+                notificationBox.style.boxShadow = 'none';
+            }
+            on = !on;
+        }, 100); // blink every 100ms
+
+        // Stop blinking after 1 second
+        setTimeout(() => {
+            clearInterval(interval);
+            notificationBox.style.backgroundColor = isSuccess ? 'limegreen' : 'red';
+            notificationBox.style.boxShadow = isSuccess 
+                ? '0 0 20px 10px limegreen' 
+                : '0 0 20px 10px red'; // final glow
+        }, 1000);
+    } else {
+        notificationBox.style.backgroundColor = isSuccess ? 'limegreen' : 'red';
+        notificationBox.style.boxShadow = isSuccess 
+            ? '0 0 20px 10px limegreen' 
+            : '0 0 20px 10px red';
+    }
+}
+
+
+// Mark a port as initialized and persist
+function markPortInitialized(port) {
+    initializedPorts.add(port);
+    sessionStorage.setItem('initializedPorts', JSON.stringify([...initializedPorts]));
+}
+
+// Start serial communication (only for ports not already initialized)
+function startSerialCommunication() {
+    if (socket1.readyState !== WebSocket.OPEN) {
+        setTimeout(startSerialCommunication, 3000);
+        return;
+    }
+
+    const dbPorts = document.getElementById("db_port").value.split(" ");
+    const comPorts = document.getElementById("com_ports").value.split(" ");
+    const baudRates = document.getElementById("baud_rate").value.split(" ");
+    const parities = document.getElementById("parity").value.split(" ");
+    const stopbits = document.getElementById("stopbit").value.split(" ");
+    const databits = document.getElementById("databit").value.split(" ");
+    const card = document.getElementById("card").value.split(" ");
+
+    dbPorts.forEach((dbPort, index) => {
+        if (comPorts.includes(dbPort) && !initializedPorts.has(dbPort)) {
+
+            // Send start command
+            socket1.send(JSON.stringify({
+                command: 'start_communication',
+                com_port: dbPort,
+                baud_rate: baudRates[index] || baudRates[0],
+                parity: parities[index] || parities[0],
+                stopbit: stopbits[index] || stopbits[0],
+                databit: databits[index] || databits[0],
+                card: card[index] || card[0] || 'UNKNOWN_CARD'
+            }));
+
+            console.log(`✅ Initialized serial for ${dbPort}`);
+            markPortInitialized(dbPort);
+
+            // Initialize status and order
+            if (!comPortStatus[dbPort]) {
+                comPortStatus[dbPort] = false;
+                comPortOrder.push(dbPort);
+            }
+        }
+    });
+
+    if (dbPorts.every(port => initializedPorts.has(port))) {
+        console.log("All COM ports already initialized. Skipping re-initialization.");
+    }
+}
+
+// WebSocket events
+socket1.onopen = () => {
+    console.log("WebSocket connected for index.");
+    startSerialCommunication();
+};
+
+socket1.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    const message = data.message;
+    const comPort = data.com_port;
+
+    if (comPort) {
+        comPortStatus[comPort] = true;
+        if (!comPortOrder.includes(comPort)) comPortOrder.push(comPort);
+    }
+
+    const serialDataDisplay = document.getElementById("serial-data-display");
+    serialDataDisplay.value += message + "\n";
+    serialDataDisplay.scrollTop = serialDataDisplay.scrollHeight;
+
+    const [firstCOM, secondCOM, thirdCOM] = comPortOrder;
+
+    if (comPort === firstCOM) displayNotification("notification1", `Connected: ${firstCOM}`, true);
+    if (comPort === secondCOM) displayNotification("notification2", `Connected: ${secondCOM}`, true);
+    if (comPort === thirdCOM) displayNotification("notification3", `Connected: ${thirdCOM}`, true);
+};
+
+// Check disconnected COM ports every 1s
+setInterval(() => {
+    Object.keys(comPortStatus).forEach(comPort => {
+        if (!comPortStatus[comPort]) {
+            if (comPort === comPortOrder[0]) displayNotification("notification1", `${comPort} Disconnected!`, false);
+            if (comPort === comPortOrder[1]) displayNotification("notification2", `${comPort} Disconnected!`, false);
+            if (comPort === comPortOrder[2]) displayNotification("notification3", `${comPort} Disconnected!`, false);
+        }
+        comPortStatus[comPort] = false;
+    });
+
+    if (!comPortOrder[0]) displayNotification("notification1", `No COM port available`, false);
+    if (!comPortOrder[1]) displayNotification("notification2", `No COM port available`, false);
+    if (!comPortOrder[2]) displayNotification("notification3", `No COM port available`, false);
+}, 1000);
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            window.location.href = "{% url 'home' %}";
+        });
+
+// Get logged in user from Django context
+const loggedInUser = "{{ logged_in_user }}";
+
+// Full Access for SAADMIN
+if (loggedInUser === "SAADMIN") {
+    document.querySelectorAll('.container-1 a, .container-2 a, .container-3 a').forEach(function(link) {
+        var imgSrc = link.querySelector('img').getAttribute('src');
+        if (imgSrc.includes('calibration.jpg')) link.setAttribute('href', '/probe/');
+        else if (imgSrc.includes('para.jpg')) link.setAttribute('href', '/parameter/');
+        else if (imgSrc.includes('measure.jpg')) link.setAttribute('href', '/measurebox/');
+        else if (imgSrc.includes('master.jpg')) link.setAttribute('href', '/utility/');
+        else if (imgSrc.includes('report.jpg')) link.setAttribute('href', '/report/');
+        else if (imgSrc.includes('spc.jpg')) link.setAttribute('href', '/spc/');
+        else if (imgSrc.includes('general_settings.png')) link.setAttribute('href', '/trace/');
+        else if (imgSrc.includes('comport_settings.png')) link.setAttribute('href', '/comport/');
+    });
+} else {
+    // Limited Access → Only 3 allowed
+    const allowed = ["/measurebox/", "/report/", "/spc/"];
+
+    document.querySelectorAll('.container-1 a, .container-2 a, .container-3 a').forEach(function(link) {
+        const imgSrc = link.querySelector('img').getAttribute('src');
+
+        let allowedHref = null;
+        if (imgSrc.includes('measure.jpg')) allowedHref = '/measurebox/';
+        if (imgSrc.includes('report.jpg')) allowedHref = '/report/';
+        if (imgSrc.includes('spc.jpg')) allowedHref = '/spc/';
+
+        if (allowedHref) {
+            link.setAttribute('href', allowedHref); // ✅ enable
+        } else {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                alert(`You do not have access to this page under the username "${loggedInUser}".`);
+            });
+        }
+    });
+}
+
+
+
+    </script>
+{% endblock content %}

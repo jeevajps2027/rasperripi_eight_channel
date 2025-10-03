@@ -1,0 +1,21 @@
+build/
+dist/
+bootstrap-5.3.3-dist/
+Font-Awesome-4.7.0/
+fontawesome-free-6.7.2-web/
+jquery-jquery-f79d5f1/
+js-xlsx-master/
+parallax-jsPDF-57cbe94/
+plotly-plotly.js-c8e0bef/
+db.sqlite3/
+twochannel_deb/
+twochannel_deb.deb/
+
+# Ignore all SQLite database files
+*.sqlite3
+
+# Or ignore each one explicitly:
+four_channel/db.sqlite3
+four_channel/app/db.sqlite3
+four_channel/dist/two_channel/_internal/db.sqlite3
+four_channel/twochannel_deb/usr/local/bin/two_channel/_internal/db.sqlite3

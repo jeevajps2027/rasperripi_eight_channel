@@ -1,0 +1,4833 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+Measurement Page
+{% endblock title %}
+{% block content %}
+<style>
+
+html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+
+}
+
+body {
+   
+    background-color: black;
+    border: 10px double white;
+    padding: 5px;
+}
+
+.container-main{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    
+}
+
+
+
+
+
+.box-1{
+        height: 20%;
+        width: 100%;
+        background-color:rgb(175, 173, 173);
+        border: 2px solid black;    
+    }
+
+    .container-1 {
+    height: 33%;
+    margin: 0;
+    border: 1px solid black;
+    display: flex;               /* flex layout */
+    align-items: center;         /* vertically center items */
+    gap: 0.5vw;                  /* space between items */
+}
+
+.container-1 label{
+    font-size: 1vw;
+    font-weight: bold;
+    text-align: center;
+    height: 100%;               
+    margin: 0;                   
+    padding: 0; 
+}
+.container-1 input {
+    font-size: 1.3vw;
+    font-weight: bold;
+    text-align: center;
+    height: 100%;               
+    margin: 0;                   
+    padding: 0;       
+}
+
+
+
+ .container-2 {
+    height: 33%;
+    margin: 0;
+    border: 1px solid black;
+    display: flex;               /* flex layout */
+    align-items: center;         /* vertically center items */
+    gap: 0.5vw;                  /* space between items */
+}
+
+.container-2 label{
+    font-size: 1vw;
+    font-weight: bold;
+    text-align: center;
+    height: 100%;               
+    margin: 0;                   
+    padding: 0; 
+}
+.container-2 input {
+    font-size: 1.3vw;
+    font-weight: bold;
+    text-align: center;
+    height: 100%;               
+    margin: 0;                   
+    padding: 0;       
+}
+
+
+ .container-3 {
+    height: 33%;
+    margin: 0;
+    border: 1px solid black;
+    display: flex;               /* flex layout */
+    align-items: center;         /* vertically center items */
+    gap: 0.5vw;                  /* space between items */
+}
+
+.container-3 label{
+    font-size: 1vw;
+    font-weight: bold;
+    text-align: center;
+    height: 100%;               
+    margin: 0;                   
+    padding: 0; 
+}
+.container-3 input {
+    font-size: 1.3vw;
+    font-weight: bold;
+    text-align: center;
+    height: 100%;               
+    margin: 0;                   
+    padding: 0;       
+}
+
+
+
+
+
+
+
+    .table-container{
+        height: 100%;
+        width: 90%;
+        background-color: white;
+        display: flex;
+       
+    }
+
+  
+
+
+.notification-container {
+    position: fixed;           /* fixed relative to viewport */
+    bottom: 10px;              /* small gap from bottom */
+    left: 10px;                /* small gap from left */
+    background-color: black;
+    height: 100px;
+    width: 69%;                /* adjust as needed */
+    z-index: 1000;
+    border: 2px solid black;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;        /* optional: rounded corners */
+}
+
+    
+    #punch_textarea{
+        margin-top: 5px;
+        margin-left: 10px;
+        width: 100%;
+        height: 90%;
+        font-weight: bold;    /* Makes the text bold */
+        font-size: 3vw;      /* Increases the font size */
+        background-color: orange;
+    }
+    .disabled {
+        display: none;
+    }
+    .exit-symbol-container {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+        background-color: red; 
+        padding: 5px; 
+        border-radius: 10%; 
+    }
+
+    /* Exit symbol */
+    .exit-symbol {
+        color: white; /* Set the color of the exit symbol to white */
+    }
+
+    .indicator-box, .indicator-box1 {
+    width: 50%; /* Adjust width as needed */
+    height: 25px; /* Adjust height as needed */
+    border: 1px solid #000; /* Border */
+    margin-left: 0px;
+  
+}
+
+.reset-button {
+  position: relative;
+  background-color: #007bff;
+  border: none;
+  border-radius: 30%;
+  width: 3vw;
+  height: 6vh;
+  margin-left: 1%;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.reset-symbol {
+  font-size: 1.5vw;
+  color: white;
+  position: relative;
+  z-index: 1;
+  font-weight: bold;
+}
+
+.reset-button:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotateX(55deg) rotateY(30deg);
+  transition: transform 0.5s ease;
+}
+
+.reset-button:hover:before {
+  transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+}
+
+.notification-container1 {
+  position: fixed;
+  top: 50%;
+  left: 80%;
+  height: 300px;
+  width: 350px;
+  transform: translate(-50%, -50%);
+  background-color:lightblue;
+  border: 2px solid black;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+input[type=checkbox] {
+        transform: scale(1.5); /* Increase the size of the checkbox */
+        margin-right: 5px; /* Add some spacing between checkbox and label */
+    }
+    .arrow-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5%;
+            border: none;
+            background-color: #FF0000; /* Red background */
+            color: white; /* White text */
+            font-size: 1vw;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+          
+           width: 5vw;
+           text-align: center;
+          margin-left: 5%;
+        }
+
+        .arrow-button:hover {
+            background-color: #CC0000; /* Darker red background on hover */
+          
+        }
+
+        .arrow-tail{
+            text-align: center;
+            font-size: 1.2vw;
+            font-weight: bold;
+            
+        }
+
+        
+
+        .center-notification {
+    display: none; /* Initially hidden */
+    position: fixed;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    justify-content: center;
+    top: 45%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    height: 250px;
+    width: 400px;
+    background-color: lightblue; /* Optional: To make it more visible */
+    padding: 20px; /* Optional: For some padding */
+    border: 2px solid black; /* Optional: For some border */
+    border-radius: 8px; /* Optional: For rounded corners */
+}
+
+#overwrite_ok_button{
+    height: 40px;
+    width: 100px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+
+}
+
+#overwrite_cancel_button{
+    height: 40px;
+    width: 100px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+
+}
+
+#punch_login{
+    height: 40px;
+    width: 100px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+
+}
+
+#customAlert{
+    display: none;
+    position: fixed; 
+    top: 20px;
+    width: 700px;
+    height: 200px;
+    left: 50%;
+    top: 40%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    transform: translateX(-50%);
+    background-color: red; 
+    color: black; 
+    border: 1px solid black ; 
+    padding: 10px;
+    z-index: 1000;
+}
+
+
+
+
+
+#save-btn{
+    margin-top: 7px;
+    width: 8vw;
+            height: 12vh;
+            margin-left: 1%;
+            font-size: 1.5vw;
+            font-weight: bold;
+            background-color: rgb(248, 106, 130);
+            
+        }
+        #master-btn{
+            margin-top: 2%;
+            width: 8vw;
+            height: 12vh;
+            margin-left: 1%;
+            font-size: 1.5vw;
+            font-weight: bold;
+            background-color: rgb(117, 156, 240);
+            
+        }
+
+       
+
+        #start-btn{
+            width: 8vw;
+            height: 12vh;
+            margin-left: 1%;
+            margin-top: 5px;
+            font-size: 1.5vw;
+            font-weight: bold;
+            background-color: rgb(6, 238, 6);
+        }
+        
+        #stop-btn{
+            width: 8vw;
+            height: 12vh;
+            margin-left: 1%;
+            margin-top: 5px;
+            font-size: 1.5vw;
+            font-weight: bold;
+            background-color: rgb(245, 101, 48);
+        }
+        #back-btn{
+            width: 8vw;
+            height: 12vh;
+            margin-left: 1%;
+            font-size: 1.5vw;
+            font-weight: bold;
+            margin-top: 5px;
+            background-color: rgb(233, 177, 73);
+        }
+
+        .btn-container{
+            height: 100%;
+            width: 10%;
+        background-color: gray;
+        }
+
+
+#box3{
+    height: 55vh;
+    width: 15vw;
+    background-color:lightgray;
+    margin-left:0;
+    margin-top:0;
+    border: 1px solid black;
+}
+
+/* Modal Overlay */
+.modal {
+    display: none;  
+    position: fixed;          /* fixed to screen */
+    top: 0;                   
+    left: 0;
+    width: 100%;              /* full screen */
+    height: 100%;             /* full screen */
+    background-color: rgba(0, 0, 0, 0.5); /* dark overlay */
+    justify-content: center;  
+    align-items: center;      /* center vertically */
+    z-index: 9999;            /* stay on top */
+}
+
+/* Modal Box */
+.modal-content {
+    background-color: yellow;  
+    color: black;             
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;        /* bold text */
+    width: 50%;             /* fixed width */
+    max-width: 80%;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+    font-size: 2vw;
+}
+
+/* Button Container (Flex Row) */
+.modal-content .button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;  /* center horizontally */
+    gap: 15px;                /* spacing between buttons */
+}
+
+/* Buttons */
+.modal-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;        /* bold text */
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    
+    transition: 0.3s ease;
+}
+
+
+
+
+#confirm-yes {
+    background-color: green;
+    color: black;
+    border: 2px solid black;
+}
+#check_last_step{
+    background-color: orange;
+    color: black;
+    border: 2px solid black;
+
+}
+
+#confirm-no {
+    background-color: red;
+    color: black;
+    border: 2px solid black;
+}
+
+#confirm-yes:focus {
+    outline: 3px solid red; /* Yellow border for highlight */
+}
+
+
+
+.master-alert-wrapper {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.master-alert-box {
+  background: white;
+  border: 4px solid red;
+  padding: 30px 40px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 800px;
+}
+
+.master-alert-box p {
+  color: red;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.master-alert-box button {
+  background: red;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+
+.notify-popup {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    height: 20%;
+    width: 70%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(255,0,0,0.5);
+    z-index: 10000;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.6s ease-in-out;
+    animation: glideIn 0.6s ease-out;
+}
+
+/* Input style */
+.notify-input {
+    width: 100%;
+    height: 20%;
+    margin-top: 5%;
+    font-size: 3vh;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    background: transparent;
+    color: white;
+    text-shadow: 0 0 50px yellow, 0 0 40px orange;
+}
+
+/* .section {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: gray;
+    padding: 5px;
+    box-sizing: border-box;
+} */
+
+
+.input-box {
+    width: 95%;  
+    height: 20%;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.6vw;
+    background-color:black;
+    color: white;
+    
+   
+}
+
+
+
+
+
+.three_containers {
+    display: flex;          
+    justify-content: space-between;  
+    align-items: stretch;   
+    height: 70%;
+    width: 100%;
+    gap: 10px;              
+}
+
+
+.container_2_1 {
+    background: lightgray;
+    overflow-y: auto;
+    padding: 5px;
+    border: 1px solid black;
+    width: 70%;                     /* takes 70% of .three_containers */
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    grid-template-rows: repeat(2, 1fr);    /* 2 equal rows */
+    gap: 5px;                      /* small spacing between blocks */
+    box-sizing: border-box;
+}
+
+.section {
+    border: 1px solid black;
+    background: gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+
+
+
+.btn-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+     width: 10%;
+    height: 100%;
+}
+
+.label-row1{
+    margin-top: 2%;
+    font-weight: bold;
+    font-size: 1.2vw;
+    color: black;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+   
+}
+
+.label-row1 label{
+    flex: 1;
+    text-align: center;
+}
+
+
+.input-row-top {
+    display: flex;              /* horizontal layout */
+    justify-content: space-between; /* spread them evenly */
+    align-items: center;        /* vertical alignment */
+    width: 100%;                /* full width of parent section */
+    height: 20%;
+    gap: 5px;                   /* spacing between inputs */
+}
+
+
+
+.input-row-top input {
+    width: 100%;                /* fill its wrapper */
+    height: 100%;
+    text-align: center;         /* center text */
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.input-box1-top{
+    font-weight: bold;
+    font-size: 1.3vw;
+    color: purple;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.Output_box {
+    width: 100%;  /* Slightly reduced to fit inside the container */
+    height: 35%;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3.3vw;
+    margin-top: 7%;
+    
+}
+
+
+
+/* Make output container a flex column */
+.output_container {
+    display: flex;
+    flex-direction: column; /* stack children vertically */
+    justify-content: space-between; /* pushes the last child to bottom */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    box-sizing: border-box;
+    height: 100%;              /* full height of parent */
+    width: 20%;
+    overflow: hidden;          /* hide scroll for flex container */
+}
+
+/* Table container should take remaining space and scroll if needed */
+.output_container > div:first-child {
+    flex: 1;                   /* take remaining space */
+    overflow-y: auto;          /* scroll if content exceeds */
+}
+
+
+/* Table styling */
+.custom_table {
+    width: 100%;
+    border-collapse: collapse; /* remove double borders */
+    table-layout: fixed;       /* cells have fixed width */
+}
+
+/* Table header */
+.custom_table th {
+    background-color: #007acc;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ccc;
+}
+
+/* Table body */
+.custom_table td {
+    padding: 6px;
+    text-align: center;
+    border: 1px solid #ccc;
+    word-wrap: break-word;     /* wrap long text */
+}
+
+/* Optional: zebra striping */
+.custom_table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Optional: hover effect */
+.custom_table tbody tr:hover {
+    background-color: #e6f7ff;
+}
+
+.custom_table td input.output_result {
+    width: 100%;              /* fill only within the td */
+    max-width: 100%;          /* prevent exceeding */
+    height: 100%;             /* compact height */
+    box-sizing: border-box;   /* include padding & border inside width */
+    text-align: center;
+    font-size: 1.2vw;
+    font-weight: bold;
+}
+
+/* Enter button container */
+.enter_btn_container {
+    background-color: white;
+    width: 100%;               /* full width of output container */
+    padding: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: all;
+    /* No margin-bottom needed, it's already at the bottom */
+    
+}
+
+#enter_btn_main {
+    background-color: #0f0f;
+    height: 90%;
+    width: 90%;
+    font-weight: bold;
+    font-size: 3vw;
+}
+
+
+.plc-light {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;          /* makes it a circle */
+    background-color: red;       /* default OFF state */
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    margin-left: 10px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* Glow Green */
+.plc-light.green {
+    background-color: limegreen;
+    box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.9);
+}
+
+/* Glow Red */
+.plc-light.red {
+    background-color: red;
+    box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.9);
+}
+
+/* Blinking animation */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+.blink {
+    animation: blink 0.3s infinite;  /* fast blink */
+}
+
+
+
+</style>
+
+
+
+<div id="master-alert-wrapper" class="master-alert-wrapper hidden">
+  <div class="master-alert-box">
+    <p id="master-alert-message"></p>
+    <button onclick="closeMasterAlert()">OK</button>
+  </div>
+</div>
+
+
+<div class="container-main">
+
+
+     
+   
+        
+        <div class="box-1" id="box1">
+           
+            <div class="container-1">
+                <label for="date" style="width: 3vw; ">DATE:</label>
+                <input type="text" id="date" style="width: 20vw;background-color:#1a7d9e ;color: white;" readonly>
+            
+                <label for="operator"  style="width: 5.5vw; ">OPERATOR:</label>
+                <input type="text" id="operator" style="width: 15vw;" readonly >
+            
+                <label for="shift" style="width: 3vw; ">SHIFT:</label>
+                <input type="text" id="shift" class="shift-name" style="width: 10%;" readonly >          
+               
+                <input type="text" id="accept" value="0" style="background-color: green;width: 5%;margin-left: 5%;" readonly>
+                           
+                <input type="text" id="reject" value="0" style="background-color: red;width: 5%;" readonly>           
+                
+                <input type="text" id="rework" value="0" style="background-color: yellow;width: 5%;" readonly>
+
+                <input type="text" id="total" value="0" style="background-color: blue;width: 5%;color: white;" readonly>
+
+                    <button class="reset-button" id="reset-button" hidden>
+                    <span class="reset-symbol">&#8634;</span>
+                </button>
+                
+                <button class="arrow-button" id="exit_btn"  onclick="deactivateAndRedirect()">
+                    <div class="arrow-icon">
+                        <div class="arrow-tail"> BACK </div>
+                    </div> 
+                </button>         
+            
+            </div>
+
+             <div class="container-2">
+
+                <label for="machine" style="width: 5vw; " >MACHINE:</label>
+                <input type="text" id="machine" style="width: 13%;" readonly>
+                
+                
+                {% for value in part_model_values %}
+                <input type="text"id="partModel" name="partModel" style="width: 18%;font-size: 2vw;" value="{{ value }}">
+                 {% endfor %}
+ 
+                <label for="CUSTOMER" style="width: 5.5vw; ">CUSTOMER:</label>
+                <input type="text" id="customer_name" style="width: 15%; text-align: center;font-weight: bold;" readonly>
+                
+
+                <input type="text" id="comp_srno" style="width: 30%;height: 90%; font-weight: bold; background-color: yellow;" readonly>
+
+                <div class="plc-item" style="background-color: black;">
+        <span class="plc-label" style="color: white;font-weight: bold;">COMMUNICATION</span>
+        <div id="com1-light" class="plc-light"></div>
+    </div>
+
+             </div>
+
+
+
+
+            <div class="container-3">
+                 <input type="text" id="pre" style="width: 70%;height: 90%;  font-size: 2vh; "  readonly>
+
+
+                <label for="part_status" style=" width: 7vw;" >PART STATUS</label>
+                <input type="text" id="part_status" style="width: 20%;" readonly>
+            </div>
+   
+        
+    </div>
+    
+    <div class="three_containers">
+        
+
+        <div class="container_2_1" >
+            <div class="section" id="sub_container_1">
+                <input type="text" id="para_name1" class="input-box" placeholder="Parameter Name"  readonly/>
+            
+
+                <div class="label-row1">
+                    <label for="lsl_1">LSL</label>
+                    <label for="nominal_1">NOM</label>
+                    <label for="usl_1">USL</label>
+                </div>
+            
+                <div class="input-row-top">
+                    <input type="text" id="lsl_1" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_1" class="input-box1-top" placeholder="Nominal" readonly />
+                    <input type="text" id="usl_1" class="input-box1-top" placeholder="USL"  readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box" id="Output_box1" readonly/>
+            
+                
+            </div>
+            
+            <div class="section"  id="sub_container_2">
+                <input type="text" id="para_name2" class="input-box" placeholder="Parameter Name"  readonly/>
+            
+                <div class="label-row1">
+                    <label for="lsl_2">LSL</label>
+                    <label for="nominal_2">NOM</label>
+                    <label for="usl_2">USL</label>
+                </div>
+
+                <div class="input-row-top">
+                    <input type="text" id="lsl_2" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_2" class="input-box1-top" placeholder="Nominal" readonly/>
+                    <input type="text" id="usl_2" class="input-box1-top" placeholder="USL" readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box"  id="Output_box2"  readonly/>
+            
+            
+            </div>
+
+
+            <div class="section"  id="sub_container_3">
+                <input type="text" id="para_name3" class="input-box" placeholder="Parameter Name" readonly/>
+            
+                <div class="label-row1">
+                    <label for="lsl_3">LSL</label>
+                    <label for="nominal_3">NOM</label>
+                    <label for="usl_3">USL</label>
+                </div>
+
+                <div class="input-row-top">
+                    <input type="text" id="lsl_3" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_3" class="input-box1-top" placeholder="Nominal" readonly/>
+                    <input type="text" id="usl_3" class="input-box1-top" placeholder="USL" readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box"  id="Output_box3"  readonly/>
+            
+            </div>
+            <div class="section"  id="sub_container_4">
+                <input type="text" id="para_name4" class="input-box" placeholder="Parameter Name" readonly/>
+            
+                <div class="label-row1">
+                    <label for="lsl_4">LSL</label>
+                    <label for="nominal_4">NOM</label>
+                    <label for="usl_4">USL</label>
+                </div>
+
+                <div class="input-row-top">
+                    <input type="text" id="lsl_4" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_4" class="input-box1-top" placeholder="Nominal" readonly/>
+                    <input type="text" id="usl_4" class="input-box1-top" placeholder="USL" readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box"  id="Output_box4"  readonly/>
+            
+            
+            </div>
+            <div class="section"  id="sub_container_5">
+                <input type="text" id="para_name5" class="input-box" placeholder="Parameter Name" readonly/>
+            
+                <div class="label-row1">
+                    <label for="lsl_5">LSL</label>
+                    <label for="nominal_5">NOM</label>
+                    <label for="usl_5">USL</label>
+                </div>
+
+                <div class="input-row-top">
+                    <input type="text" id="lsl_5" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_5" class="input-box1-top" placeholder="Nominal" readonly/>
+                    <input type="text" id="usl_5" class="input-box1-top" placeholder="USL" readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box"  id="Output_box5"  readonly/>
+            
+                
+            </div>
+            <div class="section"  id="sub_container_6">
+                <input type="text" id="para_name6" class="input-box" placeholder="Parameter Name" readonly/>
+            
+                <div class="label-row1">
+                    <label for="lsl_6">LSL</label>
+                    <label for="nominal_6">NOM</label>
+                    <label for="usl_6">USL</label>
+                </div>
+
+                <div class="input-row-top">
+                    <input type="text" id="lsl_6" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_6" class="input-box1-top" placeholder="Nominal" readonly/>
+                    <input type="text" id="usl_6" class="input-box1-top" placeholder="USL" readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box"  id="Output_box6"  readonly/>
+            
+                
+            </div>
+            <div class="section"  id="sub_container_7">
+                <input type="text" id="para_name7" class="input-box" placeholder="Parameter Name" readonly/>
+            
+                <div class="label-row1">
+                    <label for="lsl_7">LSL</label>
+                    <label for="nominal_7">NOM</label>
+                    <label for="usl_7">USL</label>
+                </div>
+
+                <div class="input-row-top">
+                    <input type="text" id="lsl_7" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_7" class="input-box1-top" placeholder="Nominal" readonly/>
+                    <input type="text" id="usl_7" class="input-box1-top" placeholder="USL" readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box"  id="Output_box7"  readonly/>
+            
+            </div>
+            <div class="section"  id="sub_container_8">
+                <input type="text" id="para_name8" class="input-box" placeholder="Parameter Name" readonly/>
+            
+                <div class="label-row1">
+                    <label for="lsl_8">LSL</label>
+                    <label for="nominal_8">NOM</label>
+                    <label for="usl_8">USL</label>
+                </div>
+
+                <div class="input-row-top">
+                    <input type="text" id="lsl_8" class="input-box1-top" placeholder="LSL" readonly/>
+                    <input type="text" id="nominal_8" class="input-box1-top" placeholder="Nominal" readonly/>
+                    <input type="text" id="usl_8" class="input-box1-top" placeholder="USL" readonly/>
+                </div>
+
+
+
+                <input type="text" class="Output_box"  id="Output_box8"  readonly/>
+            
+            
+            </div>
+        
+        </div>
+         
+
+   
+    <div class="output_container" id="output_values_container" style="overflow-y: auto;">
+        <div>
+            <table border="1" width="100%" class="custom_table"  width="100%">
+                <colgroup>
+        <col style="width: 10%;">   
+        <col style="width: 55%;">   
+        <col style="width: 35%;">   
+    </colgroup>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>PARA NAME</th>
+                        <th>OUTPUT</th>
+                    
+
+                    </tr>
+                </thead>
+                <tbody id="table_body">
+                
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="enter_btn_container">
+            <button id="enter_btn_main">ENTER</button>
+        </div>
+    </div>
+ 
+
+    
+        <div class="btn-container">
+
+          
+
+        <div><button type="button" class="btn_outline" id="master-btn" onclick="deactivateAndRedirectmeasure()">MASTER<br>[F1]</button></div>
+        <div><button type="button" class="btn_outline" id="start-btn" style="pointer-events: none;opacity: 0.5;filter: blur(1px);"> START<br>[F4]</button></div>
+        <div><button type="button" class="btn_outline" id="stop-btn">STOP<br>[F5]</button></div>
+        <div><button type="button" class="btn_outline" id="save-btn" hidden > SAVE</button></div>
+        <div><button type="button" class="btn_outline" id="back-btn" style="pointer-events: none;opacity: 0.5;filter: blur(1px);" >BACK<br>[F7]</button></div>
+
+          <textarea id="probe-A"  ></textarea>
+            <textarea id="probe-B"></textarea>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+<div class="notification-container" id="notification-container">
+    
+    <textarea id="punch_textarea" onkeydown="handleEnterKeyPress(event)" placeholder="ENTER COMP SR.NO"></textarea>
+
+   
+</div>
+
+<div class="notification-container1" id="notification-container1" style="display:none;">
+    <div class="exit-symbol-container" onclick="closeNotification1()">
+        <span class="exit-symbol">❌</span>
+    </div>
+    <center style="color: white;">
+        <div style="border: 2px solid black;width: 200px;background-color: rgb(167, 27, 167);"><b>RESET VALUES</b></div>
+    </center>
+    <div style="margin-top: 20px; margin-left: 10px;  " id="notificationDiv" >
+        <label for="userid" style="width: 120px; font-weight: bold;font-size: 1vw;">USER ID:</label>
+        <input type="text" id="userid" style="width: 150px;font-size: 1vw;" ><br>
+        <label for="password" style="width: 120px;margin-top: 20px;font-weight: bold;font-size: 1vw;">PASSWORD:</label>
+        <input type="text" id="password" style="width: 150px;font-size: 1vw;" ><br><br>
+        <button onclick="handleLogin()" style="margin-left: 60%;width: 100px;height: 40px; background-color: orangered;"><b>OK</b></button><br><br>
+
+    </div>
+</div>
+
+<div id="punch_overwrite" class="center-notification">
+    <div class="exit-symbol-container" onclick="closeNotification()">
+        <span class="exit-symbol">❌</span>
+    </div>
+    <div id="punch_overwrite_container">
+        <p id="error_message"></p>
+        <p>Do you want to OVERWRITE</p>
+        <button id="overwrite_cancel_button" onclick="punchOverwriteCancel()">CANCEL</button>
+        <button id="overwrite_ok_button" onclick="punchOverwrite()">OK</button>
+    </div>
+    <div style="margin-top: 20px; display: none;" id="punch_overwrite_credentials">
+        <label for="userid_punch" style="width: 150px;">USER ID:</label>
+        <input type="text" id="userid_punch" style="width: 150px;"><br>
+        <label for="password_punch" style="width: 150px;margin-top: 10px;">PASSWORD:</label>
+        <input type="text" id="password_punch" style="width: 150px;"><br><br>
+        <button id="overwrite_cancel_button" onclick="punchOverwriteCancel()">CANCEL</button>
+        <button id="punch_login" onclick="punchOverwriteLogin()">OK</button>
+        </div>
+</div>
+
+<div id="customAlert" ></div>
+
+
+            <!-- <textarea id="probe-A" style="display: none;"  ></textarea>
+            <textarea id="probe-B" style="display: none;"></textarea> -->
+            <textarea id="probe-C" style="display: none;"></textarea>
+            <textarea id="probe-D" style="display: none;"></textarea>
+            <textarea id="probe-E" style="display: none;"></textarea>
+            <textarea id="probe-F" style="display: none;"></textarea>
+            <textarea id="probe-G" style="display: none;"></textarea>
+            <textarea id="probe-H" style="display: none;"></textarea>
+            <textarea id="probe-I" style="display: none;"></textarea>
+            <textarea id="probe-J" style="display: none;"></textarea>
+            <textarea id="probe-K" style="display: none;"></textarea>
+            <textarea id="probe-L" style="display: none;"></textarea>
+            <textarea id="probe-M" style="display: none;"></textarea>
+            <textarea id="probe-N" style="display: none;"></textarea>
+            <textarea id="probe-O" style="display: none;"></textarea>
+            <textarea id="probe-P" style="display: none;"></textarea>
+            <textarea id="probe-Q" style="display: none;"></textarea>
+            <textarea id="probe-R" style="display: none;"></textarea>
+            <textarea id="probe-S" style="display: none;"></textarea>
+            <textarea id="probe-T" style="display: none;"></textarea>
+            <textarea id="probe-U" style="display: none;"></textarea>
+            <textarea id="probe-V" style="display: none;"></textarea>
+            <textarea id="probe-W" style="display: none;"></textarea>
+            <textarea id="probe-X" style="display: none;"></textarea>
+            <textarea id="probe-Y" style="display: none;"></textarea>
+            <textarea id="probe-Z" style="display: none;"></textarea>
+            <textarea id="probe-AA" style="display: none;"></textarea>
+            <textarea id="probe-AB" style="display: none;"></textarea>
+            <textarea id="probe-AC" style="display: none;"></textarea>
+            <textarea id="probe-AD" style="display: none;"></textarea>
+            <textarea id="probe-AE" style="display: none;"></textarea>
+            <textarea id="probe-AF" style="display: none;"></textarea>
+            <textarea id="probe-AG" style="display: none;"></textarea>
+            <textarea id="probe-AH" style="display: none;"></textarea>
+            <textarea id="probe-AI" style="display: none;"></textarea>
+            <textarea id="probe-AJ" style="display: none;"></textarea>
+            <textarea id="probe-AK" style="display: none;"></textarea>
+            <textarea id="probe-AL" style="display: none;"></textarea>
+            <textarea id="probe-AM" style="display: none;"></textarea>
+            <textarea id="probe-AN" style="display: none;"></textarea>
+            <textarea id="probe-AO" style="display: none;"></textarea>
+            <textarea id="probe-AP" style="display: none;"></textarea>
+
+
+<!-- Custom Confirmation Modal -->
+<div id="confirmation-modal" class="modal">
+  <div class="modal-content">
+      <p>DO YOU WANT TO STORE THE DATA?</p>
+      <div class="button-group">
+         <button id="check_last_step" class="modal-btn">CHECK LAST STEP</button>
+        <button id="confirm-no" class="modal-btn">NO</button>
+         
+          <button id="confirm-yes" class="modal-btn">YES</button>
+          
+      </div>
+  </div>
+</div>
+
+
+
+
+<div id="rejectnotify" style="display: none;">
+<input type="text" style="height: 40px; width: 60px; margin-top: 20px;">
+</div>
+
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+
+<div id="jobMessage" style="display: none; font-weight: bold;"></div>
+
+
+<input type="text" id="db_port" value="{{ comport_com_port }}" style="display: none;">
+<input type="text" id="com_ports" value="{{ ports_string }}" style="display: none;">
+<input type="text" id="baud_rate" value="{{ comport_baud_rate }}" style="display: none;">
+<input type="text" id="parity" value="{{ comport_parity }}" style="display: none;">
+<input type="text" id="stopbit" value="{{ comport_stopbit }}" style="display: none;">
+<input type="text" id="databit" value="{{ comport_databit }}" style="display: none;">
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</div>
+
+
+
+
+<script>
+
+
+
+
+
+
+
+function redirectToMeasurebox() {
+            window.location.href = '/measurebox/';
+        }
+/////////////////////////////////////////////
+window.addEventListener('DOMContentLoaded', (event) => {
+            var inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.setAttribute('autocomplete', 'off');
+            });
+        });
+/////////////////////////////////////////////
+
+
+
+
+    const buttonIds = [
+        "master-btn","exit_btn"
+    ];
+
+    function sendClearFlag() {
+        fetch("/set-clear-flag/")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Flag sent:", data);
+                // Optional: navigate or continue action after flag is set
+            });
+    }
+
+    buttonIds.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener("click", sendClearFlag);
+        }
+    });
+    
+
+
+
+
+    function closeNotification1() {
+        document.getElementById('notification-container1').style.display = 'none';
+    }
+
+
+
+
+function handleLogin() {
+    var username = document.getElementById('userid').value;
+    var password = document.getElementById('password').value;
+
+    if (username === "admin" && password === "admin") {
+        var data = {
+            id: 'reset_count', 
+            date: document.getElementById('date').value,
+            partModel: document.getElementById('partModel').value,
+
+        };
+
+        
+        console.log("Data to be sent:");
+        console.log(data);
+        const csrftoken = getCookie('csrftoken');
+        $.ajax({
+            type: 'POST',
+            url: '/measurement/',  // Replace with your actual endpoint URL
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrftoken  // Include the CSRF token in the headers
+            },
+            success: function(response) {
+                console.log("Data saved successfully:", response);
+                alert("Data saved successfully")
+            },
+            error: function(error) {
+                console.error("Error saving data:", error);
+                alert("Error saving data")
+            }
+        });
+    } else {
+        alert("Invalid username or password.");
+    }
+    document.getElementById("notification-container1").style.display = "none";
+    location.reload();
+}
+
+// Get the CSRF token from the cookies
+function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+/////////////////////////////////////////////
+
+function redirectToMasterPage() {
+        if (event.key === 'F1') {
+            window.location.href = '/master/';
+            event.preventDefault();
+        }
+    }
+    document.addEventListener('keydown', redirectToMasterPage);
+
+
+  function deactivateAndRedirectmeasure() {
+        window.location.href = '/master/';
+}
+
+
+function deactivateAndRedirect() {
+        window.location.href = '/measurebox/';
+}
+
+
+let keysEnabled = false;
+
+const enterBtn = document.getElementById("enter_btn_main");
+const backBtn = document.getElementById("back-btn");
+
+// ENTER button logic
+enterBtn.addEventListener("click", function() {
+    keysEnabled = true;
+
+    // Hide ENTER button
+    this.style.display = "none";
+
+    // Enable START + BACK buttons (clear disabled styles)
+    [startBtn, backBtn].forEach(btn => {
+        btn.style.pointerEvents = "auto";
+        btn.style.opacity = "1";
+        btn.style.filter = "none";
+    });
+
+     const tableBody = document.getElementById("table_body");
+                    Array.from(tableBody.rows).forEach((row) => {
+                        const outputCell = row.cells[2]; // Output input cell
+                        if (outputCell) {
+                            const outputInput = outputCell.querySelector("input");
+                            if (outputInput) {
+                                outputInput.value = "";
+                                outputInput.style.backgroundColor = "";
+                                outputInput.style.color = "";
+                            }
+                        }
+                    });
+
+     stopAllDisplaySerialDataOpen();
+
+    console.log("ENTER activated → Keys enabled, START/BACK buttons active");
+});
+
+// Global keydown
+document.addEventListener('keydown', function(event) {
+    // If ENTER key pressed → trigger ENTER button
+    if (event.key === "Enter" && !keysEnabled) {
+        event.preventDefault();
+        enterBtn.click(); // 🔥 triggers the same click logic
+        return;
+    }
+
+    // Always prevent default F5 refresh
+    if (event.key === 'F5') {
+        event.preventDefault();
+    }
+
+    if (!keysEnabled) return; // wait for ENTER activation
+
+    if (event.key === 'F4') {
+        event.preventDefault();
+        startAction();
+    } else if (event.key === 'F5') {
+        stopAction();
+    } else if (event.key === 'F7') {
+        event.preventDefault();
+        backAction();
+    }
+});
+
+
+
+
+
+function startAction() {
+    document.getElementById('start-btn').click();
+}
+
+function stopAction() {
+    document.getElementById('stop-btn').click();
+}
+///////////////////////////////////////////////////////////
+ // Get references to the buttons
+ var startBtn = document.getElementById("start-btn");
+ var stopBtn = document.getElementById("stop-btn");
+
+    // Function to enable start button and disable stop button
+    function enableStartBtn() {
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+    }
+
+    // Function to enable stop button and disable start button
+    function enableStopBtn() {
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+    }
+    enableStartBtn();
+
+    // Add event listener for start button click
+    startBtn.addEventListener("click", function() {
+        enableStopBtn(); // Enable stop button
+    });
+
+    // Add event listener for stop button click
+    stopBtn.addEventListener("click", function() {
+        enableStartBtn(); // Enable start button
+    });
+
+///////////////////////////////////////////////////////////
+$("#save-btn").click(function() {
+    console.clear();
+    console.log("save button is clicked");
+
+     // 🔁 Reset clear_table = false at the beginning
+        fetch("/reset-clear-flag/")
+            .then(res => res.json())
+            .then(data => {
+                
+                console.log("clear_table reset to FALSE:", data);
+            });
+
+   if (!lastResponse) {
+            showCustomAlert("No data loaded to save!");
+            return;
+        }
+
+        console.log("Save clicked, using lastResponse:", lastResponse);
+
+    var formDataArray = [];
+    var allStatusValid = true;
+
+    // Use lastResponse instead of undefined `response`
+    for (let i = 0; i < lastResponse.parameterNameValues.length; i++) {
+        const paramName = lastResponse.parameterNameValues[i];
+        const nominal = lastResponse.nominalValues[i];
+        const lsl = lastResponse.lslValues[i];
+        const usl = lastResponse.uslValues[i];
+        const ltl = lastResponse.ltlValues[i];
+        const utl = lastResponse.utlValues[i];
+
+        // Get the reading input
+        const outputInput = document.getElementById("output_result" + (i + 1));
+        const readings = outputInput ? outputInput.value : "";
+
+        // Determine status from background color
+        let statusCell = "";
+        if (outputInput) {
+            const bg = outputInput.style.backgroundColor.toLowerCase();
+            if (bg === "red") statusCell = "REJECT";
+            else if (bg === "yellow") statusCell = "REWORK";
+            else if (bg === "rgb(0, 255, 0)" || bg === "#00ff00") statusCell = "ACCEPT";
+        }
+
+        if (!statusCell) {
+            allStatusValid = false;
+            break;
+        }
+
+        // Get other global fields
+        const date = $("#date").val();
+        const operator = $("#operator").val();
+        const shift = $("#shift").val();
+        const machine = $("#machine").val();
+        const partModel = $("#partModel").val();
+        const partStatus = $("#part_status").val();
+        const customerName = $("#customer_name").val();
+        const compSrNo = $("#comp_srno").val();
+
+        // Push row data
+        formDataArray.push({
+            parameterName: paramName,
+            readings: readings,
+            nominal: nominal,
+            lsl: lsl,
+            usl: usl,
+            utl: utl,
+            ltl: ltl,
+            statusCell: statusCell,
+            date: date,
+            operator: operator,
+            shift: shift,
+            machine: machine,
+            partModel: partModel,
+            partStatus: partStatus,
+            customerName: customerName,
+            compSrNo: compSrNo
+        });
+    }
+
+    if (!allStatusValid) {
+        showCustomAlert("YOU HAVE NOT DONE PROPER MEASUREMENT.., PLEASE DO MEASUREMENT PROPERLY");
+        return;
+    }
+
+    var tableData = { formDataArray: formDataArray };
+    console.log('Table data to be sent:', tableData);
+
+    // Send data to server
+    $.ajax({
+        type: "POST",
+        url: "/measurement/",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({ tableData: tableData }),
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(response){
+            console.log("Data saved successfully: ", response);
+            showCustomAlert('DATA SAVED', 'success');
+            const punchTextarea = document.getElementById('punch_textarea');
+            const notificationContainer = document.getElementById('notification-container');
+
+            if(punchTextarea && notificationContainer) {
+                notificationContainer.style.display = 'block';
+                punchTextarea.style.display = 'block';
+                punchTextarea.value = '';
+                punchTextarea.focus();
+            }
+            location.reload();
+        },
+        error: function(xhr, status, error){
+            console.error("Error occurred while saving data: ", error);
+            console.log('Response text:', xhr.responseText);
+            showCustomAlert('ERROR SAVING DATA', 'error'); 
+        }
+    });
+});
+
+
+
+function showCustomAlert(message, type) {
+    const customAlert = document.getElementById('customAlert');
+    
+    customAlert.innerText = message;
+    customAlert.style.display = 'block';
+    
+    // Change background color based on the type (success or error)
+    if (type === 'success') {
+        customAlert.style.backgroundColor = 'green';
+        customAlert.style.color = 'white';  // Set text color for better readability
+    } else if (type === 'error') {
+        customAlert.style.backgroundColor = 'red';
+        customAlert.style.color = 'white';  // Set text color for better readability
+    }
+
+    // Hide the alert after 3 seconds
+    setTimeout(function() {
+        customAlert.style.display = 'none';
+    }, 3000);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////
+
+
+document.getElementById("reset-button").addEventListener("click", function() {
+  document.getElementById("notification-container1").style.display = "block";
+});
+
+
+
+    function handleOk() {
+        document.getElementById("notificationDiv").style.display = "none";
+        document.getElementById("notificationDiv1").style.display = "block";
+    }
+
+
+
+    function populateTable(response) {
+    const tableBody = document.getElementById("table_body");
+    tableBody.innerHTML = ""; // clear old rows
+
+    if (!response || !Array.isArray(response.parameterNameValues)) {
+        console.error("Invalid response:", response);
+        return;
+    }
+
+    response.parameterNameValues.forEach((paramName, index) => {
+        // Create row
+        const row = document.createElement("tr");
+
+        // Column 1: SR.NO
+        const srnoCell = document.createElement("td");
+        srnoCell.textContent = index + 1;
+        row.appendChild(srnoCell);
+
+        // Column 2: PARA NAME
+        const paramCell = document.createElement("td");
+        paramCell.textContent = paramName;
+        paramCell.style.fontWeight = "bold";   // ✅ bold text
+        row.appendChild(paramCell);
+
+        // Column 3: OUTPUT
+        const outputCell = document.createElement("td");
+        const outputInput = document.createElement("input");
+        outputInput.type = "text";
+        outputInput.className = "output_result";
+        outputInput.id = "output_result" + (index + 1);
+        outputInput.readOnly = true;
+        outputCell.appendChild(outputInput);
+        row.appendChild(outputCell);
+
+        // Append row to table body
+        tableBody.appendChild(row);
+    });
+}
+
+
+
+
+    // Function to populate existing input boxes
+function populateInputs(response) {
+    for (let i = 0; i < response.parameterNameValues.length; i++) {
+        // Parameter Name
+        const paraInput = document.getElementById('para_name' + (i + 1));
+        if (paraInput) paraInput.value = response.parameterNameValues[i];
+
+        // LSL
+        const lslInput = document.getElementById('lsl_' + (i + 1));
+        if (lslInput) lslInput.value = parseFloat(response.lslValues[i]).toFixed(3);
+
+        // Nominal
+        const nominalInput = document.getElementById('nominal_' + (i + 1));
+        if (nominalInput) nominalInput.value = parseFloat(response.nominalValues[i]).toFixed(3);
+
+        // USL
+        const uslInput = document.getElementById('usl_' + (i + 1));
+        if (uslInput) uslInput.value = parseFloat(response.uslValues[i]).toFixed(3);
+
+
+         const readingsInput = document.getElementById('Output_box' + (i + 1));
+if (readingsInput) {
+    readingsInput.value = response.currentValues ? parseFloat(response.currentValues[i]).toFixed(4) : '';
+}
+
+    }
+
+    // Customer name
+    const customerInput = document.getElementById("customer_name");
+    if (customerInput && response.customer_name_values) {
+        customerInput.value = response.customer_name_values;
+    }
+}
+
+     
+var lastResponse = null;
+// Function to display serial data
+$(document).ready(function() {
+   
+    // Function to display serial data
+    function fetchData(selectedModel) {
+        var data = {
+            partModel: selectedModel
+        };
+
+        $.ajax({
+            url: '/measurement/', // Replace with your server URL
+            type: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken') // Include CSRF token in the request headers
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                console.log('Response received:', response); // Log the response for debugging
+
+                if (!response.parameterNameValues || !response.nominalValues || !response.lslValues || !response.uslValues) {
+                    console.error('Invalid response format:', response);
+                    return;
+                }
+                 lastResponse = response; // store globally
+
+                // Populate the existing input boxes
+    populateInputs(response);
+    populateTable(response);
+                
+              // Populate the existing input boxes
+    for (let i = 0; i < response.parameterNameValues.length; i++) {
+        // Parameter Name
+        const paraInput = document.getElementById('para_name' + (i + 1));
+        if (paraInput) paraInput.value = response.parameterNameValues[i];
+
+        // LSL
+        const lslInput = document.getElementById('lsl_' + (i + 1));
+        if (lslInput) lslInput.value = parseFloat(response.lslValues[i]).toFixed(3);
+
+        // Nominal
+        const nominalInput = document.getElementById('nominal_' + (i + 1));
+        if (nominalInput) nominalInput.value =parseFloat(response.nominalValues[i]).toFixed(3);
+
+        // USL
+        const uslInput = document.getElementById('usl_' + (i + 1));
+        if (uslInput) uslInput.value = parseFloat(response.uslValues[i]).toFixed(3);
+
+
+        const readingsInput = document.getElementById('Output_box' + (i + 1));
+if (readingsInput) {
+    readingsInput.value = response.currentValues ? parseFloat(response.currentValues[i]).toFixed(4) : '';
+}
+
+    
+                    var customerName = response.customer_name_values;
+                    document.getElementById("customer_name").value = customerName;
+                    
+
+                   
+
+                    
+
+                    console.log("Parameter Name:", response.parameterNameValues[i]);
+                    console.log("Nominal Value:", response.nominalValues[i]);
+                    console.log("LSL Value:", response.lslValues[i]);
+                    console.log("USL Value:", response.uslValues[i]);
+                    console.log("LTL Value:", response.ltlValues[i]);
+                    console.log("UTL Value:", response.utlValues[i]);
+                    console.log("Measurement Mode Value:", response.measurementModeValues[i]);
+                    console.log("DIGITS VALUES Value:", response.digitsValues[i]);
+                    console.log("O1 Value:", response.o1_values[i]);
+                    console.log("D Value:", response.d_values[i]);
+                    console.log("E Value:", response.e_values[i]);
+
+                    console.log("B Value:", response.b_values[i]);
+                    console.log("B1 Value:", response.b1_values[i]);
+                    console.log("Probe Value:", response.probe_values[i]);
+                    console.log("Step No Value:", response.step_no_values[i]);
+                    console.log("auto_man_values:",response.auto_man_values[i]);
+                    console.log("timer_values:",response.timer_values[i]);
+                    console.log("customer_name_values:", response.customer_name_values);
+
+                    console.log("parameter_name_single",response.parameter_name_single)
+
+
+                    displaySerialDataOpen(
+                        response.parameterNameValues[i],
+                        response.probe_values[i], 
+                        response.e_values[i], 
+                        response.d_values[i], 
+                        response.o1_values[i], 
+                        readingsInput, 
+                        response.measurementModeValues[i],
+                        response.digitsValues[i],
+                        response.step_no_values[i],
+                        response.lslValues[i], 
+                        response.uslValues[i],
+                        response.ltlValues[i],
+                        response.utlValues[i],
+                        response.parameter_factor_values,
+                        response.parameter_name_single,
+                        response.b_values[i],
+                        response.b1_values[i],
+                        response.auto_man_values[i],
+                        response.timer_values[i]
+                    )
+                   
+                    
+                    // displaySerialData(
+                    //     response.parameterNameValues[i],
+                    //     response.probe_values[i], 
+                    //     response.e_values[i], 
+                    //     response.d_values[i], 
+                    //     response.o1_values[i], 
+                    //     readingsInput, 
+                    //     response.measurementModeValues[i],
+                    //     response.digitsValues[i],
+                    //     response.step_no_values[i],
+                    //     response.lslValues[i], 
+                    //     response.uslValues[i],
+                    //     response.ltlValues[i],
+                    //     response.utlValues[i],
+                    //     response.parameter_factor_values,
+                    //     response.parameter_name_single,
+                    //     response.b_values[i],
+                    //     response.b1_values[i],
+                    //     response.auto_man_values[i],
+                    //     response.timer_values[i]
+                    // );
+
+                   
+
+                    showNotification("DO MEASUREMENT")
+                }
+                
+                console.log("parameter_attribute :", response.parameter_attribute);
+                lastResponse = response;
+                
+              
+                
+                
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function saveButtonHandler() {
+        console.log()
+       
+    }
+
+   
+    // Call fetchData initially on page load with the selected value
+    fetchData($('#partModel').val());
+
+    // Bind change event to #partModel element
+    $('#partModel').change(function() {
+        var selectedModel = $(this).val();
+        fetchData(selectedModel);
+    });
+
+    $('#save-btn').click(saveButtonHandler); // Ensure to replace '#saveButton' with the actual button ID or selector
+
+    
+
+     // ✅ ENTER button listener
+    const enterBtn = document.getElementById("enter_btn_main");
+    if (enterBtn) {
+        enterBtn.addEventListener("click", function() {
+            if (!lastResponse) {
+                console.warn("No response loaded yet");
+                return;
+            }
+            var inputBox = document.getElementById('pre');
+if (inputBox) {
+    inputBox.value = "";
+    inputBox.style.backgroundColor ="";
+}
+
+
+            // Loop through lastResponse and call displaySerialData
+            for (let i = 0; i < lastResponse.parameterNameValues.length; i++) {
+                const readingsInput = document.getElementById('Output_box' + (i + 1));
+
+                displaySerialData(
+                    lastResponse.parameterNameValues[i],
+                    lastResponse.probe_values[i],
+                    lastResponse.e_values[i],
+                    lastResponse.d_values[i],
+                    lastResponse.o1_values[i],
+                    readingsInput,
+                    lastResponse.measurementModeValues[i],
+                    lastResponse.digitsValues[i],
+                    lastResponse.step_no_values[i],
+                    lastResponse.lslValues[i],
+                    lastResponse.uslValues[i],
+                    lastResponse.ltlValues[i],
+                    lastResponse.utlValues[i],
+                    lastResponse.parameter_factor_values,
+                    lastResponse.parameter_name_single,
+                    lastResponse.b_values[i],
+                    lastResponse.b1_values[i],
+                    lastResponse.auto_man_values[i],
+                    lastResponse.timer_values[i]
+                );
+            }
+
+            console.log("ENTER clicked → displaySerialData executed");
+        });
+    }
+
+});
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+// Function to handle disabling the buttons
+function disableButtons() {
+    const masterButton = document.getElementById("master-btn");
+
+
+    if (masterButton) {
+        masterButton.disabled = true; // Disable the button
+        masterButton.style.pointerEvents = "none"; // Prevent interaction
+        masterButton.style.opacity = "0.5"; // Optional: Reduce opacity to indicate disabled state
+    }
+
+    
+}
+
+// Function to handle enabling the buttons
+function enableButtons() {
+    const masterButton = document.getElementById("master-btn");
+
+
+    if (masterButton) {
+        masterButton.disabled = false; // Enable the button
+        masterButton.style.pointerEvents = "auto"; // Restore interaction
+        masterButton.style.opacity = "1"; // Restore original opacity
+    }
+
+
+}
+
+
+
+
+
+
+
+var updateDisplayOutput;
+var tirValue;
+var continuousUpdateInterval; // Variable to store the interval ID for continuous update
+var maxValue;
+var minValue;
+var currentStep = 1; // Initialize current step
+
+// Function to start the continuous update
+function startContinuousUpdate() {
+    continuousUpdateInterval = setInterval(updateDisplayOutput, 100); // Adjust the interval as needed
+
+}
+
+// Function to stop the continuous update
+function stopContinuousUpdate() {
+    clearInterval(continuousUpdateInterval);
+}
+
+// Function to handle start button click
+document.getElementById("start-btn").addEventListener("click", function() {
+    if (currentStep <= totalSteps) {
+        showNotification(`MEASUREMENT IS STARTING FOR STEP - ${currentStep}.`);
+    }
+    
+    // Start calculation for the current step
+    startContinuousUpdate();
+    disableButtons();
+});
+
+
+// document.getElementById("stop-btn").addEventListener("click", function() {
+//     setTimeout(function() {
+//         // var statusCells = document.querySelectorAll('.status_cell');
+//         var partStatusInput = document.getElementById("part_status");
+       
+//         console.log("partStatusInput", partStatusInput);
+
+//         if (currentStep === totalSteps) {
+//     const tableBody = document.getElementById("table_body");
+//     const rows = Array.from(tableBody.rows);
+//     const partStatusInput = document.getElementById("part_status");
+
+//     let hasRed = false;
+//     let hasYellow = false;
+//     let hasGreen = false;
+
+//     rows.forEach(row => {
+//         const outputCell = row.cells[2]; // Column 3
+//         const input = outputCell.querySelector("input");
+//         if (input) {
+//             const bgColor = input.style.backgroundColor;
+//             if (bgColor === 'red') hasRed = true;
+//             else if (bgColor === 'yellow') hasYellow = true;
+//             else if (bgColor === 'rgb(0, 255, 0)' || bgColor === '#00ff00') hasGreen = true;
+//         }
+//     });
+
+//     // Determine overall status
+//     if (hasRed) {
+//         partStatusInput.style.backgroundColor = 'red';
+//         partStatusInput.value = "REJECT";
+//     } else if (hasYellow) {
+//         partStatusInput.style.backgroundColor = 'yellow';
+//         partStatusInput.value = "REWORK";
+//     } else if (hasGreen) {
+//         partStatusInput.style.backgroundColor = '#00ff00';
+//         partStatusInput.value = "ACCEPT";
+//     }
+
+//     partStatusInput.style.fontWeight = "bold";
+//     partStatusInput.style.textAlign = "center";
+
+
+//     showNotification("YOU HAVE COMPLETED THE MEASUREMENT FOR THIS JOB. DO NEXT JOB");
+//     showCustomConfirmationModal();
+   
+// }
+
+
+//         // Stop calculation for the current step
+//         stopContinuousUpdate();
+
+        
+
+        
+//         // Move to the next step
+//         moveToNextStep();
+//     }, 100);
+// });
+
+
+
+// Function to show custom confirmation modal
+function showCustomConfirmationModal() {
+    const modal = document.getElementById("confirmation-modal");
+    const yesButton = document.getElementById("confirm-yes");
+    
+    modal.style.display = "flex"; // Show modal
+
+    // Highlight and focus Yes button
+    yesButton.focus();
+    yesButton.style.outline = "3px solid red"; // Highlight button
+
+    // Handle Yes button click
+    yesButton.onclick = function () {
+       
+        document.getElementById("confirmation-modal").style.display = "none";
+        document.getElementById("save-btn").click();
+
+        // Send initial status
+    
+        
+        
+    };
+
+
+    // Handle No button click
+    document.getElementById("confirm-no").onclick = function () {
+        document.getElementById("confirmation-modal").style.display = "none";
+        location.reload();
+    };
+
+    // Handle Enter key press
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && modal.style.display === "flex") {
+            yesButton.click(); // Click Yes button when Enter is pressed
+        }
+    });
+
+
+
+    document.getElementById("check_last_step").onclick = function () {
+    const lastStep = totalSteps;
+
+    // Hide modal
+    document.getElementById("confirmation-modal").style.display = "none";
+
+    // 1️⃣ Clear table inputs for last step only
+    const tableBody = document.getElementById("table_body");
+    Array.from(tableBody.rows).forEach((row) => {
+        const paramCell = row.cells[1]; // parameter name
+        const outputCell = row.cells[2]; // output input
+        if (paramCell && outputCell) {
+            const paramName = paramCell.textContent;
+            if (window.paramOutputs[lastStep] && window.paramOutputs[lastStep][paramName] !== undefined) {
+                const outputInput = outputCell.querySelector("input");
+                if (outputInput) {
+                    outputInput.value = "";
+                    outputInput.style.backgroundColor = "";
+                    outputInput.style.color = "";
+                }
+            }
+        }
+    });
+
+    // 2️⃣ Clear Output_boxX for last step
+    for (let i = 0; i < step_no_values.length; i++) {
+        if (step_no_values[i] === lastStep) {
+            const readingsInput = document.getElementById('Output_box' + (i + 1));
+            if (readingsInput) {
+                readingsInput.value = "";
+                readingsInput.style.backgroundColor = "";
+                readingsInput.style.color = "";
+            }
+        }
+    }
+
+    // 3️⃣ Clear part status
+    const partStatusInput = document.getElementById("part_status");
+    if (partStatusInput) {
+        partStatusInput.value = "";
+        partStatusInput.style.backgroundColor = "";
+    }
+
+    // 4️⃣ Update current step to last step
+    currentStep = totalSteps;
+
+    // 5️⃣ Allow Start / Stop to work normally again
+    showNotification(`LAST STEP (${totalSteps}) RESET.YOU CAN START MEASUREMENT AGAIN.`);
+};
+
+}
+
+
+
+
+// document.getElementById("save-btn").addEventListener("click", function() {
+//             function clearValues() {
+//             var partStatusInput = document.getElementById("part_status");
+//             var partStatus = partStatusInput.value;
+//             var acceptInput = document.getElementById("accept");
+//             var rejectInput = document.getElementById("reject");
+//             var reworkInput = document.getElementById("rework");
+//             var attributeStatuses = document.querySelectorAll("[id^='attributeStatus']"); // Select all attribute status elements
+           
+           
+
+
+//             if (partStatus === "ACCEPT") {
+//                 acceptInput.value = parseInt(acceptInput.value) + 1;
+//             } else if (partStatus === "REJECT") {
+//                 rejectInput.value = parseInt(rejectInput.value) + 1;
+//             } else if (partStatus === "REWORK") {
+//                 reworkInput.value = parseInt(reworkInput.value) + 1;
+//             }
+//             var statusCells = document.querySelectorAll('.status_cell');
+//             statusCells.forEach(function(statusCell) {
+//                 statusCell.textContent = ""; // Clear text content
+//                 statusCell.style.backgroundColor = ""; // Clear text content
+//             });
+
+//             var readingInputs = document.querySelectorAll('.readingInputs');
+//             readingInputs.forEach(function(readingInput) {
+//                 readingInput.value = ""; // Clear the value of the input
+//                 readingInput.color = "";
+//             });
+
+//             partStatusInput.value = "";
+//             partStatusInput.style.backgroundColor = "";
+
+            
+//              // Clear attribute statuses
+//         attributeStatuses.forEach(function(attributeStatus) {
+//             attributeStatus.value = ""; // Clear input value
+//             attributeStatus.style.backgroundColor = ""; // Clear background color
+//         });
+
+//             var compSrNo = document.getElementById("comp_srno");
+//             compSrNo.value = "";
+
+//             var punchTextarea = document.getElementById("punch_textarea");
+//             punchTextarea.value = "";
+
+//             var indicatorBoxes = document.querySelectorAll('.indicator-box, .indicator-box1');
+//             indicatorBoxes.forEach(function(indicatorBox) {
+//                 indicatorBox.style.background = "";
+//             });
+//         }
+
+//         setTimeout(clearValues, 1000); // Execute clearValues function after 1 second (1000 milliseconds)
+         
+//         var buttons = document.querySelectorAll('#master-btn, #start-btn, #stop-btn, #save-btn, #back-btn');
+//         if (hide === 'True') {
+//             document.getElementById('notification-container').style.display = 'block';
+//             document.getElementById('punch_textarea').style.display = 'block';
+//             document.getElementById('punch_textarea').focus();
+//             buttons.forEach(function(button) {
+//                 button.disabled = true;
+            
+//             });
+//         }
+//         currentStep = 1;
+
+//         const saveButton = document.getElementById("save-btn");
+//             saveButton.disabled = true;        // Enable the button
+//             saveButton.style.filter = "blur(2px)";   // Remove the blur effect
+        
+//         });
+
+
+   
+
+        
+        document.getElementById("back-btn").addEventListener("click", goBackStep);
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "F7") {
+        goBackStep(); // Call the same function when F7 is pressed
+    }
+});
+
+function goBackStep() {
+    console.log('Going back…');
+
+    if (currentStep > 1) {
+        // 🔑 store the step we are leaving
+        const stepToClear = currentStep - 1;
+
+        // move back
+        currentStep--;
+
+        console.log("currentStep after decrement:", currentStep);
+        console.log("stepToClear:", stepToClear);
+
+        // find all indices that belong to stepToClear
+        const indices = [];
+        for (let i = 0; i < step_no_values.length; i++) {
+            if (step_no_values[i] === stepToClear) {
+                indices.push(i);
+            }
+        }
+
+        // clear all output boxes for that step
+        indices.forEach(function(i) {
+            const readingsInput = document.getElementById('Output_box' + (i + 1));
+            if (readingsInput) {
+                readingsInput.value = "";
+            }
+        });
+
+         const tableBody = document.getElementById("table_body");
+        Array.from(tableBody.rows).forEach((row) => {
+            const paramCell = row.cells[1]; // parameter name
+            const outputCell = row.cells[2]; // output input
+            if (paramCell && outputCell) {
+                const paramName = paramCell.textContent;
+                if (window.paramOutputs[stepToClear] && window.paramOutputs[stepToClear][paramName] !== undefined) {
+                    const outputInput = outputCell.querySelector("input");
+                    if (outputInput) {
+                        outputInput.value = "";
+                        outputInput.style.backgroundColor = "";
+                        outputInput.style.color = "";
+                    }
+                }
+            }
+        });
+
+        // clear part status if needed
+        if (stepToClear === totalSteps) {
+            const partStatusInput = document.getElementById("part_status");
+            if (partStatusInput) {
+                partStatusInput.value = "";
+                partStatusInput.style.backgroundColor = "";
+            }
+        }
+
+        showNotification(`GOING BACK TO STEP-${currentStep}.`);
+        stopContinuousUpdate();
+    } else {
+        showNotification("ALREADY AT THE STEP-1.");
+    }
+}
+
+
+
+
+
+
+
+// // Function to move to the next step
+// function moveToNextStep() {
+//     currentStep++;
+//     if (currentStep > totalSteps) {
+//         console.log("All steps completed.");
+        
+//         return;
+//     }
+    
+//     console.log("Moving to step:", currentStep);
+   
+//     if (currentStep < step_no_values.length + 1) {
+//         showNotification(`STEP ${currentStep - 1} COMPLETED.PLEASE PROCEED TO STEP ${currentStep}.`);
+//     }   // Start calculation for the next step
+//     // startContinuousUpdate();
+
+  
+
+// }
+
+
+        
+let isVisible = false;
+let typingTimer = null;
+
+function typeMessage(message, element, speed = 100) {
+    element.innerText = "";
+    let index = 0;
+    typingTimer = setInterval(() => {
+        element.innerText += message[index];
+        index++;
+        if (index >= message.length) {
+            clearInterval(typingTimer);
+        }
+    }, speed);
+}
+
+
+
+
+
+
+let coilCheckIntervalStarted = false;
+let coilCheckIntervalId = null;
+let step1Notified = false;
+let step2Notified = false;
+let step3Notified = false;
+
+function stopPreviousInterval() {
+    if (coilCheckIntervalId) {
+        clearInterval(coilCheckIntervalId);
+        coilCheckIntervalId = null;
+        coilCheckIntervalStarted = false;
+        // console.log("🔁 Previous coil interval stopped");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+function getCombinedTextareaParts(probeNumber) {
+    try {
+        if (probeNumber.includes('+')) {
+            const parts = probeNumber.split('+').map(p => p.trim());
+            const values = parts.map(part => {
+                const id = mapProbeToTextareaId(part);
+                const el = document.getElementById(id);
+                const val = el ? parseFloat(el.value) : 0;
+                return {
+                    probe: part,
+                    id,
+                    value: isNaN(val) ? 0 : val
+                };
+            });
+
+            const total = values.reduce((sum, item) => sum + item.value, 0);
+            return { total, parts: values };
+
+        } else if (probeNumber.includes('-')) {
+            const [part1, part2] = probeNumber.split('-').map(p => p.trim());
+            const id1 = mapProbeToTextareaId(part1);
+            const id2 = mapProbeToTextareaId(part2);
+            const val1 = parseFloat(document.getElementById(id1)?.value || 0);
+            const val2 = parseFloat(document.getElementById(id2)?.value || 0);
+
+            return {
+                total: (isNaN(val1) ? 0 : val1) - (isNaN(val2) ? 0 : val2),
+                parts: [
+                    { probe: part1, id: id1, value: isNaN(val1) ? 0 : val1 },
+                    { probe: part2, id: id2, value: isNaN(val2) ? 0 : val2 }
+                ]
+            };
+
+        } else {
+            const id = mapProbeToTextareaId(probeNumber);
+            const el = document.getElementById(id);
+            const val = el ? parseFloat(el.value) : 0;
+            return {
+                total: isNaN(val) ? 0 : val,
+                parts: [{ probe: probeNumber, id, value: isNaN(val) ? 0 : val }]
+            };
+        }
+    } catch (error) {
+        // console.error('Error in getCombinedTextareaParts:', error);
+        return { total: 0, parts: [] };
+    }
+}
+
+// Keep track of active listeners for cleanup
+if (!window.displayListeners) window.displayListeners = {};
+
+function displaySerialDataOpen(
+    parameterNameValues, probe_value, e_value, d_value, o1_value,
+    readingsInput, measurementMode, digitsValues, step_no, lsl,
+    usl, ltl, utl, parameterFactorValues, parameter_name_single,
+    b_value, b1_value
+) {
+    const { parts: probeParts } = getCombinedTextareaParts(probe_value);
+
+    if (!window.measurementMap) window.measurementMap = {};
+    if (!window.paramOutputs) window.paramOutputs = {};
+
+    function resetStore() {
+        window.measurementMap[readingsInput.id] = {
+            max: -Infinity,
+            min: Infinity,
+            sum: 0,
+            count: 0,
+            firstUpdateShown: false
+        };
+    }
+
+    function updateDisplayOutput() {
+        const { total: newSerialData } = getCombinedTextareaParts(probe_value);
+        let displayOutput = e_value + (newSerialData * d_value + o1_value);
+        if (isNaN(displayOutput)) displayOutput = 0;
+
+        let matchFound = Array.isArray(parameter_name_single)
+            ? parameter_name_single.some(name => String(name).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase())
+            : String(parameter_name_single).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase();
+
+        if (matchFound) {
+            displayOutput = (newSerialData - b1_value) * d_value + e_value + b_value;
+        }
+
+        const inputId = readingsInput.id;
+        if (!window.measurementMap[inputId]) resetStore();
+        const store = window.measurementMap[inputId];
+
+        store.max = Math.max(store.max, displayOutput);
+        store.min = Math.min(store.min, displayOutput);
+        store.sum += displayOutput;
+        store.count++;
+
+        let finalValue = displayOutput;
+        if (measurementMode === "MAX") finalValue = store.max;
+        else if (measurementMode === "MIN") finalValue = store.min;
+        else if (measurementMode === "AVR") finalValue = (store.max + store.min) / 2;
+        else if (measurementMode === "TIR") finalValue = (store.max - store.min) / 2;
+
+        parameterFactorValues.forEach(factor => {
+            const factorParam = String(factor.parameter_name).trim().toLowerCase();
+            const method = factor.method;
+            const value = parseFloat(factor.value);
+            if (factorParam === String(parameterNameValues).trim().toLowerCase() && !isNaN(value)) {
+                finalValue = method === '+' ? finalValue + value : finalValue - value;
+            }
+        });
+
+        readingsInput.value = finalValue.toFixed(digitsValues);
+
+        if (!window.paramOutputs[step_no]) window.paramOutputs[step_no] = {};
+        window.paramOutputs[step_no][parameterNameValues] = finalValue;
+
+        let color;
+        if (finalValue >= lsl && finalValue <= usl) color = '#00ff00';
+        else if ((finalValue > usl && finalValue <= utl) || (finalValue >= ltl && finalValue < lsl)) color = 'yellow';
+        else color = 'red';
+
+        readingsInput.style.backgroundColor = color;
+        readingsInput.style.color = 'black';
+    }
+
+    // Attach listeners and store references
+    window.displayListeners[readingsInput.id] = [];
+
+    probeParts.forEach(({ id }) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateDisplayOutput);
+            window.displayListeners[readingsInput.id].push({ el, fn: updateDisplayOutput });
+        }
+    });
+
+    // Initial update
+    updateDisplayOutput();
+}
+
+// Function to stop & clear all active inputs
+function stopAllDisplaySerialDataOpen() {
+    if (!window.displayListeners) return;
+
+    Object.keys(window.displayListeners).forEach(inputId => {
+        const listeners = window.displayListeners[inputId];
+        listeners.forEach(({ el, fn }) => {
+            el.removeEventListener('input', fn);
+        });
+        const inputEl = document.getElementById(inputId);
+        if (inputEl) {
+            inputEl.value = "";
+            inputEl.style.backgroundColor = "";
+            inputEl.style.color = "";
+        }
+        console.log("Stopped and cleared:", inputId);
+    });
+
+    // Reset global stores
+    window.displayListeners = {};
+    window.measurementMap = {};
+    window.paramOutputs = {};
+}
+
+
+
+// function displaySerialData(parameterNameValues, probe_value, e_value, d_value, o1_value, readingsInput, measurementMode, digitsValues, step_no, lsl,
+//     usl, ltl, utl, parameterFactorValues, parameter_name_single, b_value, b1_value) {
+
+//     console.log("digitsValues:", digitsValues);
+
+  
+//     // Retrieve textarea ID based on probeValue
+//     const { parts: probeParts } = getCombinedTextareaParts(probe_value);
+
+//     // Ensure persistent storage across ticks
+//     if (!window.measurementMap) window.measurementMap = {};
+//     if (!window.paramOutputs) window.paramOutputs = {};
+
+    
+
+//     let continuousUpdateInterval = null;
+
+//     function resetStore() {
+//         window.measurementMap[readingsInput.id] = {
+//             max: -Infinity,
+//             min: Infinity,
+//             sum: 0,
+//             count: 0,
+//             firstUpdateShown: false,
+//             maxSerialData: null,
+//             minSerialData: null
+//         };
+//     }
+
+//     // Function to calculate and update the displayOutput
+//     function updateDisplayOutput() {
+//         const { total: newSerialData } = getCombinedTextareaParts(probe_value);
+
+//         // === 1. Base calculation for displayOutput ===
+//         let displayOutput = e_value + (newSerialData * d_value + o1_value);
+//         if (isNaN(displayOutput)) displayOutput = 0;
+
+//         // 2️⃣ Alternative formula if matched
+//         let matchFound = Array.isArray(parameter_name_single)
+//             ? parameter_name_single.some(name => String(name).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase())
+//             : String(parameter_name_single).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase();
+
+//         if (matchFound) {
+//             displayOutput = (newSerialData - b1_value) * d_value + e_value + b_value;
+//         }
+
+        
+
+//         // === 4. Only update readingsInput when active ===
+//         if (continuousUpdateInterval && step_no === currentStep) {
+//             const inputId = readingsInput.id;
+
+//             if (!window.measurementMap[inputId]) resetStore();
+//             const store = window.measurementMap[inputId];
+
+//             if (["TIR", "DTM"].includes(measurementMode) && !store.firstUpdateShown) {
+//                 readingsInput.value = (0).toFixed(digitsValues);
+//                 if (displayOutput > store.max) store.max = displayOutput;
+//                 if (displayOutput < store.min) store.min = displayOutput;
+//                 store.sum += displayOutput;
+//                 store.count++;
+//                 store.firstUpdateShown = true;
+//                 return;
+//             }
+
+//             if (displayOutput > store.max) {
+//                 store.max = displayOutput;
+//                 store.maxSerialData = newSerialData;
+//             }
+//             if (displayOutput < store.min) {
+//                 store.min = displayOutput;
+//                 store.minSerialData = newSerialData;
+//             }
+
+//             store.sum += displayOutput;
+//             store.count++;
+
+//             readingsInput.value = displayOutput.toFixed(digitsValues);
+
+//             if (measurementMode === "MAX") {
+//                 readingsInput.value = store.max.toFixed(digitsValues);
+//                 displayOutput = store.max;
+//             } else if (measurementMode === "MIN") {
+//                 readingsInput.value = store.min.toFixed(digitsValues);
+//                 displayOutput = store.min;
+//             } else if (measurementMode === "CUR") {
+//                 readingsInput.value = displayOutput.toFixed(digitsValues);
+//             } else if (measurementMode === "AVR") {
+//                 const avr = (store.max + store.min) / 2;
+//                 if (!isNaN(avr)) {
+//                     readingsInput.value = avr.toFixed(digitsValues);
+//                     displayOutput = avr;
+//                 }
+//             } else if (measurementMode === "TIR") {
+//                 const tir = (store.max - store.min) / 2;
+//                 if (!isNaN(tir)) {
+//                     readingsInput.value = tir.toFixed(digitsValues);
+//                     displayOutput = tir;
+//                 }
+//             }
+
+//             // 4️⃣ **Apply parameter factors at the very end**
+//             parameterFactorValues.forEach(factor => {
+//                 const factorParam = String(factor.parameter_name).trim().toLowerCase();
+//                 const method = factor.method;
+//                 const value = parseFloat(factor.value);
+//                 if (factorParam === String(parameterNameValues).trim().toLowerCase() && !isNaN(value)) {
+//                     displayOutput = method === '+' ? displayOutput + value : displayOutput - value;
+//                 }
+//             });
+
+//             // 5️⃣ Update readingsInput
+//             readingsInput.value = displayOutput.toFixed(digitsValues);
+//             window.paramOutputs[parameterNameValues] = displayOutput;
+
+//             // ✅ store this row’s latest displayOutput
+//             {
+//                 const mIdx = /readings-input-(\d+)/.exec(readingsInput.id);
+//                 if (mIdx) {
+//                     const thisIdx = parseInt(mIdx[1], 10);
+//                     window.paramOutputs[thisIdx] = displayOutput;
+//                 }
+//             }
+
+//             // === indicator logic ===
+//             var totalLength, coloredPortionLength, coloredPortion, uncoloredPortion;
+//             var coloredWidth, defaultWidth, color;
+
+//             if (displayOutput > e_value) {
+//                 totalLength = usl - e_value;
+//                 coloredPortionLength = displayOutput - e_value;
+//             } else if (displayOutput < e_value) {
+//                 totalLength = e_value - lsl;
+//                 coloredPortionLength = e_value - displayOutput;
+//             } else {
+//                 totalLength = usl - lsl || 1;
+//                 coloredPortionLength = 0;
+//             }
+
+//             coloredPortion = totalLength ? (coloredPortionLength / totalLength) : 0;
+//             uncoloredPortion = 1 - coloredPortion;
+//             coloredWidth = coloredPortion * 100;
+//             defaultWidth = uncoloredPortion * 100;
+
+//             if (displayOutput >= lsl && displayOutput <= usl) {
+//                 color = '#00ff00';
+//             } else if ((displayOutput > usl && displayOutput <= utl) || (displayOutput >= ltl && displayOutput < lsl)) {
+//                 color = 'yellow';
+//             } else {
+//                 color = 'red';
+//             }
+
+//             readingsInput.style.backgroundColor = color;
+//             readingsInput.style.color = 'black';
+
+            
+//         }
+//     }
+
+//     probeParts.forEach(({ id }) => {
+//         const el = document.getElementById(id);
+//         if (el) {
+//             el.addEventListener('input', updateDisplayOutput);
+//         }
+//     });
+
+//     function startContinuousUpdate() {
+//         resetStore();
+//         if (continuousUpdateInterval) clearInterval(continuousUpdateInterval);
+//         continuousUpdateInterval = setInterval(updateDisplayOutput, 100);
+//     }
+
+// function stopContinuousUpdate() {
+//     if (continuousUpdateInterval) {
+//         clearInterval(continuousUpdateInterval);
+//         continuousUpdateInterval = null;
+
+//         console.log(`=== Display Output Values at Stop (Step ${currentStep}) ===`);
+//         const currentStepOutputs = window.paramOutputs[currentStep] || {};
+//         for (const [paramName, value] of Object.entries(currentStepOutputs)) {
+//             console.log(`Parameter: ${paramName}, Display Output: ${value.toFixed(digitsValues)}`);
+//         }
+//     }
+// }
+
+//     document.getElementById('start-btn').addEventListener('click', startContinuousUpdate);
+//     document.getElementById('stop-btn').addEventListener('click', stopContinuousUpdate);
+
+//     document.getElementById('stop-btn').addEventListener('click', function () {
+//         console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjeeeeeeeeeeeeeeeeeeeeeeeeebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+//         var indices = [];
+//         for (var i = 0; i < step_no_values.length; i++) {
+//             if (step_no_values[i] === currentStep) {
+//                 indices.push(i);
+//             }
+//         }
+        
+        
+//     });
+
+//     updateDisplayOutput();
+// }
+
+
+
+
+
+
+
+
+
+// function displaySerialData(parameterNameValues, probe_value, e_value, d_value, o1_value, readingsInput, measurementMode, digitsValues, step_no, lsl,
+//     usl, ltl, utl, parameterFactorValues, parameter_name_single, b_value, b1_value,auto_man,timer) {
+
+//     console.log("digitsValues:", digitsValues);
+
+//     const { parts: probeParts } = getCombinedTextareaParts(probe_value);
+
+//     // Persistent storage
+//     if (!window.measurementMap) window.measurementMap = {};
+//     if (!window.paramOutputs) window.paramOutputs = {};
+
+//     let continuousUpdateInterval = null;
+
+//     function resetStore() {
+//         window.measurementMap[readingsInput.id] = {
+//             max: -Infinity,
+//             min: Infinity,
+//             sum: 0,
+//             count: 0,
+//             firstUpdateShown: false,
+//             maxSerialData: null,
+//             minSerialData: null
+//         };
+//     }
+
+//     function updateDisplayOutput() {
+//         const { total: newSerialData } = getCombinedTextareaParts(probe_value);
+
+//         let displayOutput = e_value + (newSerialData * d_value + o1_value);
+//         if (isNaN(displayOutput)) displayOutput = 0;
+
+//         let matchFound = Array.isArray(parameter_name_single)
+//             ? parameter_name_single.some(name => String(name).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase())
+//             : String(parameter_name_single).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase();
+
+//         if (matchFound) {
+//             displayOutput = (newSerialData - b1_value) * d_value + e_value + b_value;
+//         }
+
+//         // Only update readingsInput when active
+//         if (continuousUpdateInterval && step_no === currentStep) {
+//             const inputId = readingsInput.id;
+
+//             if (!window.measurementMap[inputId]) resetStore();
+//             const store = window.measurementMap[inputId];
+
+//             if (["TIR", "DTM"].includes(measurementMode) && !store.firstUpdateShown) {
+//                 readingsInput.value = (0).toFixed(digitsValues);
+//                 if (displayOutput > store.max) store.max = displayOutput;
+//                 if (displayOutput < store.min) store.min = displayOutput;
+//                 store.sum += displayOutput;
+//                 store.count++;
+//                 store.firstUpdateShown = true;
+//                 return;
+//             }
+
+//             if (displayOutput > store.max) store.max = displayOutput;
+//             if (displayOutput < store.min) store.min = displayOutput;
+
+//             store.sum += displayOutput;
+//             store.count++;
+
+//             readingsInput.value = displayOutput.toFixed(digitsValues);
+
+//             if (measurementMode === "MAX") displayOutput = store.max;
+//             else if (measurementMode === "MIN") displayOutput = store.min;
+//             else if (measurementMode === "AVR") displayOutput = (store.max + store.min) / 2;
+//             else if (measurementMode === "TIR") displayOutput = (store.max - store.min) / 2;
+
+//             // Apply parameter factors
+//             parameterFactorValues.forEach(factor => {
+//                 const factorParam = String(factor.parameter_name).trim().toLowerCase();
+//                 const method = factor.method;
+//                 const value = parseFloat(factor.value);
+//                 if (factorParam === String(parameterNameValues).trim().toLowerCase() && !isNaN(value)) {
+//                     displayOutput = method === '+' ? displayOutput + value : displayOutput - value;
+//                 }
+//             });
+
+//             // Update input value
+//             readingsInput.value = displayOutput.toFixed(digitsValues);
+
+//             // ✅ Store per step
+//             if (!window.paramOutputs[currentStep]) window.paramOutputs[currentStep] = {};
+//             window.paramOutputs[currentStep][parameterNameValues] = displayOutput;
+
+//             // Indicator logic (coloring)
+//             let color;
+//             if (displayOutput >= lsl && displayOutput <= usl) color = '#00ff00';
+//             else if ((displayOutput > usl && displayOutput <= utl) || (displayOutput >= ltl && displayOutput < lsl)) color = 'yellow';
+//             else color = 'red';
+
+//             readingsInput.style.backgroundColor = color;
+//             readingsInput.style.color = 'black';
+//         }
+//     }
+
+//     // Attach input listeners
+//     probeParts.forEach(({ id }) => {
+//         const el = document.getElementById(id);
+//         if (el) el.addEventListener('input', updateDisplayOutput);
+//     });
+
+//     function startContinuousUpdate() {
+//         resetStore();
+//         if (continuousUpdateInterval) clearInterval(continuousUpdateInterval);
+//         continuousUpdateInterval = setInterval(updateDisplayOutput, 100);
+//     }
+// function stopContinuousUpdate() {
+//     if (continuousUpdateInterval) {
+//         clearInterval(continuousUpdateInterval);
+//         continuousUpdateInterval = null;
+
+//         console.log(`=== Display Output Values at Stop (Step ${currentStep}) ===`);
+
+//         const currentStepOutputs = window.paramOutputs[currentStep] || {};
+//         const tableBody = document.getElementById("table_body");
+
+//         // Iterate over existing rows
+//         Array.from(tableBody.rows).forEach((row, index) => {
+//             const paramCell = row.cells[1]; // Column 2: Parameter Name
+//             const outputCell = row.cells[2]; // Column 3: OUTPUT input
+
+//             if (paramCell && outputCell) {
+//                 const paramName = paramCell.textContent;
+//                 const displayValue = currentStepOutputs[paramName];
+
+//                 if (displayValue !== undefined) {
+//                     const outputInput = outputCell.querySelector("input");
+//                     if (outputInput) {
+//                         // Update value
+//                         outputInput.value = Number(displayValue).toFixed(digitsValues);
+
+//                         // Update color based on limits
+//                         let color;
+//                         if (displayValue >= lsl && displayValue <= usl) color = '#00ff00';
+//                         else if ((displayValue > usl && displayValue <= utl) || (displayValue >= ltl && displayValue < lsl)) color = 'yellow';
+//                         else color = 'red';
+
+//                         outputInput.style.backgroundColor = color;
+//                         outputInput.style.color = 'black';
+//                     }
+//                 }
+//             }
+//         });
+//     }
+// }
+
+
+
+//     document.getElementById('start-btn').addEventListener('click', startContinuousUpdate);
+//     document.getElementById('stop-btn').addEventListener('click', stopContinuousUpdate);
+
+//         document.getElementById('stop-btn').addEventListener('click', function () {
+       
+//         var indices = [];
+//         for (var i = 0; i < step_no_values.length; i++) {
+//             if (step_no_values[i] === currentStep) {
+//                 indices.push(i);
+//             }
+//         }
+        
+        
+//     });
+
+//     // Initial call
+//     updateDisplayOutput();
+// }
+
+
+
+
+
+function displaySerialData(
+    parameterNameValues, probe_value, e_value, d_value, o1_value, readingsInput,
+    measurementMode, digitsValues, step_no, lsl, usl, ltl, utl,
+    parameterFactorValues, parameter_name_single, b_value, b1_value, auto_man, timer
+) {
+    console.log("digitsValues:", digitsValues);
+    console.log(" totalSteps", (typeof totalSteps !== 'undefined') ? totalSteps : window.totalSteps);
+
+    // --- Initialize persistent stores ---
+    window.currentStep = window.currentStep || 1;
+    window.stepModeMap = window.stepModeMap || {};
+    window.displayHandlers = window.displayHandlers || {};
+    window.measurementMap = window.measurementMap || {};
+    window.paramOutputs = window.paramOutputs || {};
+    window.validOutputMap = window.validOutputMap || {};
+    window.stepParams = window.stepParams || {};
+    window.paramThresholds = window.paramThresholds || {};
+    window.completedSteps = window.completedSteps || new Set();
+    window.autoStartTimeout = window.autoStartTimeout || {};
+    window.autoStopTimeout = window.autoStopTimeout || {};
+    window.activeContinuous = window.activeContinuous || { intervalId: null, step: null, reason: null };
+    window.startStopListenersAdded = window.startStopListenersAdded || false;
+
+    // Store mode for this step
+    window.stepModeMap[step_no] = !!auto_man;
+
+    // Save thresholds
+    window.paramThresholds[step_no] = window.paramThresholds[step_no] || {};
+    window.paramThresholds[step_no][parameterNameValues] = {
+        lsl: parseFloat(lsl),
+        usl: parseFloat(usl),
+        ltl: parseFloat(ltl) - 0.03,
+        utl: parseFloat(utl) + 0.03
+    };
+
+    // Reset measurement store helper
+    function resetStoreForInput(id) {
+        window.measurementMap[id] = { max: -Infinity, min: Infinity, sum: 0, count: 0, firstUpdateShown: false };
+    }
+
+ function moveToNextStep() {
+    let nextStep = window.currentStep + 1;
+
+    while (nextStep <= totalSteps && window.completedSteps.has(nextStep)) {
+        nextStep++;
+    }
+
+    if (nextStep <= totalSteps) {
+        window.currentStep = nextStep;
+        console.log(`Moved to Step: ${window.currentStep}`);
+
+        // --- Auto-monitor for the new current step if it's AUTO ---
+if (window.stepModeMap[window.currentStep]) {
+    if (!window.autoMonitors) window.autoMonitors = {};
+    if (!window.autoMonitors[window.currentStep]) {
+        window.autoMonitors[window.currentStep] = setInterval(() => {
+            const step = window.currentStep;
+
+            // Trigger all handlers for this step
+            Object.keys(window.displayHandlers).forEach(id => {
+                const handler = window.displayHandlers[id];
+                if (typeof handler === 'function') handler();
+            });
+
+            // Log updated displayOutput
+            const allParams = Array.from(window.stepParams[step] || []);
+            allParams.forEach(param => {
+                const val = window.paramOutputs[step]?.[param];
+                console.log(`Step ${step} AUTO - ${param} displayOutput:`, val);
+            });
+
+            // Check if all parameters valid → start continuous update
+            const allValid = allParams.length > 0 && allParams.every(param => window.validOutputMap[step].has(param));
+            if (allValid && !(window.activeContinuous.intervalId && window.activeContinuous.step === step)) {
+                startContinuousUpdateForStep(step, 'auto');
+                clearInterval(window.autoMonitors[step]);
+                delete window.autoMonitors[step];
+            }
+        }, 50);
+    }
+}
+
+
+        const isAutoStep = !!window.stepModeMap[window.currentStep];
+        if (isAutoStep) {
+            console.log(`Step ${window.currentStep} is AUTO → checking parameters`);
+            
+            // Trigger handler for all inputs of this step immediately
+            Object.keys(window.displayHandlers).forEach(id => {
+                const handler = window.displayHandlers[id];
+                if (typeof handler === 'function') handler();
+            });
+        } else {
+            console.log(`Step ${window.currentStep} is MANUAL → waiting for user to click START`);
+        }
+    } else {
+        console.log('All steps completed!');
+    }
+}
+
+
+ function startContinuousUpdateForStep(step, reason = 'manual', autoStopSeconds = null) {
+    // Clear any previous auto-stop timeout
+    if (window.autoStopTimeout[step]) {
+        clearTimeout(window.autoStopTimeout[step]);
+        delete window.autoStopTimeout[step];
+    }
+
+    // Reset measurement store for all inputs
+    Object.keys(window.displayHandlers).forEach(id => resetStoreForInput(id));
+
+    // Clear previous interval if any
+    if (window.activeContinuous.intervalId) {
+        clearInterval(window.activeContinuous.intervalId);
+    }
+
+    window.activeContinuous.step = step;
+    window.activeContinuous.reason = reason;
+    window.activeContinuous.intervalId = setInterval(() => {
+        Object.values(window.displayHandlers).forEach(fn => {
+            try { fn(); } catch (err) { console.error('display handler error', err); }
+        });
+    }, 100);
+
+    console.log(`Continuous update STARTED for step ${step} (reason=${reason})`);
+
+     // ✅ Notify on START
+    showNotification("MEASUREMENT START FOR STEP " + step);
+
+    // Schedule auto-stop if required
+    if (autoStopSeconds && autoStopSeconds > 0) {
+        window.autoStopTimeout[step] = setTimeout(() => {
+            stopContinuousUpdateForStep(step, 'auto');
+        }, autoStopSeconds * 1000);
+    }
+}
+
+    // --- Stop continuous update ---
+    function stopContinuousUpdateForStep(step, triggeredBy = 'manual') {
+        if (window.activeContinuous.intervalId && window.activeContinuous.step === step) {
+            clearInterval(window.activeContinuous.intervalId);
+            window.activeContinuous.intervalId = null;
+            window.activeContinuous.step = null;
+            window.activeContinuous.reason = null;
+            console.log(`Continuous update STOPPED for step ${step} (triggeredBy=${triggeredBy})`);
+        }
+
+        if (window.autoStopTimeout[step]) {
+            clearTimeout(window.autoStopTimeout[step]);
+            delete window.autoStopTimeout[step];
+        }
+ // ✅ Notify on STOP
+    if (step < totalSteps) {
+        showNotification(`STEP ${step} COMPLETED. PLEASE PROCEED TO STEP ${step + 1}.`);
+    } else {
+        showNotification(`STEP ${step} COMPLETED. ALL STEPS FINISHED!`);
+    }
+        // Write final values to table
+        const currentStepOutputs = window.paramOutputs[step] || {};
+        const tableBody = document.getElementById("table_body");
+        if (tableBody) {
+            Array.from(tableBody.rows).forEach(row => {
+                const paramCell = row.cells[1];
+                const outputCell = row.cells[2];
+                if (paramCell && outputCell) {
+                    const paramName = paramCell.textContent.trim();
+                    const displayValue = currentStepOutputs[paramName];
+                    if (displayValue !== undefined) {
+                        const outputInput = outputCell.querySelector("input");
+                        if (outputInput) {
+                            outputInput.value = Number(displayValue).toFixed(digitsValues);
+                            const thresholdsHere = (window.paramThresholds[step] || {})[paramName] || {
+                                lsl: parseFloat(lsl),
+                                usl: parseFloat(usl),
+                                ltl: parseFloat(ltl) - 0.03,
+                                utl: parseFloat(utl) + 0.03
+                            };
+                            let color;
+                            if (displayValue >= thresholdsHere.lsl && displayValue <= thresholdsHere.usl) color = '#00ff00';
+                            else if ((displayValue > thresholdsHere.usl && displayValue <= thresholdsHere.utl) || (displayValue >= thresholdsHere.ltl && displayValue < thresholdsHere.lsl)) color = 'yellow';
+                            else color = 'red';
+                            outputInput.style.backgroundColor = color;
+                            outputInput.style.color = 'black';
+                        }
+                    }
+                }
+            });
+        }
+
+        // Mark step completed
+        if (!window.completedSteps.has(step)) {
+            window.completedSteps.add(step);
+            console.log(`Step ${step} marked completed`);
+        }
+
+         if (currentStep === totalSteps) {
+    const tableBody = document.getElementById("table_body");
+    const rows = Array.from(tableBody.rows);
+    const partStatusInput = document.getElementById("part_status");
+
+    let hasRed = false;
+    let hasYellow = false;
+    let hasGreen = false;
+
+    rows.forEach(row => {
+        const outputCell = row.cells[2]; // Column 3
+        const input = outputCell.querySelector("input");
+        if (input) {
+            const bgColor = input.style.backgroundColor;
+            if (bgColor === 'red') hasRed = true;
+            else if (bgColor === 'yellow') hasYellow = true;
+            else if (bgColor === 'rgb(0, 255, 0)' || bgColor === '#00ff00') hasGreen = true;
+        }
+    });
+
+    // Determine overall status
+    if (hasRed) {
+        partStatusInput.style.backgroundColor = 'red';
+        partStatusInput.value = "REJECT";
+    } else if (hasYellow) {
+        partStatusInput.style.backgroundColor = 'yellow';
+        partStatusInput.value = "REWORK";
+    } else if (hasGreen) {
+        partStatusInput.style.backgroundColor = '#00ff00';
+        partStatusInput.value = "ACCEPT";
+    }
+
+    partStatusInput.style.fontWeight = "bold";
+    partStatusInput.style.textAlign = "center";
+
+
+    showNotification("YOU HAVE COMPLETED THE MEASUREMENT FOR THIS JOB. DO NEXT JOB");
+    showCustomConfirmationModal();
+   
+}
+
+        // Move sequentially to next step
+        moveToNextStep();
+    }
+
+    // --- Parameter handler ---
+    const handler = function updateDisplayOutput() {
+        const combined = getCombinedTextareaParts(probe_value) || {};
+        const newSerialData = combined.total !== undefined ? combined.total : 0;
+
+        let displayOutput = e_value + (newSerialData * d_value + o1_value);
+        if (isNaN(displayOutput)) displayOutput = 0;
+
+        let matchFound = false;
+        if (Array.isArray(parameter_name_single)) {
+            matchFound = parameter_name_single.some(name => String(name).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase());
+        } else {
+            matchFound = String(parameter_name_single).trim().toLowerCase() === String(parameterNameValues).trim().toLowerCase();
+        }
+        if (matchFound) {
+            displayOutput = (newSerialData - b1_value) * d_value + e_value + b_value;
+        }
+
+        window.stepParams[step_no] = window.stepParams[step_no] || new Set();
+        window.stepParams[step_no].add(parameterNameValues);
+
+        window.paramOutputs[step_no] = window.paramOutputs[step_no] || {};
+        window.validOutputMap[step_no] = window.validOutputMap[step_no] || new Set();
+
+        const thresholds = (window.paramThresholds[step_no] && window.paramThresholds[step_no][parameterNameValues]) || {
+            lsl: parseFloat(lsl),
+            usl: parseFloat(usl),
+            ltl: parseFloat(ltl) - 0.03,
+            utl: parseFloat(utl) + 0.03
+        };
+
+        const inRange = displayOutput >= thresholds.ltl && displayOutput <= thresholds.utl;
+        if (inRange) window.validOutputMap[step_no].add(parameterNameValues);
+        else window.validOutputMap[step_no].delete(parameterNameValues);
+
+        window.paramOutputs[step_no][parameterNameValues] = displayOutput;
+
+        if (window.activeContinuous.intervalId && window.activeContinuous.step === step_no) {
+            const inputId = readingsInput.id;
+            if (!window.measurementMap[inputId]) resetStoreForInput(inputId);
+            const store = window.measurementMap[inputId];
+
+            if (["TIR", "DTM"].includes(measurementMode) && !store.firstUpdateShown) {
+                readingsInput.value = (0).toFixed(digitsValues);
+                store.max = Math.max(store.max, displayOutput);
+                store.min = Math.min(store.min, displayOutput);
+                store.sum += displayOutput;
+                store.count++;
+                store.firstUpdateShown = true;
+                return;
+            }
+
+            store.max = Math.max(store.max, displayOutput);
+            store.min = Math.min(store.min, displayOutput);
+            store.sum += displayOutput;
+            store.count++;
+
+            let outVal = displayOutput;
+            if (measurementMode === "MAX") outVal = store.max;
+            else if (measurementMode === "MIN") outVal = store.min;
+            else if (measurementMode === "AVR") outVal = (store.max + store.min) / 2;
+            else if (measurementMode === "TIR") outVal = (store.max - store.min) / 2;
+
+            if (Array.isArray(parameterFactorValues)) {
+                parameterFactorValues.forEach(factor => {
+                    const factorParam = String(factor.parameter_name).trim().toLowerCase();
+                    const method = factor.method;
+                    const value = parseFloat(factor.value);
+                    if (factorParam === String(parameterNameValues).trim().toLowerCase() && !isNaN(value)) {
+                        outVal = method === '+' ? outVal + value : outVal - value;
+                    }
+                });
+            }
+
+            readingsInput.value = outVal.toFixed(digitsValues);
+
+            let color;
+            if (outVal >= thresholds.lsl && outVal <= thresholds.usl) color = '#00ff00';
+            else if ((outVal > thresholds.usl && outVal <= thresholds.utl) || (outVal >= thresholds.ltl && outVal < thresholds.lsl)) color = 'yellow';
+            else color = 'red';
+            readingsInput.style.backgroundColor = color;
+            readingsInput.style.color = 'black';
+        }
+
+        // --- Auto start logic for current step ---
+        if (step_no === window.currentStep) {
+            const allParamsInStep = Array.from(window.stepParams[window.currentStep] || []);
+            const allValid = allParamsInStep.length > 0 && allParamsInStep.every(param => window.validOutputMap[window.currentStep].has(param));
+            const isAutoStep = !!window.stepModeMap[window.currentStep];
+
+            if (isAutoStep && allValid && !(window.activeContinuous.intervalId && window.activeContinuous.step === window.currentStep)) {
+                if (!window.autoStartTimeout[window.currentStep]) {
+                    window.autoStartTimeout[window.currentStep] = setTimeout(() => {
+                        startContinuousUpdateForStep(window.currentStep, 'auto');
+                        delete window.autoStartTimeout[window.currentStep];
+
+                        if (timer && timer > 0) {
+                            window.autoStopTimeout[window.currentStep] = setTimeout(() => {
+                                stopContinuousUpdateForStep(window.currentStep, 'auto');
+                            }, timer * 1000);
+                        }
+                    }, 500);
+                }
+            } else if (!allValid && window.autoStartTimeout[window.currentStep]) {
+                clearTimeout(window.autoStartTimeout[window.currentStep]);
+                delete window.autoStartTimeout[window.currentStep];
+                console.log(`Auto-start canceled: some params out of range`);
+            }
+        }
+    };
+
+    // Register handler
+    window.displayHandlers[readingsInput.id] = handler;
+
+    // Attach to probe parts
+    const combinedParts = getCombinedTextareaParts(probe_value) || {};
+    const probeParts = Array.isArray(combinedParts.parts) ? combinedParts.parts : [];
+    probeParts.forEach(({ id }) => {
+        const el = document.getElementById(id);
+        if (el && !el._serialListenerAdded) {
+            el.addEventListener('input', handler);
+            el._serialListenerAdded = true;
+        }
+    });
+
+
+
+    // Attach start/stop buttons once
+    if (!window.startStopListenersAdded) {
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+
+        if (startBtn) startBtn.addEventListener('click', () => startContinuousUpdateForStep(window.currentStep, 'manual'));
+        if (stopBtn) stopBtn.addEventListener('click', () => stopContinuousUpdateForStep(window.activeContinuous.step || window.currentStep, 'manual'));
+
+        window.startStopListenersAdded = true;
+    }
+
+    // --- Auto-monitor for all AUTO steps ---
+window.autoMonitors = window.autoMonitors || {};
+
+function monitorAutoStep(step, autoStopSeconds = 3) {
+    if (window.autoMonitors[step]) return;
+
+    window.autoMonitors[step] = setInterval(() => {
+        if (window.currentStep !== step) {
+            clearInterval(window.autoMonitors[step]);
+            delete window.autoMonitors[step];
+            return;
+        }
+
+        const allParams = Array.from(window.stepParams[step] || []);
+        const allValid = allParams.length > 0 && allParams.every(param => window.validOutputMap[step].has(param));
+
+        // Log for debug
+        allParams.forEach(param => {
+            const val = window.paramOutputs[step]?.[param];
+            console.log(`Step ${step} AUTO - ${param} displayOutput:`, val);
+        });
+
+        if (allValid) {
+            // Always clear any previous stop timeout for this step
+            if (window.autoStopTimeout[step]) {
+                clearTimeout(window.autoStopTimeout[step]);
+                delete window.autoStopTimeout[step];
+            }
+
+            // Start continuous update with auto-stop
+            startContinuousUpdateForStep(step, 'auto', autoStopSeconds);
+
+            clearInterval(window.autoMonitors[step]);
+            delete window.autoMonitors[step];
+        }
+
+    }, 50);
+}
+
+// Attach auto-monitor for current step if it's AUTO
+if (window.stepModeMap[step_no]) {
+    monitorAutoStep(step_no, timer || 3); // timer in seconds, fallback to 3s
+}
+
+
+
+setTimeout(() => {
+    handler(); // run after a short delay
+}, 50); // 50ms delay ensures DOM elements are ready
+
+}
+
+
+// document.getElementById("stop-btn").addEventListener("click", function() {
+//     setTimeout(function() {
+//         // var statusCells = document.querySelectorAll('.status_cell');
+//         var partStatusInput = document.getElementById("part_status");
+       
+//         console.log("partStatusInput", partStatusInput);
+
+//         if (currentStep === totalSteps) {
+//     const tableBody = document.getElementById("table_body");
+//     const rows = Array.from(tableBody.rows);
+//     const partStatusInput = document.getElementById("part_status");
+
+//     let hasRed = false;
+//     let hasYellow = false;
+//     let hasGreen = false;
+
+//     rows.forEach(row => {
+//         const outputCell = row.cells[2]; // Column 3
+//         const input = outputCell.querySelector("input");
+//         if (input) {
+//             const bgColor = input.style.backgroundColor;
+//             if (bgColor === 'red') hasRed = true;
+//             else if (bgColor === 'yellow') hasYellow = true;
+//             else if (bgColor === 'rgb(0, 255, 0)' || bgColor === '#00ff00') hasGreen = true;
+//         }
+//     });
+
+//     // Determine overall status
+//     if (hasRed) {
+//         partStatusInput.style.backgroundColor = 'red';
+//         partStatusInput.value = "REJECT";
+//     } else if (hasYellow) {
+//         partStatusInput.style.backgroundColor = 'yellow';
+//         partStatusInput.value = "REWORK";
+//     } else if (hasGreen) {
+//         partStatusInput.style.backgroundColor = '#00ff00';
+//         partStatusInput.value = "ACCEPT";
+//     }
+
+//     partStatusInput.style.fontWeight = "bold";
+//     partStatusInput.style.textAlign = "center";
+
+
+//     showNotification("YOU HAVE COMPLETED THE MEASUREMENT FOR THIS JOB. DO NEXT JOB");
+//     showCustomConfirmationModal();
+   
+// }
+
+
+//         // Stop calculation for the current step
+//         stopContinuousUpdate();
+
+        
+
+        
+//         // Move to the next step
+//         moveToNextStep();
+//     }, 100);
+// });
+
+
+
+
+
+
+
+
+
+
+function showNotification(message) {
+    // Get the input element
+    var inputBox = document.getElementById('pre');
+
+    // Set the value of the input box with the notification message
+    inputBox.value = message;
+
+    // Apply styling to the input box
+    inputBox.style.fontWeight = 'bold';
+    inputBox.style.fontSize = '1.5vw';
+    inputBox.style.textAlign = 'center';
+    inputBox.style.color = 'white';
+
+    // Apply highlighting to the input box
+    inputBox.style.backgroundColor = 'maroon'; // Or any other background color
+    inputBox.style.border = '2px solid white'; // Or any other border style
+}
+
+
+
+
+
+
+
+// Function to retrieve CSRF token from cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+///////////////////////////////////////////
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const punchTextarea = document.getElementById('punch_textarea');
+
+    // Focus when page loads
+    punchTextarea.focus();
+
+    // Always re-focus when clicked
+    punchTextarea.addEventListener('click', function () {
+        punchTextarea.focus();
+    });
+
+    // (Optional) Focus when it loses focus
+    punchTextarea.addEventListener('blur', function () {
+        punchTextarea.focus();
+    });
+});
+
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     document.getElementById('punch_textarea').focus();
+// });
+
+function handleEnterKeyPress(event) {
+    var buttons = document.querySelectorAll('#start-btn, #stop-btn, #save-btn, #back-btn');
+
+   
+
+    if (event.key === 'Enter') {
+
+        blockDismissed = true;
+        var punchValue = $('#punch_textarea').val();
+        var partModelValue = $('#partModel').val();
+
+        // Get `char_lmt` and `part_no` from Django template context directly into JavaScript variables
+        var charLmt = parseInt("{{ char_lmt }}");  // Assuming char_lmt is passed from your Django view
+        var partNo = "{{ part_no }}";  // Assuming part_no is passed from your Django view
+
+
+         // If charLmt is not a valid number or is less than 0, default to 0
+         if (isNaN(charLmt) || charLmt < 0) {
+            charLmt = 0;
+        }
+
+        // Check if punchValue starts with partNo
+        if (!punchValue.startsWith(partNo)) {
+            alert('PUNCH NUMBER MISMATCH');
+            window.location.reload();  // Reload the current page
+            return;  // Stop further execution if partNo doesn't match
+        }
+
+        
+        // Check if the punch value matches the required length, unless charLmt is 0
+        if (charLmt > 0 && punchValue.length !== charLmt) {
+            alert('PUNCH NUMBER MISMATCH');
+            window.location.reload();  // Reload the current page
+            return;  // Stop further execution if length doesn't match
+        }
+
+        $('#comp_srno').val(punchValue);
+        $('#notification-container').hide();
+        buttons.forEach(function(button) {
+            button.disabled = false;
+        
+        });
+
+        // Get CSRF token from cookies (assuming you have `{% csrf_token %}` in your template)
+        var csrftoken = getCookie('csrftoken');
+
+        const data = {
+            id: "punch_value",
+            punch_value: punchValue,
+            part_model_value: partModelValue
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/measurement/',  // Replace with your actual backend endpoint
+            headers: {
+                'X-CSRFToken': csrftoken,  // Include CSRF token in headers
+            },
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+                var punchOverwrite = $('#punch_overwrite');
+                var errorMessage = $('#error_message');
+                var okButton = $('#overwrite_ok_button');
+
+                if (response.status === 'error') {
+                    // Display error message in the container
+                    errorMessage.text(response.message);
+                    punchOverwrite.show();
+                    okButton.show(); // Show the OK button
+                } else {
+                    console.log('Settings saved successfully!');
+                    // Hide the error container if the request was successful
+                    punchOverwrite.hide();
+                    okButton.hide(); // Hide the OK button
+                }
+            },
+            error: function(error) {
+                alert('An error occurred while saving settings.');
+                console.log(error);
+            }
+        });
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/clearmeasurement/',  // Replace with your actual backend endpoint
+            headers: {
+                'X-CSRFToken': csrftoken,  // Include CSRF token in headers
+            },
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+
+                if (response.status === 'success') {
+                    $('#comp_srno').val(response.punch_value);  // set received punch value in input
+
+
+                }
+            },
+            error: function(error) {
+               
+                console.log(error);
+            }
+        });
+
+
+    }
+}
+
+
+
+
+
+
+function punchOverwrite() {
+    // Hide the punch_overwrite_container
+    document.getElementById('punch_overwrite_container').style.display = 'none';
+
+    // Show the punch_overwrite_credentials
+    document.getElementById('punch_overwrite_credentials').style.display = 'block';
+}
+
+function punchOverwriteLogin() {
+    var userId = document.getElementById('userid_punch').value;
+    var password = document.getElementById('password_punch').value;
+
+    if (userId === 'admin' && password === 'admin') {
+        var punchValue = $('#punch_textarea').val();
+        var partModelValue = $('#partModel').val();
+        console.log(punchValue, partModelValue);
+
+        // Store punchValue in localStorage before reload
+        localStorage.setItem('punchValue', punchValue);
+
+        // Get CSRF token from cookies
+        var csrftoken = getCookie('csrftoken');
+
+        const data = {
+            punch_value: punchValue,
+            part_model_value: partModelValue
+        };
+        console.log("data for the punch overwrite:", data);
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/measurement/',  // Replace with your actual backend endpoint for deletion
+            headers: {
+                'X-CSRFToken': csrftoken  // Include CSRF token in headers
+            },
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    alert('PUNCH NUMBER OVERWRITED.');
+                    $('#punch_overwrite').hide();
+
+
+
+                    location.reload(); 
+
+
+                    
+                } else {
+                    alert('FAILED TO OVERWRITE');
+                }
+            },
+            error: function(error) {
+                alert('FAILED TO OVERWRITE');
+                console.log(error);
+            }
+        });
+    } 
+    else {
+        alert('Invalid USER ID or PASSWORD');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve the punch value from localStorage
+    var savedPunchValue = localStorage.getItem('punchValue');
+    
+    if (savedPunchValue) {
+        // Set the punch value in the textarea
+        document.getElementById('punch_textarea').value = savedPunchValue;
+
+        setTimeout(function() {
+            handleEnterKeyPress({ key: 'Enter' });
+            // Simulate button click
+    document.getElementById('enter_btn_main').click();
+        }, 1000);
+        
+        // Clear the localStorage value to avoid persisting it across multiple reloads
+        localStorage.removeItem('punchValue');
+    }
+
+    // Set focus on the punch_textarea
+    document.getElementById('punch_textarea').focus();
+});
+
+
+function punchOverwriteCancel() {
+    location.reload();  // Refresh the page
+}
+
+        
+        function closeNotification() {
+            // Disable the notification container
+            document.getElementById('notification-container').style.display = 'none';
+            document.getElementById('punch_overwrite').style.display = 'none';
+        }
+    
+            // Function to update the date and time in the input box
+        //     
+    
+    
+        // Log the is_selected_values to the console
+        var hide = "{{ hide }}"; // Assuming this is how you pass the value from Django template
+        console.log("hide:", hide);
+         // Initially disable buttons and set box-2 to a stable state
+        var buttons = document.querySelectorAll(' #start-btn, #stop-btn, #save-btn, #back-btn');
+        console.log("buttons from the html page",buttons)
+    
+    
+        // Conditionally display the notification container and textarea based on is_selected_values
+        if (hide === 'True') {
+            document.getElementById('notification-container').style.display = 'block';
+            document.getElementById('punch_textarea').style.display = 'block';
+             // Disable all buttons initially
+            buttons.forEach(function(button) {
+                button.disabled = true;
+            
+            });
+        } else {
+            document.getElementById('notification-container').style.display = 'none';
+            document.getElementById('punch_textarea').style.display = 'none';
+            
+        }
+
+
+
+
+
+
+// Function to get CSRF cookie value
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+    
+    
+ 
+var step_no_values_str = "{{ step_no_values|safe }}";
+var step_no_values_cleaned = step_no_values_str.replace(/[\[\]']+/g, '');
+var step_no_values = step_no_values_cleaned.split(',');
+
+// Convert string array elements to numbers and replace NaN with 0
+step_no_values = step_no_values.map(value => {
+    var num = Number(value);  // Convert to number
+    return isNaN(num) ? 0 : num;  // Replace NaN with 0
+});
+
+// Find the maximum value among the step_no_values
+var totalSteps = Math.max(...step_no_values);
+
+console.log("Total Steps:", totalSteps);
+
+var probe_values_str = "{{ probe_values|safe }}";
+var probe_values_cleaned = probe_values_str.replace(/[\[\]']+/g, '');
+var probe_values = probe_values_cleaned.split(',');
+
+
+var measurement_mode_str = "{{ measurement_mode|safe }}";
+var measurement_mode_cleaned = measurement_mode_str.replace(/[\[\]']+/g, '');
+var measurement_mode = measurement_mode_cleaned.split(',');
+console.log('your measurement mode valeus are:',measurement_mode);
+
+var usl_values_str = "{{ usl_values|safe }}";
+var usl_values_cleaned = usl_values_str.replace(/[\[\]']+/g, '');
+var usl_values = usl_values_cleaned.split(',');
+console.log('your measurement mode valeus are:',usl_values);
+
+var lsl_values_str = "{{ lsl_values|safe }}";
+var lsl_values_cleaned = lsl_values_str.replace(/[\[\]']+/g, '');
+var lsl_values = lsl_values_cleaned.split(',');
+console.log('your measurement mode valeus are:',lsl_values);
+
+var utl_values_str = "{{ utl_values|safe }}";
+var utl_values_cleaned = utl_values_str.replace(/[\[\]']+/g, '');
+var utl_values = utl_values_cleaned.split(',');
+console.log('your measurement mode valeus are:',utl_values);
+
+var ltl_values_str = "{{ usl_values|safe }}";
+var ltl_values_cleaned = ltl_values_str.replace(/[\[\]']+/g, '');
+var ltl_values = ltl_values_cleaned.split(',');
+console.log('your measurement mode valeus are:',ltl_values);
+
+
+/////////////////////////////////////////////
+let currentIndex = -1; // Start with an invalid index to track the current index
+
+// Function to find the first valid index where the value starts with 'p' and contains '-'
+function findFirstValidIndex() {
+    for (let i = 0; i < probe_values.length; i++) {
+        let value = probe_values[i].trim();
+        if (value.startsWith('P') && value.includes('-')) {
+            return i; // Return the first valid index
+        }
+    }
+    return -1; // Return -1 if no valid index is found
+}
+
+// Find the first index before any button click
+currentIndex = findFirstValidIndex();
+
+
+
+
+document.getElementById('stop-btn').addEventListener('click', function() {
+    // console.clear();
+
+    // Parse e_values from your Django template
+    var e_values_str = "{{ e_values|safe }}";
+    var e_values_cleaned = e_values_str.replace(/[\[\]']+/g, '');
+    var e_values = e_values_cleaned.split(',').map(Number); // Convert to numbers
+
+    // Iterate over all probe values
+    for (let i = 0; i < probe_values.length; i++) {
+        let value = probe_values[i];
+
+        // Check if the value is a string before using trim
+        if (typeof value === 'string') {
+            value = value.trim(); // Get and trim the value for the current index
+
+            // Check if the current value is a probe calculation (starts with 'p' and contains '-')
+            if (value.startsWith('P') && value.includes('-')) {
+                var step_no = step_no_values[i];
+
+                // Log the current step and step number
+                console.log(`Index: ${i}, Value: ${value}, Step No: ${step_no}, Measurement Mode: ${measurement_mode[i]}`);
+
+                // Check if the current step matches the step number for this index
+                if (currentStep === step_no) {
+                    // Extract the two probe numbers (e.g., 'p1', 'p2') for calculation
+                    var [probe1, probe2] = value.split('-').map(v => v.trim());
+
+                    // Map probes to their respective reading input indices
+                    var readingIndex1 = mapProbeToReadingInput(probe1);
+                    var readingIndex2 = mapProbeToReadingInput(probe2);
+
+                    if (readingIndex1 !== undefined && readingIndex2 !== undefined) {
+                        // Get the input values directly from the page for the respective indices
+                        var readingInput1 = document.getElementById(`readings-input-${readingIndex1}`).value;
+                        var readingInput2 = document.getElementById(`readings-input-${readingIndex2}`).value;
+
+                         // Check if the input values are not empty
+                         if (readingInput1.trim() === "" || readingInput2.trim() === "") {
+                            console.log(`Error: Empty input for probe ${probe1} or ${probe2}. Skipping calculation.`);
+                            return; // Stop execution if any input is empty
+                        }
+
+                        // Convert the input values to numbers
+                        var value1 = parseFloat(readingInput1) || 0;
+                        var value2 = parseFloat(readingInput2) || 0;
+
+                        // Check if the parsed values are valid numbers
+                        if (isNaN(value1) || isNaN(value2)) {
+                            console.log(`Error: Invalid number for probe ${probe1} or ${probe2}. Skipping calculation.`);
+                            return; // Stop execution if any value is NaN
+                        }
+
+                        // Perform the calculation (probe1 - probe2)
+                        var result = value1 - value2;
+
+                        // Log the calculation
+                        console.log(`Calculation for jjjjjjjjjjjjjjjjj ${probe1} - ${probe2}: ${value1} - ${value2} = ${result}`);
+
+                        // Now, display the calculated result in the correct index (i.e., the received index) without modifying probe_values
+                        var resultElement = document.getElementById(`readings-input-${i}`);
+                        if (resultElement) {
+                            resultElement.value = result.toFixed(4); // Display the result in the input field at the same index
+                            resultElement.style.textShadow ='0 0 2px black';
+                            resultElement.style.backgroundColor = 'black';
+                            resultElement.style.fontWeight = 'bold';
+                        } else {
+                            console.log(`Error: No element found for index ${i} to display the result.`);
+                        }
+
+                        // Get the USL, LSL, UTL, and LTL for the current index
+                        var usl = parseFloat(usl_values[i]) || 0;
+                        var lsl = parseFloat(lsl_values[i]) || 0;
+                        var utl = parseFloat(utl_values[i]) || 0;
+                        var ltl = parseFloat(ltl_values[i]) || 0;
+
+                       
+                        // Optional: Apply color to the readings input as well
+                        resultElement.style.color = color;
+
+                        // Add indicator color coding
+                        var e_value = e_values[i] || 0; // Get the e_value for the current index
+                       
+                    } else {
+                        console.log(`Error: Could not find one or both of the probes (${probe1}, ${probe2}) in the map.`);
+                    }
+                } else {
+                    console.log(`Skipping calculation for Index: ${i}. Current Step: ${currentStep}, Step No: ${step_no}`);
+                }
+            }
+        } else {
+            console.log(`Skipping index ${i} due to invalid value type: ${value}`);
+        }
+    }
+
+    // Log the updated probe_values array after calculations
+    console.log('Updated probe_values:', probe_values); // probe_values remain unchanged
+    
+    // Check if we've processed all calculations
+    if (currentStep > Math.max(...step_no_values)) {
+        console.log("All calculations are complete.");
+        // Optionally reset currentStep to 1 to start over
+        // currentStep = 1;
+    }
+});
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+function mapProbeToReadingInput(probeNumber) {
+    const probeMap = {};
+
+    // Loop to automatically map 'p1' to 'p40' with corresponding indices 0 to 39
+    for (let i = 1; i <= 100; i++) {
+        probeMap[`P${i}`] = i - 1;
+    }
+
+    return probeMap[probeNumber];
+}
+
+
+
+
+var operator_values_str = "{{ operator_values|safe }}";
+    var operator_values_cleaned = operator_values_str.match(/'([^']*)'/)[1];
+    var operator_values = operator_values_cleaned.split(',');
+    var operatorInput = document.getElementById("operator");
+    // Set its value to the values from machine_values array
+    operatorInput.value = operator_values.join(', ');
+
+
+    var shift_values_str = "{{ shift_values|safe }}";
+    console.log("shift_values_str",shift_values_str)
+    var shift_values_cleaned = shift_values_str.match(/'([^']*)'/)[1];
+    var shift_values = shift_values_cleaned.split(',');
+    var shiftInput = document.getElementById("shift");
+    // Set its value to the values from machine_values array
+    shiftInput.value = shift_values.join(', ');
+
+
+    var machine_values_str = "{{ machine_values|safe }}";
+    console.log("machine_values_str",machine_values_str)
+    // Extract the value between single quotes
+    var machine_value = machine_values_str.match(/'([^']*)'/)[1];
+    console.log('your machine value is:', machine_value);
+    var machineInput = document.getElementById("machine");
+    // Set its value to the extracted value
+    machineInput.value = machine_value;
+
+console.log("step_no_values:",step_no_values);
+
+
+
+
+let masterAlertCallback = null;
+
+function masterAlert(message, callback = null) {
+    document.getElementById("master-alert-message").innerText = message;
+    document.getElementById("master-alert-wrapper").classList.remove("hidden");
+
+    // Save callback for later execution
+    masterAlertCallback = callback;
+}
+
+function closeMasterAlert() {
+    document.getElementById("master-alert-wrapper").classList.add("hidden");
+
+    // Call the saved callback if it exists
+    if (typeof masterAlertCallback === "function") {
+        masterAlertCallback();
+        masterAlertCallback = null; // Reset after use
+    }
+}
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+    var master_date = "{{last_stored_dates}}";
+    console.log("master_date", master_date);
+
+    // Parse the master_date string to get the starting timestamp
+    const startDate = new Date(master_date);
+    console.log("Parsed Start Date:", startDate);
+
+    // Access the interval settings JSON
+    const intervalSettings = JSON.parse('{{ interval_settings_json|escapejs }}');
+
+    intervalSettings.forEach(setting => {
+        console.log("Timewise:", setting.timewise);
+        console.log("Componentwise:", setting.componentwise);
+        console.log("Hour:", setting.hour);
+        console.log("Minute:", setting.minute);
+        console.log("Component No:", setting.component_no);
+
+        if (setting.timewise) {
+            const hours = setting.hour;
+            const minutes = setting.minute;
+
+            if (hours === 0 && minutes === 0) {
+                console.log("Skipping alert setup — both hour and minute are 0.");
+                return;
+            }
+
+            // Calculate the interval in milliseconds
+            const interval = (hours * 60 + minutes) * 60 * 1000;
+            
+            // Calculate the first alert time
+            const firstAlertTime = new Date(startDate.getTime() + interval);
+            const now = new Date();
+            const timeUntilFirstAlert = firstAlertTime - now;
+
+            console.log("First Alert Time:", firstAlertTime);
+            console.log("Time Until First Alert (ms):", timeUntilFirstAlert);
+
+            // Set a timeout for the first alert
+            setTimeout(() => {
+              
+               masterAlert("DO MASTERING", () => {
+                    window.location.href = "/master/";
+                });
+
+
+                // Set intervals for subsequent alerts
+                setInterval(() => {
+                     masterAlert("DO MASTERING", () => {
+                        window.location.href = "/master/";
+                    });
+                }, interval);
+
+            }, timeUntilFirstAlert);
+        }
+
+        if (setting.componentwise) {
+            const componentNo = setting.component_no;
+            let clickCount = 0;
+
+            const saveButton = document.getElementById('save-btn');
+            saveButton.addEventListener('click', () => {
+                clickCount++;
+                if (clickCount === componentNo) {
+                    masterAlert("DO MASTERING", () => {
+                        window.location.href = "/master/";
+                    });
+                    clickCount = 0; // Reset the count after the alert
+                }
+            });
+        }
+    });
+});
+
+    
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+var shiftValues = JSON.parse('{{ shift_time|escapejs }}');
+console.log('Shift values are this ::::::::::::', shiftValues);
+
+// Function to convert 12-hour time to 24-hour format
+function convertTo24Hour(timeString) {
+    let [time, modifier] = timeString.trim().split(' ');
+    let [hours, minutes, seconds] = time.split(':');
+    hours = parseInt(hours, 10);
+
+    if (modifier === 'PM' && hours !== 12) {
+        hours += 12;
+    }
+    if (modifier === 'AM' && hours === 12) {
+        hours = 0;
+    }
+
+    return `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
+}
+
+// Function to determine and update the shift name based on the current time
+function setDateTimes() {
+    let now = new Date();
+    let currentTime = now.toTimeString().split(' ')[0]; // 'HH:MM:SS'
+
+    let shiftName = shiftValues[0].shift; // Default to the first shift
+
+    for (let i = shiftValues.length - 1; i >= 0; i--) {
+        let shift = shiftValues[i];
+        let shift24HourTime = convertTo24Hour(shift.shift_time);
+
+        if (currentTime >= shift24HourTime) {
+            shiftName = shift.shift;
+            break;
+        }
+    }
+
+    document.querySelectorAll('.shift-name').forEach(element => {
+        element.value = shiftName;
+    });
+}
+
+// Function to update current date and time in the input box
+function updateClock() {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes().toString().padStart(2, '0');
+    let seconds = now.getSeconds().toString().padStart(2, '0');
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+
+    let displayHours = hours % 12 || 12; // Convert to 12-hour format
+    let currentTime = `${displayHours}:${minutes}:${seconds} ${ampm}`;
+
+    let day = now.getDate().toString().padStart(2, '0');
+    let month = (now.getMonth() + 1).toString().padStart(2, '0');
+    let year = now.getFullYear();
+    let currentDateFormatted = `${day}/${month}/${year}`;
+
+    document.getElementById("date").value = `${currentDateFormatted} ${currentTime}`;
+
+    checkShiftNotification(currentTime);
+
+    setTimeout(updateClock, 1000);
+}
+
+// Function to check if the current time matches any shift time
+function checkShiftNotification(currentTime) {
+    let currentTime24Hour = convertTo24Hour(currentTime);
+
+    shiftValues.forEach(shift => {
+        let shiftTime24Hour = convertTo24Hour(shift.shift_time);
+        if (currentTime24Hour === shiftTime24Hour) {
+            showShiftNotification();
+        }
+    });
+}
+
+// Function to get the shift time for a given shift name
+function getShiftTimeForShift(shiftName) {
+    let shift = shiftValues.find(s => s.shift === shiftName);
+    return shift ? shift.shift_time : null;
+}
+
+// Function to format shift time with the current date
+function combineShiftTimeWithCurrentDate(shiftName) {
+    let shiftTime = getShiftTimeForShift(shiftName);
+    if (!shiftTime) {
+        console.error('Shift time not found for shift:', shiftName);
+        return null;
+    }
+
+    let shift24HourTime = convertTo24Hour(shiftTime);
+    let shiftDateTime = new Date();
+    let [hours, minutes, seconds] = shift24HourTime.split(':');
+    
+    shiftDateTime.setHours(parseInt(hours));
+    shiftDateTime.setMinutes(parseInt(minutes));
+    shiftDateTime.setSeconds(parseInt(seconds));
+
+    let day = shiftDateTime.getDate().toString().padStart(2, '0');
+    let month = (shiftDateTime.getMonth() + 1).toString().padStart(2, '0');
+    let year = shiftDateTime.getFullYear();
+
+    let displayHours = shiftDateTime.getHours() % 12 || 12;
+    let ampm = shiftDateTime.getHours() >= 12 ? 'PM' : 'AM';
+    
+    let formattedDateTime = `${year}-${month}-${day} ${displayHours}:${minutes}:${seconds} ${ampm}`;
+    
+    return formattedDateTime;
+}
+
+// Function to send shift data via AJAX
+// Function to send shift data via AJAX with from_date and end_date
+function postShiftData(shiftName) {
+    let fromDate = combineShiftTimeWithCurrentDate(shiftName);
+    let now = new Date();
+
+    let day = now.getDate().toString().padStart(2, '0');
+    let month = (now.getMonth() + 1).toString().padStart(2, '0');
+    let year = now.getFullYear();
+    let hours = now.getHours() % 12 || 12;
+    let minutes = now.getMinutes().toString().padStart(2, '0');
+    let seconds = now.getSeconds().toString().padStart(2, '0');
+    let ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+
+    let endDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${ampm}`;
+
+    // ✅ First call reset trigger
+    fetch("/reset_counter/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken"),  // you might need to add this
+        },
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("✅ Reset requested:", data);
+
+        // ✅ Now redirect
+        setTimeout(() => {
+            window.location.href = `/report/?from_date=${encodeURIComponent(fromDate)}&to_date=${encodeURIComponent(endDate)}`;
+        }, 1000);
+    });
+}
+
+
+
+function getCSRFToken(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
+// Function to check shift change 5 seconds early
+function checkShiftChange() {
+    let now = new Date();
+    let currentTime = now.toTimeString().split(' ')[0]; // 'HH:MM:SS'
+    let currentShift = null;
+    let nextShiftTime = null;
+
+    for (let i = 0; i < shiftValues.length; i++) {
+        let shift = shiftValues[i];
+        let shiftTime24Hour = convertTo24Hour(shift.shift_time);
+
+        if (currentTime >= shiftTime24Hour) {
+            currentShift = shift.shift;
+        } else {
+            nextShiftTime = shiftTime24Hour;
+            break;
+        }
+    }
+
+    if (nextShiftTime) {
+        let shiftDateTime = new Date();
+        let [hours, minutes, seconds] = nextShiftTime.split(':');
+        shiftDateTime.setHours(parseInt(hours));
+        shiftDateTime.setMinutes(parseInt(minutes));
+        shiftDateTime.setSeconds(parseInt(seconds) - 5); // 5 seconds before shift change
+
+        let shiftMinusFiveSec = shiftDateTime.toTimeString().split(' ')[0];
+
+        if (currentTime === shiftMinusFiveSec) {
+            console.log(`Posting before shift change: ${currentShift}`);
+
+            fetch("/shift_change_alert/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCSRFToken()
+                },
+                body: JSON.stringify({
+                    message: "Shift change alert",
+                    shift: currentShift,
+                    timestamp: new Date().toISOString()
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log("✅ Shift change response:", data))
+            .catch(err => console.error("❌ Error posting shift change:", err));
+            postShiftData(currentShift);
+        }
+    }
+}
+
+// Function to display shift change notification
+function showShiftNotification() {
+    let notification = document.createElement('div');
+    notification.id = 'shift-notification';
+    notification.innerText = 'It\'s time to switch to the next shift!';
+    Object.assign(notification.style, {
+        position: 'fixed', top: '10px', right: '10px',
+        backgroundColor: 'green', color: 'white',
+        padding: '10px', borderRadius: '5px'
+    });
+
+    document.body.appendChild(notification);
+
+    // setTimeout(() => {
+    //     notification.remove();
+    //     window.location.href = '/report/';
+    // }, 3000);
+}
+
+// Start the clock and shift checking processes
+updateClock();
+setInterval(setDateTimes, 1000);
+setInterval(checkShiftChange, 500);
+
+
+
+
+
+
+$(document).ready(function () {
+    // Function to get CSRF token from the cookies
+    function getCSRFToken() {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                // Check if the cookie name is "csrftoken"
+                if (cookie.startsWith('csrftoken=')) {
+                    cookieValue = cookie.substring('csrftoken='.length, cookie.length);
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Delay execution by 2 seconds
+    setTimeout(function () {
+        // Get input values
+        var dateTime = $("#date").val(); // Example: 21/12/2024 6:53:57 PM
+        console.log('Original value:', dateTime);
+
+        // Convert the original format to Date object
+        var dateParts = dateTime.split(' ');
+        var date = dateParts[0].split('/');
+        var time = dateParts[1].split(':');
+        var ampm = dateParts[2];
+
+        // Convert to 12-hour format
+        var hours = parseInt(time[0]);
+        if (ampm === 'PM' && hours < 12) {
+            hours += 12; // Convert PM hours to 24-hour format
+        }
+        if (ampm === 'AM' && hours === 12) {
+            hours = 0; // Convert 12 AM to 0 (midnight)
+        }
+
+        // Construct Date object
+        var formattedDate = new Date(date[2], date[1] - 1, date[0], hours, time[1], time[2]);
+
+        // Format the date to "yyyy/mm/dd hh:mm:ss AM/PM"
+        var year = formattedDate.getFullYear();
+        var month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
+        var day = formattedDate.getDate().toString().padStart(2, '0');
+        var hours12 = formattedDate.getHours() % 12 || 12; // 12-hour format
+        var minutes = formattedDate.getMinutes().toString().padStart(2, '0');
+        var seconds = formattedDate.getSeconds().toString().padStart(2, '0');
+        var period = (formattedDate.getHours() >= 12) ? 'PM' : 'AM';
+
+        var formattedDateTime = `${year}/${month}/${day} ${hours12}:${minutes}:${seconds} ${period}`;
+        console.log('Formatted value to send:', formattedDateTime);
+
+        var shift = $("#shift").val(); // Example: SHIFT-2
+        console.log('your shift value is this:',shift);
+        var partModel = $("#partModel").val(); // Get the value of the part model input
+        console.log('your partmodel value is this:',partModel);
+
+        // Get CSRF token
+        var csrftoken = getCSRFToken();
+
+        // Send AJAX POST request with CSRF token
+        $.ajax({
+            url: '/measurement_count/', // Replace with your actual endpoint
+            type: 'POST',
+            headers: { "X-CSRFToken": csrftoken }, // Include CSRF token
+            data: { 
+                date: formattedDateTime, 
+                shift: shift,
+                part_model: partModel,
+            },
+            success: function (response) {
+                console.log("Data received successfully:");
+                console.log("Accept Last Occurrence:", response.accept_occurrence);
+                console.log("Reject Last Occurrence:", response.reject_occurrence);
+                console.log("Rework Last Occurrence:", response.rework_occurrence);
+                console.log("Total Occurrence:", response.total_occurrence);
+                console.log("notification:", response.notification);
+               
+
+                
+           
+                // Display the values in the input fields
+                $('#accept').val(response.accept_occurrence);
+                $('#reject').val(response.reject_occurrence);
+                $('#rework').val(response.rework_occurrence);
+                $('#total').val(response.total_occurrence);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("Error:", xhr.responseText);
+                        },
+                    });
+                }, 1000); // Delay of 2 seconds
+
+
+
+                // Delay execution by 2 seconds
+    setTimeout(function () {
+        // Get input values
+        var dateTime = $("#date").val(); // Example: 21/12/2024 6:53:57 PM
+        console.log('Original value:', dateTime);
+
+        // Convert the original format to Date object
+        var dateParts = dateTime.split(' ');
+        var date = dateParts[0].split('/');
+        var time = dateParts[1].split(':');
+        var ampm = dateParts[2];
+
+        // Convert to 12-hour format
+        var hours = parseInt(time[0]);
+        if (ampm === 'PM' && hours < 12) {
+            hours += 12; // Convert PM hours to 24-hour format
+        }
+        if (ampm === 'AM' && hours === 12) {
+            hours = 0; // Convert 12 AM to 0 (midnight)
+        }
+
+        // Construct Date object
+        var formattedDate = new Date(date[2], date[1] - 1, date[0], hours, time[1], time[2]);
+
+        // Format the date to "yyyy/mm/dd hh:mm:ss AM/PM"
+        var year = formattedDate.getFullYear();
+        var month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
+        var day = formattedDate.getDate().toString().padStart(2, '0');
+        var hours12 = formattedDate.getHours() % 12 || 12; // 12-hour format
+        var minutes = formattedDate.getMinutes().toString().padStart(2, '0');
+        var seconds = formattedDate.getSeconds().toString().padStart(2, '0');
+        var period = (formattedDate.getHours() >= 12) ? 'PM' : 'AM';
+
+        var formattedDateTime = `${year}/${month}/${day} ${hours12}:${minutes}:${seconds} ${period}`;
+        console.log('Formatted value to send:', formattedDateTime);
+
+        var shift = $("#shift").val(); // Example: SHIFT-2
+        console.log('your shift value is this:',shift);
+        var partModel = $("#partModel").val(); // Get the value of the part model input
+        console.log('your partmodel value is this:',partModel);
+
+        // Get CSRF token
+        var csrftoken = getCSRFToken();
+
+        // Send AJAX POST request with CSRF token
+        $.ajax({
+            url: '/measurement_data_retrive/', // Replace with your actual endpoint
+            type: 'POST',
+            headers: { "X-CSRFToken": csrftoken }, // Include CSRF token
+            data: { 
+                date: formattedDateTime, 
+                shift: shift,
+                part_model: partModel,
+            },
+            success: function (response) {
+                console.log("Data received successfully:");
+                console.log("notification:", response.notification);
+               
+
+                const measurement_dataArray = response.measurement_data;
+                console.log("measurement_dataArray", measurement_dataArray);
+
+                console.log("clear_flag_value",response.clear_flag_value);
+
+                if (response.clear_flag_value === true) {
+                    // ✅ Clear all values
+                    const tableBody = document.getElementById("table_body");
+                    Array.from(tableBody.rows).forEach((row) => {
+                        const outputCell = row.cells[2]; // Output input cell
+                        if (outputCell) {
+                            const outputInput = outputCell.querySelector("input");
+                            if (outputInput) {
+                                outputInput.value = "";
+                                outputInput.style.backgroundColor = "";
+                                outputInput.style.color = "";
+                            }
+                        }
+                    });
+                } else {
+                    // ✅ Populate with measurement_data
+                    populateMeasurementTable(response.measurement_data,response.parameter_settings_list);
+                }
+           
+               
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("Error:", xhr.responseText);
+                        },
+                    });
+                }, 100); // Delay of 2 seconds
+});
+
+
+// ✅ Updated populateMeasurementTable
+function populateMeasurementTable(measurement_dataArray, parameter_settings_list) {
+    const tableBody = document.getElementById("table_body");
+    tableBody.innerHTML = ""; // clear old rows
+
+    // Convert measurement_dataArray to a dictionary for quick lookup
+    const measurementMap = {};
+    measurement_dataArray.forEach(item => {
+        measurementMap[item.parameter_name] = item;
+    });
+
+    // Always loop through parameter_settings_list (source of truth)
+    parameter_settings_list.forEach((paramName, index) => {
+        const row = document.createElement("tr");
+
+        // Column 1: SR.NO
+        const srnoCell = document.createElement("td");
+        srnoCell.textContent = index + 1;
+        row.appendChild(srnoCell);
+
+        // Column 2: Parameter Name
+        const paramCell = document.createElement("td");
+        paramCell.textContent = paramName;   // ✅ always from parameter_settings_list
+        paramCell.style.fontWeight = "bold";
+        row.appendChild(paramCell);
+
+        // Column 3: Output
+        const outputCell = document.createElement("td");
+        const outputInput = document.createElement("input");
+        outputInput.type = "text";
+        outputInput.className = "output_result";
+        outputInput.id = "output_result" + (index + 1);
+
+        // If measurement exists, fill values, else leave empty
+        if (measurementMap[paramName]) {
+            outputInput.value = measurementMap[paramName].output;
+
+            // Set background color based on status_cell
+            switch (measurementMap[paramName].status_cell?.toUpperCase()) {
+                case "ACCEPT":
+                    outputInput.style.backgroundColor = "green";
+                    outputInput.style.color = "white";
+                    break;
+                case "REWORK":
+                    outputInput.style.backgroundColor = "yellow";
+                    outputInput.style.color = "black";
+                    break;
+                case "REJECT":
+                    outputInput.style.backgroundColor = "red";
+                    outputInput.style.color = "white";
+                    break;
+                default:
+                    outputInput.style.backgroundColor = "";
+                    outputInput.style.color = "";
+            }
+        } else {
+            outputInput.value = ""; // no measurement yet
+        }
+
+        outputInput.readOnly = true;
+        outputCell.appendChild(outputInput);
+        row.appendChild(outputCell);
+
+        tableBody.appendChild(row);
+    });
+}
+
+
+
+function mapProbeToTextareaId(probeNumber) {
+    const probeMap = {
+        '1': 'probe-A',
+        '2': 'probe-B',
+        '3': 'probe-C',
+        '4': 'probe-D',
+        '5': 'probe-E',
+        '6': 'probe-F',
+        '7': 'probe-G',
+        '8': 'probe-H',
+        '9': 'probe-I',
+        '10': 'probe-J',
+        '11': 'probe-K',
+        '12': 'probe-L',
+        '13': 'probe-M',
+        '14': 'probe-N',
+        '15': 'probe-O',
+        '16': 'probe-P',
+        '17': 'probe-Q',
+        '18': 'probe-R',
+        '19': 'probe-S',
+        '20': 'probe-T',
+        '21': 'probe-U',
+        '22': 'probe-V',
+        '23': 'probe-W',
+        '24': 'probe-X',
+        '25': 'probe-Y',
+        '26': 'probe-Z',
+        '27': 'probe-AA',
+        '28': 'probe-AB',
+        '29': 'probe-AC',
+        '30': 'probe-AD',
+        '31': 'probe-AE',
+        '32': 'probe-AF',
+        '33': 'probe-AG',
+        '34': 'probe-AH',
+        '35': 'probe-AI',
+        '36': 'probe-AJ',
+        '37': 'probe-AK',
+        '38': 'probe-AL',
+        '39': 'probe-AM',
+        '40': 'probe-AN',
+        '41': 'probe-AO',
+        '42': 'probe-AP',
+    };
+
+    // If it's a simple number, return the textarea ID directly
+    if (/^\d+$/.test(probeNumber)) {
+        return probeMap[probeNumber];
+    }
+
+    // Handle expressions like "1+2", "4-1", "3+5-2"
+    try {
+        const sanitized = probeNumber.replace(/[^0-9+\-*/().]/g, '');
+        const replaced = sanitized.replace(/\d+/g, (match) => {
+            const id = probeMap[match];
+            const el = document.getElementById(id);
+            if (!el) throw new Error(`Element not found for probe: ${match}`);
+            return parseFloat(el.value) || 0;
+        });
+
+        const result = eval(replaced);
+        return result;
+    } catch (error) {
+        console.error(`Error evaluating probe expression "${probeNumber}":`, error);
+        return null;
+    }
+}
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+$(document).ready(function () {
+    const settings = JSON.parse('{{ settings_json|safe }}');
+    console.log("Settings:", settings);
+
+    // Correct channel mapping per your new logic
+    const cardChannelMap = {
+        'PIEZO_4CH': 11,   // Originally 4, now 11
+        'PIEZO_11CH': 11,
+        'LVDT_4CH': 8      // Originally 4, now 8
+    };
+
+    // Display order based on card type (fixed, not based on COM port)
+    const cardDisplayOrder = ['PIEZO_4CH', 'PIEZO_11CH', 'LVDT_4CH'];
+
+    // All probe <textarea> IDs in order (DO NOT change these)
+    const probeIds = [
+        "probe-A", "probe-B", "probe-C", "probe-D", "probe-E", "probe-F", "probe-G", "probe-H", "probe-I",
+        "probe-J", "probe-K", "probe-L", "probe-M", "probe-N", "probe-O", "probe-P", "probe-Q", "probe-R",
+        "probe-S", "probe-T", "probe-U", "probe-V", "probe-W", "probe-X", "probe-Y", "probe-Z",
+        "probe-AA", "probe-AB", "probe-AC", "probe-AD", "probe-AE", "probe-AF", "probe-AG", "probe-AH",
+        "probe-AI", "probe-AJ", "probe-AK", "probe-AL", "probe-AM", "probe-AN", "probe-AO", "probe-AP"
+    ];
+
+    // Create mapping: card_type -> com_port
+    const cardPortMap = {};
+    settings.forEach(s => {
+        if (!cardPortMap[s.card]) {
+            cardPortMap[s.card] = s.com_port;
+        }
+    });
+
+    const mergedChannels = {};  // com_port -> channel data
+
+    const ws = new WebSocket('ws://localhost:8000/ws/comport/');
+
+    ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        if (!data.message) return;
+
+        const comPort = data.com_port;
+        const message = data.message;
+
+        const card = settings.find(s => s.com_port === comPort)?.card;
+        const matches = message.match(/[A-K][\+\-]\d+/g) || [];
+
+        //console.log(`📥 Received from ${comPort} (${card}):`, matches);
+
+        mergedChannels[comPort] = matches;
+// Example usage:
+if (card === 'PIEZO_4CH') {
+    setLightColor("com1-light", "active");  // blink green
+} else if (card === 'PIEZO_11CH') {
+    setLightColor("com2-light", "active");
+} else if (card === 'LVDT_4CH') {
+    setLightColor("com3-light", "active");
+} else {
+    setLightColor("com1-light", "idle");    // fallback red
+}
+
+        // Reset all probes first
+        probeIds.forEach(id => $(`#${id}`).val(""));
+
+        // Final channel values in correct card type order
+        let allChannelValues = [];
+
+        cardDisplayOrder.forEach(cardType => {
+            const comPort = cardPortMap[cardType];
+            const channelCount = cardChannelMap[cardType] || 0;
+            const values = comPort && mergedChannels[comPort] ? mergedChannels[comPort] : [];
+
+            if (values.length > 0) {
+                allChannelValues = allChannelValues.concat(values.slice(0, channelCount));
+            } else {
+                const dummy = Array(channelCount).fill("A+000");
+                allChannelValues = allChannelValues.concat(dummy);
+            }
+        });
+
+        //console.log("🧾 Final Display Channel Values:", allChannelValues);
+
+        // Assign values to corresponding textareas
+        allChannelValues.forEach((channelData, index) => {
+            if (index < probeIds.length) {
+                const value = channelData.includes('-') ? channelData.substring(1) : channelData.substring(2);
+                $(`#${probeIds[index]}`).val(value);
+            }
+        });
+    };
+});
+
+function setLightColor(lightId, status) {
+    const el = document.getElementById(lightId);
+    if (!el) return;
+
+    el.classList.remove("green", "red", "blink");
+
+    if (status === "active") {
+        el.classList.add("green", "blink");  // fast blink green
+    } else if (status === "idle") {
+        el.classList.add("red");  // steady red glow
+    }
+}
+
+</script>
+        
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,200 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box; /* Includes border in the width and height calculations */
+    overflow: hidden; /* Prevents scrolling caused by overflow */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background:lightblue; /* Soft 3D gradient */
+   
+    /* justify-content: center;
+    align-items: center; */
+    color: white;
+    border: 10px double beige ; /* Double line border */
+}
+.container_1_image{
+    height: 30vh;
+    width: 100%;
+    background-color: white;
+    display: flex;
+}
+.image_container{
+    height: 96%;
+    width: 25%;
+    background-color: white;
+  
+}
+.image_container img {
+    width: 100%;
+    height: 100%;
+   
+}
+.name_container{
+    height: 96%;
+    width: 75%;
+    background-color: rgb(251, 188, 167);
+    color: red;
+   
+   
+}
+
+.subheader{
+    font-weight: bold;
+    font-size: 4vh;
+    margin-left: 50%;
+    margin-top: 0;
+    color: gray;
+    -webkit-text-stroke: 2px black;
+}
+
+.container-1:hover{
+    background: linear-gradient(145deg, #f9cd98, #f2dcc1); /* Soft 3D gradient */
+}
+
+.container-1 {
+    height: 50%;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 2%;
+   justify-content: center;
+    align-items: center;
+    background: #ffe4c4; /* Soft 3D gradient */
+    border-radius: 20px;
+    box-shadow: 0px 6px 12px rgba(76, 82, 74, 0.3), 0px -4px 12px rgba(158, 240, 82, 0.1) inset;
+    transition: all 0.3s ease-in-out; /* Smooth hover effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 8px double orange; /* Double line border */
+}
+
+.container-1:hover {
+    transform: scale(1.02); /* Slight zoom effect on hover */
+    box-shadow: 0px 8px 16px rgba(118, 35, 2, 0.4), 0px -4px 16px rgba(81, 56, 2, 0.2) inset;
+}
+
+.subcontainer-1 {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    
+}
+
+
+.label_input{
+    height: 60%;
+    width: 100%;
+   
+}
+
+.btn_container{
+    height: 20%;
+    width: 100%;
+    margin-top: 5%;
+  
+}
+
+#user_id{
+    height: 30%;
+    width: 75%;
+    border: none;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: inset 3px 3px 6px rgba(216, 21, 21, 0.2), inset -3px -3px 6px rgba(219, 118, 3, 0.5); /* Inner 3D shadow effect */
+    padding: 10px;
+    font-size: 2.5vw;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    margin-top: 2%;
+}
+
+
+
+input[type="text"] {
+    height: 30%;
+    width: 75%;
+    border: none;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: inset 3px 3px 6px rgba(216, 21, 21, 0.2), inset -3px -3px 6px rgba(219, 118, 3, 0.5); /* Inner 3D shadow effect */
+    padding: 10px;
+    font-size: 2.5vw;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    margin-top: 3%;
+}
+
+input[type="text"]:hover{
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    background: linear-gradient(145deg, #f7eef4, #fad0ed); /* Soft 3D gradient */
+    box-shadow: 0px 8px 16px rgba(243, 71, 166, 0.4), 0px -4px 16px rgba(248, 25, 148, 0.2) inset;
+}
+
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 3px 3px 6px rgba(209, 10, 10, 0.4), inset -3px -3px 6px rgba(199, 108, 5, 0.2);
+}
+
+#login {
+   
+    height: 100%;
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #32cd32, #228b22); /* Interactive button gradient */
+    color: white;
+    font-size: 3vw;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(125, 231, 3, 0.3), 0px -2px 6px rgba(166, 224, 4, 0.1) inset;
+    transition: all 0.2s ease-in-out;
+}
+
+
+
+#login:active {
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.4), inset -3px -3px 6px rgba(255, 255, 255, 0.1);
+    transform: translateY(2px);
+}
+
+
+#notification {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 1000;
+    font-size: 18px;
+    text-align: center;
+  
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    z-index: 1000;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+
+

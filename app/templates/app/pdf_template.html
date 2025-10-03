@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Shift Report</h2>
+    <p><strong>Shift Name:</strong> {{ data.0.shift }}</p>
+    <p><strong>Date:</strong> {{ data.0.date|date:"Y-m-d" }}</p>
+
+    <table>
+        <tr>
+            <th>Parameter Name</th>
+            <th>Readings</th>
+            <th>Nominal</th>
+            <th>LSL</th>
+            <th>USL</th>
+            <th>Status Cell</th>
+            <th>Operator</th>
+            <th>Machine</th>
+            <th>Part Model</th>
+            <th>Part Status</th>
+            <th>Customer Name</th>
+            <th>Comp Sr No</th>
+            <th>LTL</th>
+            <th>UTL</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <td>{{ item.parameter_name }}</td>
+            <td>{{ item.readings }}</td>
+            <td>{{ item.nominal }}</td>
+            <td>{{ item.lsl }}</td>
+            <td>{{ item.usl }}</td>
+            <td>{{ item.status_cell }}</td>
+            <td>{{ item.operator }}</td>
+            <td>{{ item.machine }}</td>
+            <td>{{ item.part_model }}</td>
+            <td>{{ item.part_status }}</td>
+            <td>{{ item.customer_name }}</td>
+            <td>{{ item.comp_sr_no }}</td>
+            <td>{{ item.ltl }}</td>
+            <td>{{ item.utl }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

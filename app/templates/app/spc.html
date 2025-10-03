@@ -1,0 +1,1196 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+SPC REPORTS
+{% endblock title %}
+{% block content %}
+
+
+<style>
+ 
+ html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    
+    
+}
+
+
+body {
+   
+   background-color: black;
+   border: 10px double white;
+   padding: 5px;
+} 
+
+
+.box_main{
+        width: 100%;
+        height: 70%;
+        margin-top: 2%;
+        display: flex;
+        
+    }
+
+
+    .box {
+    width: 60vw;
+    height: 80vh;
+    margin-left:5% ;
+    margin-top:2%;
+    background-color: lightgrey;
+    border: 2px solid black;
+    text-align: center;
+}
+
+.box-1 {
+    width: 20vw;
+    height: 80vh;
+    margin-top:2%;
+    margin-left: 5%;
+    background-color: white;
+    border: 2px solid black;
+    padding-top: 50px;
+    padding-left: 5px;
+  }
+
+
+.inner-box-1, .inner-box-2, .inner-box-3, .inner-box-4, .inner-box-6{
+    width: 18vw; 
+    height: 10vh;
+    background-color:rgb(245, 188, 83);
+    border: 2px solid black; 
+    margin: 5px;
+    padding-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.3vw;
+    margin-top: 1%;
+    font-family: Arial, Helvetica, sans-serif;
+    
+  }
+
+.item-1, .item-2, .item-3, .item-4,.item-6{
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    background-color: lightgrey;
+    
+  }
+  label {
+            display: inline-block;
+            width: 150px;
+            margin-top: 15px;
+            text-align: center;
+            margin-left: 20px;
+            font-weight: bold;
+            
+        }
+
+  select {
+      margin-top: 10px;
+      box-sizing: border-box;
+      width: 20%;
+      height: 30px;
+  }
+
+  #cancel-btn{
+    background-color: orange;
+             color:black;
+             height: 7vh;
+             width: 15vw;
+             margin-left: 10px;
+             margin-top: 30px;
+             
+             font-size: 1.2vw;
+               
+         }
+  
+  .report-btn{
+    background-color: rgb(4, 240, 4);
+      color:black;           
+      height: 7vh;
+             width: 15vw; 
+      margin-left: 65px; 
+      margin-top: 30px;
+    
+      font-size: 1.2vw;
+  }
+  
+
+  #clock-box{
+         font-weight: bold;
+         font-size: 1.3vw;
+         text-align: left;
+        }
+      
+        
+        .inner-box-3 {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.2;
+}
+
+
+
+#loading_spinner {
+    position: fixed;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw;
+    color: #022244;
+    z-index: 9999; /* Ensure spinner appears on top */
+}
+
+.fa-spinner {
+    margin-top: 10%;
+    margin-right: 20%; /* Add space between spinner and text */
+}
+
+
+@keyframes walkInBox {
+    0% { left: -200px; }
+    100% { left: 20px; }
+}
+@keyframes fadeInBox {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+    50% { box-shadow: 0 0 40px rgba(255,0,0,1); }
+    100% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+}
+
+#plc-notification {
+    position: fixed;
+    width: 95vw;
+    height: 80vh;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: red;
+    color: white;
+    font-size: 5vw; /* reduced font size */
+    font-weight: bold;
+    padding: 30px 50px;
+    border-radius: 15px;
+    z-index: 9999;
+    opacity: 0;
+    overflow: hidden; /* keep human inside box */
+    display: none; /* Hides completely by default */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#human-inside {
+    position: absolute;
+    bottom: 5px;
+    left: -200px; /* start hidden to left */
+    width: 250px; /* increased size */
+}
+
+</style>
+
+<div class="box_main">
+<div class="box-1">
+    <div id="consolidated_srno_reports" class="inner-box-1" onclick="enlargeItem(1),showItem('item-1')">X-BAR CHART</div>
+    <div id="consolidated_without_reports" class="inner-box-2" onclick="enlargeItem(2),showItem('item-2')">X-BAR R-CHART</div>
+    <div id="parameter_wise_reports" class="inner-box-3" onclick="enlargeItem(3),showItem('item-3')">X-BAR S-CHART</div>
+    <div id="job_wise_reports" class="inner-box-4" onclick="enlargeItem(4),showItem('item-4'),focusJobNoInput()">HISTOGRAM</div>
+    <div id="master_reports" class="inner-box-6" onclick="enlargeItem(6),showItem('item-6')">PIE CHART</div>
+    
+</div>
+
+<div class="box" id="boxContent"style="overflow-x: auto;overflow-y:auto;">
+    <div id="clock-box"></div>
+    <div class="item item-1" id="x_bar_chart">
+
+      <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>X-BAR CHART</b></h4></center>
+
+       
+
+
+            <label for="sr.no" style="margin-top: 20px;">PART.NO:</label>
+            <select class="sr_no" id="sr_no" name="sr_no" disabled>
+                <option value="1" selected>1</option>
+            </select>
+            
+            <label for="partModel">PART MODEL:</label>
+            <select class="partModel" id="partModel" name="partModel">
+                {% for model in model_data %}
+                    <option>{{ model }}</option> <!-- No need for value="{{ forloop.counter }}" -->
+                {% endfor %}
+            </select><br>
+
+        <label for="parameter_name">PARAMETER NAME:</label>
+        <select class="parameter_name" name="parameter_name">
+        </select>
+    
+        <label for="operator">OPERATOR:</label>
+        <select class="operator" name="operator">
+            <option>ALL</option> 
+          {% for operator in operator_data %}
+                <option>{{ operator }}</option>
+            {% endfor %}
+        </select><br>
+
+        
+        <label for="from_date" style="margin-top: 30px;">FROM DATE TIME:</label>
+        <input type="datetime-local" class="from-date" id="from_date" name="from_date"><br>
+        
+
+        <label for="to_date"style="margin-top: 30px;">TO DATE TIME:</label>
+        <input type="datetime-local" class="to-date"  id="to_date" name="to_date"><br>
+
+        <label for="machine" style="margin-top: 30px;">MACHINE:</label>
+        <select class="machine" name="machine">
+            <option>ALL</option> 
+          {% for machine in machine_data %}
+                <option>{{ machine }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="vendor_code">VENDOR CODE:</label>
+        <select id="vendor_code" name="vendor_code">
+            <option>ALL</option> 
+            {% for vendor in vendor_data %}
+                <option>{{ vendor }}</option>
+            {% endfor %}
+        </select><br>
+
+        
+        <label for="shift">SHIFT:</label>
+        <select class="shift" name="shift">
+            <option>ALL</option> 
+          {% for shift in shift_data %}
+                <option>{{ shift }}</option>
+            {% endfor %}
+        </select><br>
+
+        <a href="{% url 'index' %}" >
+          <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+          </a>
+        <button type="button" class="report-btn" id="report_btn_1"><b>VIEW REPORT</b></button>
+     
+    </div>
+
+    <div class="item item-2" id="x_bar_r_chart">
+      <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>X-BAR R-CHART</b></h4></center>
+
+
+            <label for="sr.no" style="margin-top: 20px;">PART.NO:</label>
+            <select class="sr_no" id="sr_no" name="sr_no" disabled>
+                <option value="1" selected>1</option>
+            </select>
+            
+            <label for="partModel">PART MODEL:</label>
+            <select class="partModel" id="partModel" name="partModel">
+                {% for model in model_data %}
+                    <option>{{ model }}</option> <!-- No need for value="{{ forloop.counter }}" -->
+                {% endfor %}
+            </select><br>
+
+        <label for="parameter_name">PARAMATER NAME:</label>
+        <select class="parameter_name" name="parameter_name" > 
+        </select>
+
+        <label for="operator">OPERATOR:</label>
+        <select class="operator" name="operator">
+            <option>ALL</option> 
+          {% for operator in operator_data %}
+                <option>{{ operator }}</option>
+            {% endfor %}
+        </select><br>
+
+        
+        <label for="from_date" style="margin-top: 30px;">FROM DATE TIME:</label>
+        <input type="datetime-local" class="from-date" id="from_date" name="from_date"><br>
+        
+
+        <label for="to_date"style="margin-top: 30px;">TO DATE TIME:</label>
+        <input type="datetime-local" class="to-date" id="to_date" name="to_date"><br>
+
+       <label for="machine" style="margin-top: 30px;">MACHINE:</label>
+        <select class="machine" name="machine">
+            <option>ALL</option> 
+          {% for machine in machine_data %}
+                <option>{{ machine }}</option>
+            {% endfor %}
+        </select>
+
+        
+        <label for="vendor_code">VENDOR CODE:</label>
+        <select id="vendor_code" name="vendor_code">
+            <option>ALL</option> 
+            {% for vendor in vendor_data %}
+                <option>{{ vendor }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="sample_size">SAMPLE SIZE:</label>
+        <select class="sample_size" name="sample_size">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <label for="shift">SHIFT:</label>
+        <select class="shift" name="shift">
+            <option>ALL</option> 
+          {% for shift in shift_data %}
+                <option>{{ shift }}</option>
+            {% endfor %}
+        </select><br>
+
+        <a href="{% url 'index' %}" >
+          <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+          </a>
+        <button type="button" class="report-btn" id="report_btn_2"><b>VIEW REPORT</b></button>    
+    </div>
+
+    <div class="item item-3" id="x_bar_s_chart">
+      <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>X-BAR S-CHART</b></h2></center>
+
+
+        <label for="sr.no" style="margin-top: 20px;">PART.NO:</label>
+        <select class="sr_no" id="sr_no" name="sr_no" disabled>
+            <option value="1" selected>1</option>
+        </select>
+        
+        <label for="partModel">PART MODEL:</label>
+        <select class="partModel" id="partModel" name="partModel">
+            {% for model in model_data %}
+                <option>{{ model }}</option> <!-- No need for value="{{ forloop.counter }}" -->
+            {% endfor %}
+        </select><br>
+
+        <label for="parameter_name">PARAMATER NAME:</label>
+        <select class="parameter_name" name="parameter_name" ></select>
+
+        <label for="operator">OPERATOR:</label>
+        <select class="operator" name="operator">
+            <option>ALL</option> 
+          {% for operator in operator_data %}
+                <option>{{ operator }}</option>
+            {% endfor %}
+        </select><br>
+
+        
+        <label for="from_date" style="margin-top: 30px;">FROM DATE TIME:</label>
+        <input type="datetime-local" class="from-date" id="from_date" name="from_date"><br>
+        
+
+        <label for="to_date"style="margin-top: 30px;">TO DATE TIME:</label>
+        <input type="datetime-local" class="to-date" id="to_date" name="to_date"><br>
+
+       <label for="machine" style="margin-top: 30px;">MACHINE:</label>
+        <select class="machine" name="machine">
+            <option>ALL</option> 
+          {% for machine in machine_data %}
+                <option>{{ machine }}</option>
+            {% endfor %}
+        </select>
+
+        
+        <label for="vendor_code">VENDOR CODE:</label>
+        <select id="vendor_code" name="vendor_code">
+            <option>ALL</option> 
+            {% for vendor in vendor_data %}
+                <option>{{ vendor }}</option>
+            {% endfor %}
+        </select><br>
+
+
+       <label for="sample_size">SAMPLE SIZE:</label>
+        <select class="sample_size" name="sample_size">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        
+        <label for="shift">SHIFT:</label>
+        <select class="shift" name="shift">
+            <option>ALL</option> 
+          {% for shift in shift_data %}
+                <option>{{ shift }}</option>
+            {% endfor %}
+        </select><br>
+
+        <a href="{% url 'index' %}" >
+          <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+          </a>
+        <button type="button" class="report-btn" id="report_btn_3"><b>VIEW REPORT</b></button>    
+    </div>
+
+    <div class="item item-4" id="histogram">
+      <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>HISTOGRAM</b></h2></center>
+
+
+        <label for="sr.no" style="margin-top: 20px;">PART.NO:</label>
+        <select class="sr_no" id="sr_no" name="sr_no" disabled>
+            <option value="1" selected>1</option>
+        </select>
+        
+        <label for="partModel">PART MODEL:</label>
+        <select class="partModel" id="partModel" name="partModel">
+            {% for model in model_data %}
+                <option>{{ model }}</option> <!-- No need for value="{{ forloop.counter }}" -->
+            {% endfor %}
+        </select><br>
+
+        <label for="parameter_name">PARAMATER NAME:</label>
+        <select class="parameter_name" name="parameter_name" ></select>
+
+        <label for="operator">OPERATOR:</label>
+        <select class="operator" name="operator">
+            <option>ALL</option> 
+          {% for operator in operator_data %}
+                <option>{{ operator }}</option>
+            {% endfor %}
+        </select><br>
+
+
+        
+        <label for="from_date" style="margin-top: 30px;">FROM DATE TIME:</label>
+        <input type="datetime-local" class="from-date" id="from_date" name="from_date"><br>
+        
+
+        <label for="to_date"style="margin-top: 30px;">TO DATE TIME:</label>
+        <input type="datetime-local" class="to-date" id="to_date" name="to_date"><br>
+
+       <label for="machine" style="margin-top: 30px;">MACHINE:</label>
+        <select class="machine" name="machine">
+            <option>ALL</option> 
+          {% for machine in machine_data %}
+                <option>{{ machine }}</option>
+            {% endfor %}
+        </select>
+
+        
+        <label for="vendor_code">VENDOR CODE:</label>
+        <select id="vendor_code" name="vendor_code">
+            <option>ALL</option> 
+            {% for vendor in vendor_data %}
+                <option>{{ vendor }}</option>
+            {% endfor %}
+        </select><br>
+
+         
+        <label for="sample_size">SAMPLE SIZE:</label>
+        <select class="sample_size" name="sample_size">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        
+        <label for="shift">SHIFT:</label>
+        <select class="shift" name="shift">
+            <option>ALL</option> 
+          {% for shift in shift_data %}
+                <option>{{ shift }}</option>
+            {% endfor %}
+        </select><br>
+       
+
+        <a href="{% url 'index' %}" >
+          <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+          </a>
+        <button type="button" class="report-btn" id="report_btn_4"><b>VIEW REPORT</b></button>  
+
+    </div>
+
+    <div class="item item-6" id="pie_chart">
+      <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>PIE CHART</b></h2></center>
+
+
+        <label for="sr.no" style="margin-top: 20px;">PART.NO:</label>
+        <select class="sr_no" id="sr_no" name="sr_no" disabled>
+            <option value="1" selected>1</option>
+        </select>
+        
+        <label for="partModel">PART MODEL:</label>
+        <select class="partModel" id="partModel" name="partModel">
+            {% for model in model_data %}
+                <option>{{ model }}</option> <!-- No need for value="{{ forloop.counter }}" -->
+            {% endfor %}
+        </select><br>
+
+        <label for="parameter_name">PARAMATER NAME:</label>
+        <select class="parameter_name" name="parameter_name" ></select>
+
+        <label for="operator">OPERATOR:</label>
+        <select class="operator" name="operator">
+            <option>ALL</option> 
+          {% for operator in operator_data %}
+                <option>{{ operator }}</option>
+            {% endfor %}
+        </select><br>
+
+
+        
+        <label for="from_date" style="margin-top: 30px;">FROM DATE TIME:</label>
+        <input type="datetime-local" class="from-date" id="from_date" name="from_date"><br>
+        
+
+        <label for="to_date"style="margin-top: 30px;">TO DATE TIME:</label>
+        <input type="datetime-local" class="to-date" id="to_date" name="to_date"><br>
+
+       <label for="machine" style="margin-top: 30px;">MACHINE:</label>
+        <select class="machine" name="machine">
+            <option>ALL</option> 
+          {% for machine in machine_data %}
+                <option>{{ machine }}</option>
+            {% endfor %}
+        </select>
+
+        
+        <label for="vendor_code">VENDOR CODE:</label>
+        <select id="vendor_code" name="vendor_code">
+            <option>ALL</option> 
+            {% for vendor in vendor_data %}
+                <option>{{ vendor }}</option>
+            {% endfor %}
+        </select><br>
+
+         
+        <label for="sample_size">SAMPLE SIZE:</label>
+        <select class="sample_size" name="sample_size">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        
+        <label for="shift">SHIFT:</label>
+        <select class="shift" name="shift">
+            <option>ALL</option> 
+          {% for shift in shift_data %}
+                <option>{{ shift }}</option>
+            {% endfor %}
+        </select><br>
+
+        <a href="{% url 'index' %}" >
+          <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+          </a>
+        <button type="button" class="report-btn" id="report_btn_6"><b>VIEW REPORT</b></button>    
+    </div>
+
+    
+</div>
+</div>
+
+<div id="loading_spinner" style="display: none;">
+    <i class="fas fa-spinner fa-spin"></i> 
+    <div style="text-align: center; margin-left: -120px; font-size: 34px; font-weight: bold; color: green;">
+        Please wait a moment...
+    </div>
+</div>
+
+   
+    <div id="popupMessage" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 20px; background-color: #4CAF50; color: white; border-radius: 5px; z-index: 1000;">
+        <p id="popupText"></p>
+    </div>
+
+        <!-- <div id="plc-notification">
+    <img id="human-inside" src="/static/images/air.png" alt="Human Writer">
+    <div id="plc-message"></div> -->
+</div>
+
+
+<script>
+
+
+
+// let isVisible = false;
+// let typingTimer = null;
+
+// function typeMessage(message, element, speed = 100) {
+//     element.innerText = "";
+//     let index = 0;
+//     typingTimer = setInterval(() => {
+//         element.innerText += message[index];
+//         index++;
+//         if (index >= message.length) {
+//             clearInterval(typingTimer);
+//         }
+//     }, speed);
+// }
+
+// function showNotificationWithHuman() {
+//     if (isVisible) return;
+//     isVisible = true;
+
+//     const box = document.getElementById("plc-notification");
+//     const human = document.getElementById("human-inside");
+//     const msg = document.getElementById("plc-message");
+
+//     // Make visible
+//     box.style.display = "flex";
+//     box.style.animation = "fadeInBox 0.5s forwards, pulse 1s infinite";
+//     box.style.opacity = "1";
+
+//     setTimeout(() => {
+//         human.style.animation = "walkInBox 2s forwards";
+//     }, 300);
+
+//     setTimeout(() => {
+//         typeMessage("⚠ PLEASE CHECK AIR! ⚠", msg, 150);
+//     }, 2300);
+// }
+
+// function hideNotificationAndHuman() {
+//     clearInterval(typingTimer);
+
+//     const box = document.getElementById("plc-notification");
+//     const human = document.getElementById("human-inside");
+
+//     box.style.display = "none"; // Completely remove from layout
+//     box.style.opacity = "0";
+//     box.style.animation = "";
+
+//     human.style.left = "-200px";
+//     human.style.animation = "";
+
+//     isVisible = false;
+// }
+
+
+// function fetchActiveCoils() {
+//     fetch("/get_plc_status/")
+//         .then(response => response.json())
+//         .then(data => {
+//             const activeCoils = data.active_coils || [];
+//             console.log("✅ Step 1 coils:", activeCoils);
+
+//             if (activeCoils.includes(113)) {
+//                 showNotificationWithHuman();
+               
+//             } else {
+//                 hideNotificationAndHuman();
+//             }
+
+            
+//         })
+//         .catch(error => console.error("❌ PLC fetch error", error));
+// }
+
+// // Start checking every 500 ms
+// setInterval(fetchActiveCoils, 500);
+
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.querySelectorAll("select").forEach(select => {
+//         select.addEventListener("focus", function () {
+//             let optionCount = Math.min(this.options.length, 8);
+//             let optionHeight = 30;
+//             let totalHeight = optionCount * optionHeight;
+
+//             this.style.overflowY = "auto";
+//             this.style.height = `${totalHeight}px`;
+//             this.size = optionCount;
+
+//             document.body.style.overflow = "hidden";
+//         });
+
+//         select.addEventListener("blur", function () {
+//             this.style.overflow = "hidden";
+//             this.style.height = "30px";
+//             this.size = 1;
+//             document.body.style.overflow = "auto";
+//         });
+
+//         select.addEventListener("change", function () {
+//             this.blur();
+//         });
+//     });
+
+//     // Apply styles to datetime-local inputs without changing position
+//     document.querySelectorAll("input[type='datetime-local']").forEach(input => {
+//         input.addEventListener("focus", function () {
+//             this.style.zIndex = "1000"; // Bring input to front
+//             this.style.width = "auto"; // Expand width
+//             this.style.height = "50px"; // Expand height for better visibility
+//             this.style.fontSize = "16px"; // Make text readable
+
+//             document.body.style.overflow = "hidden"; // Prevent scrolling
+//         });
+
+//         input.addEventListener("blur", function () {
+//             this.style.zIndex = "1";
+//             this.style.width = "";
+//             this.style.height = "30px"; // Reset to normal height
+//             this.style.fontSize = "16px"; // Reset font size
+//             document.body.style.overflow = "auto"; // Restore scrolling
+//         });
+//     });
+// });
+
+
+
+
+
+document.querySelectorAll('.partModel').forEach(function(partModelDropdown) {
+    partModelDropdown.addEventListener("change", function() {
+        // Get the selected index of the partModel
+        var selectedIndex = this.selectedIndex + 1; // Add 1 to match sr_no with index (starting from 1)
+
+        // Update all sr_no dropdowns
+        document.querySelectorAll('.sr_no').forEach(function(srNoDropdown) {
+            srNoDropdown.innerHTML = ""; // Clear previous options
+
+            // Set the new value for sr_no to match selected partModel index
+            var option = document.createElement("option");
+            option.value = selectedIndex;
+            option.text = selectedIndex;
+            option.selected = true;
+
+            srNoDropdown.appendChild(option);
+        });
+
+        // Optionally, if you want to update all partModel dropdowns as well
+        document.querySelectorAll('.partModel').forEach(function(otherPartModelDropdown) {
+            if (otherPartModelDropdown !== partModelDropdown) {
+                otherPartModelDropdown.selectedIndex = selectedIndex - 1;
+            }
+        });
+    });
+});
+///////////////////////////////////////////////////////////////////////////////////
+
+//cursor to blink always in the job_no report
+
+  // Parse the shift values from your JSON object
+  var shiftValues = JSON.parse('{{ shift_values|escapejs }}');
+        //console.log('Shift values:', shiftValues);
+
+        // Helper function to convert 12-hour time format to 24-hour format
+        function convertTo24Hour(timeString) {
+            let [time, modifier] = timeString.trim().split(' ');
+            let [hours, minutes, seconds] = time.split(':');
+            if (modifier === 'PM' && hours !== '12') {
+                hours = parseInt(hours, 10) + 12;
+            }
+            if (modifier === 'AM' && hours === '12') {
+                hours = 0;
+            }
+            return `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
+        }
+
+        // Function to determine the from-date based on the current time
+        function setDateTimes() {
+            let now = new Date();
+            let currentTime = now.toTimeString().split(' ')[0]; // 'HH:MM:SS'
+            let currentDate = now.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+
+            // Remove seconds from the current time for to-date
+            let [hours, minutes] = currentTime.split(':');
+            let toDateTime = `${currentDate}T${hours}:${minutes}`;
+
+            // Set the to-date input
+            let toDateElements = document.getElementsByClassName('to-date');
+            for (let element of toDateElements) {
+                element.value = toDateTime;
+            }
+
+            // Determine the from-date based on the shift values
+            let fromDateTime = null;
+            for (let i = shiftValues.length - 1; i >= 0; i--) {
+                let [shiftName, shiftTime] = shiftValues[i];
+                let shift24HourTime = convertTo24Hour(shiftTime);
+                if (currentTime >= shift24HourTime) {
+                    fromDateTime = `${currentDate}T${shift24HourTime}`;
+                    break;
+                }
+            }
+            if (!fromDateTime) {
+                fromDateTime = `${currentDate}T00:00:00`; // Default to start of the day if no shift is found
+            }
+
+            // Set the from-date input
+            let fromDateElements = document.getElementsByClassName('from-date');
+            for (let element of fromDateElements) {
+                element.value = fromDateTime;
+            }
+
+            // console.log('Current time:', currentTime);
+            // console.log('To date-time (without seconds):', toDateTime);
+            // console.log('From date-time:', fromDateTime);
+        }
+
+        setDateTimes();
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// Function to update the clock
+function updateClock() {
+  var now = new Date();
+  var hours = now.getHours();
+  var minutes = now.getMinutes();
+  var seconds = now.getSeconds();
+  var day = now.getDate();
+  var month = now.getMonth() + 1; // January is 0, so we add 1 to get the actual month
+  var year = now.getFullYear();
+
+  // Format the time string
+  var ampm = hours >= 12 ? 'PM' : 'AM'; // Determine if it's AM or PM
+  hours = hours % 12; // Convert to 12-hour format
+  hours = hours ? hours : 12; // Handle midnight (0 hours)
+  var timeString = hours + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0') + " " + ampm;
+
+  // Format the date string
+  var dateString = day.toString().padStart(2, '0') + "-" + month.toString().padStart(2, '0') + "-" + year;
+
+  var dateTimeString =  timeString  +  " / " +   dateString;
+
+  // Update the clock display
+  document.getElementById("clock-box").innerHTML = dateTimeString;
+
+  // Call this function again after 1 second
+  setTimeout(updateClock, 1000);
+}
+
+// Call the function to initially display the clock
+updateClock();
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+$(document).ready(function() {
+    // Event listener for any select element with class 'partModel'
+    $('.partModel').change(function() {
+      // Get the selected option value
+      var selectedOption = $(this).val();
+      
+      // Update all other select elements with the same value
+      $('.partModel').val(selectedOption);
+    });
+  });
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  function enlargeItem(index) {
+            document.querySelectorAll('.box-1 > div').forEach(function (el) {
+                el.style.backgroundColor = '';
+            });
+            var clickedInnerBox = document.querySelector(`.box-1 .inner-box-${index}`);
+            clickedInnerBox.style.backgroundColor = 'red';
+            //console.log("Selected ID:", clickedInnerBox.id); // Log the ID of the clicked element
+        }
+
+        function showItem(itemClassName) {
+            var itemClasses = document.querySelectorAll('.item');
+            itemClasses.forEach(function (item) {
+                item.style.display = 'none';
+            });
+
+            var selectedItem = document.querySelector('.' + itemClassName);
+            if (selectedItem) {
+                selectedItem.style.display = 'block';
+                // console.log("Displayed Item Class:", itemClassName); // Log the class name of the displayed item
+                // console.log("Selected ID:", selectedItem.id);
+            }
+        }
+
+        window.onload = function () {
+            showItem('item-1');
+            document.querySelector('.box-1 .inner-box-1').style.backgroundColor = 'red';
+            //console.log("Displayed Item Class: item-1"); // Log the class name of the default displayed item
+        };
+
+        // Function to format the date and time
+        function formatDateTime(dateTime) {
+            var date = new Date(dateTime);
+            var day = date.getDate().toString().padStart(2, '0');
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var year = date.getFullYear();
+            var hours = date.getHours();
+            var minutes = date.getMinutes().toString().padStart(2, '0');
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            var strTime = hours + ':' + minutes + ':' + "00" + ' ' + ampm;
+            return day + '-' + month + '-' + year + ' ' + strTime;
+        }
+
+        // Function to get the current date and time
+        function getCurrentDateTime() {
+            var now = new Date();
+            var day = now.getDate().toString().padStart(2, '0');
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // January is 0
+            var year = now.getFullYear();
+            var hours = now.getHours();
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            var timeString = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+            var dateString = day + '-' + month + '-' + year;
+            return dateString + ' ' + timeString;
+        }
+
+
+    document.querySelectorAll('.report-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var activeItem = document.querySelector('.item[style*="display: block"]');
+            $('#loading_spinner').show();
+            if (activeItem) {
+                var data = {};
+                var formElements = activeItem.querySelectorAll('input, select');
+                formElements.forEach(function(element) {
+                    if (element.type === 'datetime-local') {
+                        data[element.name] = formatDateTime(element.value);
+                    } else {
+                        data[element.name] = element.value;
+                    }
+                });
+                // Add the current date and time to the data
+                data.currentDateTime = getCurrentDateTime();
+                
+                // Add the ID of the active item to the data
+                data.itemId = activeItem.id;
+                
+                //console.log("Data to be sent:", data); // Log the data to be sent
+
+                    // Fetch CSRF token from cookie
+                    function getCookie(name) {
+                        let cookieValue = null;
+                        if (document.cookie && document.cookie !== '') {
+                            const cookies = document.cookie.split(';');
+                            for (let i = 0; i < cookies.length; i++) {
+                                const cookie = cookies[i].trim();
+                                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }
+
+                    var csrftoken = getCookie('csrftoken');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/spc/',  // Replace with your actual backend endpoint
+                        data: JSON.stringify(data),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
+                        success: function(response) {
+                            $('#loading_spinner').show();
+                    //console.log('Response:', response);  // Debugging information
+                    showPopup('Report generated successfully!');
+                },
+                error: function(error) {
+                    //console.log('Error:', error);  // Debugging information
+                    showPopup('An error occurred while generating the report.');
+                }
+                    });
+                }
+            });
+        });
+
+        function showPopup(message) {
+    var popup = document.getElementById('popupMessage');
+    var popupText = document.getElementById('popupText');
+    
+    popupText.textContent = message;
+    popup.style.display = 'block';
+    
+    setTimeout(function() {
+        popup.style.display = 'none';
+    }, 2000);  // 2 seconds
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+
+$(document).ready(function() {
+    // Function to fetch data based on selected model
+    function fetchData(selectedModel, selectElement) {
+        var data = {
+            partModel: selectedModel
+        };
+        //console.log("data:", data);
+
+        $.ajax({
+            url: '/spc/', // Replace with your server endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'), // Ensure you have this function defined
+            },
+            data: JSON.stringify(data), // Stringify the data before sending
+            success: function(response) {
+                // Handle the response from the server
+                // console.log('Success:', response);
+                // console.log('parameter_names:', response.parameter_names);
+                // console.log('component_serial_numbers:', response.component_serial_numbers);
+
+                // Select the <select> element
+                var selectElement = $('.parameter_name',);
+
+
+            // Clear existing options (if any) and add "ALL" option
+            selectElement.empty();
+
+
+            // Populate options based on response.parameter_names
+            $.each(response.parameter_names, function(index, paramName) {
+                selectElement.append($('<option></option>').text(paramName));
+            });
+
+            // Optionally, trigger a change event if needed
+            selectElement.trigger('change');
+
+            },
+            error: function(error) {
+                // Handle errors here
+                console.error('Error:', error);
+            }
+        });
+    }
+ 
+    // Event listener for the dropdown change
+    $('.partModel').change(function() {
+        var selectedModel = $(this).val();
+        var selectElement = $(this).closest('.model-container').find('.parameter_name');
+        fetchData(selectedModel, selectElement);
+    });
+
+    // Send initial value on window load with 1-second delay
+    setTimeout(function() {
+        $('.partModel').each(function() {
+            var initialModel = $(this).val();
+            var selectElement = $(this).closest('.model-container').find('.parameter_name');
+            fetchData(initialModel, selectElement);
+        });
+    }, 1000); // 1-second delay
+});
+
+
+// Function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", function() {
+    // Find the button element by its ID
+    var reportBtn1 = document.getElementById("report_btn_1");
+
+    // Add click event listener to the button
+    reportBtn1.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        setTimeout(function(){
+             // Redirect to the desired URL
+            window.location.href = '/xBar/';
+        },2000);
+       
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Find the button element by its ID
+    var reportBtn2 = document.getElementById("report_btn_2");
+
+    // Add click event listener to the button
+    // Add click event listener to the button
+    reportBtn2.addEventListener("click", function(event) {
+
+event.preventDefault();
+
+setTimeout(function(){
+     // Redirect to the desired URL
+    window.location.href = '/xBarRchart/';
+},2000);
+
+});
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Find the button element by its ID
+    var reportBtn3 = document.getElementById("report_btn_3");
+
+    // Add click event listener to the button
+    // Add click event listener to the button
+    reportBtn3.addEventListener("click", function(event) {
+
+event.preventDefault();
+
+setTimeout(function(){
+     // Redirect to the desired URL
+    window.location.href = '//';
+},2000);
+
+});
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Find the button element by its ID
+    var reportBtn4 = document.getElementById("report_btn_4");
+
+    // Add click event listener to the button
+    reportBtn4.addEventListener("click", function(event) {
+
+event.preventDefault();
+
+setTimeout(function(){
+     // Redirect to the desired URL
+    window.location.href = '/histogram/';
+},2000);
+
+});
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Find the button element by its ID
+    var reportBtn6 = document.getElementById("report_btn_6");
+
+    // Add click event listener to the button
+    reportBtn6.addEventListener("click", function(event) {
+
+event.preventDefault();
+
+setTimeout(function(){
+     // Redirect to the desired URL
+    window.location.href = '/pieChart/';
+},2000);
+
+});
+});
+      
+</script>
+
+{% endblock content %}

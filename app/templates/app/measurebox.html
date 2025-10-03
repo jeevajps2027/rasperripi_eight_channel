@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PART SELECTION</title>
+  <style>
+
+html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 96vh;
+    width: 98vw;  
+}
+
+
+body {  
+   background-color: black;
+   border: 10px double white;
+   padding: 5px;
+}
+
+   
+    .box_container{
+      display: flex;
+   
+      height: 70%;
+      width: 100%;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      border: 2px solid black;
+      border-radius: 8px;
+      background-color: #f8f8f8;
+      height: 60%;
+      width: 35%;
+      margin-left: 25%;
+      margin-top: 1%;
+    }
+
+    .button_id{
+      margin-top: 2%;
+     
+      height: 70%;
+      width: 15%;
+     
+    }
+
+    label {
+      display: inline-block;
+      width: 40%;
+      margin-top:5%;
+      margin-left: 0%;
+      text-align: center;
+      font-size: 1.5vw;
+      font-weight: bold;
+    }
+
+    select {
+      box-sizing: border-box;
+      height: 15%;
+      width: 50%;
+      font-size: 1.5vw;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #select-btn {
+      width: 30%;
+      height: 100%;
+      background-color: rgb(48, 236, 48);
+      margin-left: 20px;
+      font-size: 1.3vw;
+     
+    }
+
+    #cancel-btn {
+      width: 30%;
+      height: 100%;
+      background-color: red;
+      margin-left: 20px;
+      font-size: 1.3vw;
+    
+    }
+
+    .centered-content {
+      color: white;
+      text-shadow: 2px 2px 4px #000000;
+      text-align: center;
+    height: 10%;
+    width: 25%;
+    margin-left: 30%;
+  margin-top: 5%;
+      font-weight: bold;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    #notification {
+      display: none;
+      position: fixed;
+      height: 25px;
+      width: 500px;
+      top: 75%;
+      left: 45%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: large;
+      font-weight: bold;
+      background-color: yellow;
+      color: black;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+   
+    #master-btn,
+    #measure-btn {
+      width: 70%;
+      height: 40%;
+      margin-left: 20px;
+      margin-top: 3%;
+      font-size: 1.2vw;
+      background-color: orangered;
+      color: white;
+      border: 2px solid white;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #master-btn:hover,
+    #measure-btn:hover {
+      background-color: orange;
+      color: black;
+    }
+#btn_container{
+  margin-top: 7%;
+  width: 100%;
+  height: 20%;
+}
+
+  
+
+
+
+  </style>
+</head>
+<body>
+
+
+
+  <center style="color: white; text-shadow: 2px 2px 4px #000000;text-align: center; margin-top: 5%; font-size: 1.5vw;">
+    <h1><b>PART SELECTION</b></h1></center>
+
+  <div class="box_container">
+  <div class="container">
+    <label for="partModel">PART MODEL:</label>
+    <select id="partModel" name="partModel">
+      {% for value in part_model_values %}
+        <option value="{{ value }}" {% if current_selection and current_selection.part_model == value %}selected{% endif %}>{{ value }}</option>
+      {% endfor %}
+    </select><br>
+
+    <label for="operator">OPERATOR:</label>
+    <select id="operator" name="operator">
+      {% for value in operator_values %}
+        <option value="{{ value }}" {% if current_selection and current_selection.operator == value %}selected{% endif %}>{{ value }}</option>
+      {% endfor %}
+    </select><br>
+
+    <label for="machine">MACHINE:</label>
+    <select id="machine" name="machine">
+      {% for value in machine_name_values %}
+        <option value="{{ value }}" {% if current_selection and current_selection.machine == value %}selected{% endif %}>{{ value }}</option>
+      {% endfor %}
+    </select><br>
+
+    <!-- <label for="shift">SHIFT:</label>
+    <select id="shift" name="shift">
+      {% for value in batch_no_values %}
+        <option value="{{ value }}" {% if current_selection and current_selection.shift == value %}selected{% endif %}>{{ value }}</option>
+      {% endfor %}
+    </select> -->
+
+    <div id="btn_container" >
+      <a href="{% url 'index' %}">
+        <button type="button" id="cancel-btn"><b>BACK</b></button>
+      </a>
+      <button type="button" id="select-btn"><b>SELECT</b></button>
+    </div>
+    <br>
+  </div>
+  <div class="button_id">
+    <button type="button" id="master-btn"><b>MASTER</b></button><br>
+    <button type="button" id="measure-btn"><b>MEASUREMENT</b></button>
+  </div>
+</div>
+ 
+  <div id="notification"></div>
+
+
+  <script>
+
+
+
+
+    document.getElementById('select-btn').addEventListener('click', function() {
+      const partModel = document.getElementById('partModel').value;
+      const operator = document.getElementById('operator').value;
+      const machine = document.getElementById('machine').value;
+
+      const data = {
+        partModel: partModel,
+        operator: operator,
+        machine: machine,
+        // shift: shift
+      };
+
+      const csrftoken = getCookie('csrftoken');
+
+      fetch('/measurebox/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // console.log('Server Response:', data);
+        if (data.status === 'success') {
+          displayNotification('Your part selection was successful.');
+          // Set a 5-second delay before reloading the page
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    
+    });
+
+    function displayNotification(message) {
+      const notificationDiv = document.getElementById('notification');
+      notificationDiv.innerText = message;
+      notificationDiv.style.display = 'block';
+      setTimeout(() => {
+        notificationDiv.style.display = 'none';
+      }, 3000);
+    }
+
+    document.getElementById('master-btn').addEventListener('click', function() {
+      window.location.href = '/master/';
+    });
+
+    document.getElementById('measure-btn').addEventListener('click', function() {
+      window.location.href = '/measurement/';
+    });
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+</body>
+</html>

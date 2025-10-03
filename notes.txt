@@ -1,0 +1,156 @@
+1. Create a folder structure for .deb packaging
+    mkdir -p fourchannel_deb/usr/local/bin
+    mkdir -p fourchannel_deb/DEBIAN
+
+2. Copy the PyInstaller output
+    cp -r /home/sai/Desktop/rasperripi_mini/four_channel/dist/four_channel fourchannel_deb/usr/local/bin/fourchannel
+
+3. Create the control file
+    Package: fourchannel
+    Version: 1.0
+    Section: base
+    Priority: optional
+    Architecture: arm64
+    Maintainer: sai <gaugelogic.report@gmail.com>
+    Description: Multi-channel system application
+
+
+4. Make your executable scriptable
+    sudo nano fourchannel_deb/usr/local/bin/fourchannel-launch
+
+    #!/bin/bash
+    /usr/local/bin/fourchannel/your_app_executable
+
+    sudo chmod +x fourchannel_deb/usr/local/bin/fourchannel-launch
+
+
+5. Create a directory for .desktop files inside your deb folder:
+
+    mkdir -p fourchannel_deb/usr/share/applications
+
+    nano fourchannel_deb/usr/share/applications/fourchannel.desktop
+
+
+
+[Desktop Entry]
+Name=FourChannel
+Exec=/usr/local/bin/fourchannel-launch
+Icon=/usr/local/bin/four_channel/sai.png
+Type=Application
+Terminal=false
+Categories=Utility;
+
+
+
+6. Build the .deb file
+    dpkg-deb --build fourchannel_deb
+
+
+7. Test it on another Raspberry Pi
+    sudo dpkg -i fourchannel_deb.deb
+
+
+
+`DESKTOP SHORTYCUT CREATE:`
+
+cp /usr/share/applications/fourchannel.desktop ~/Desktop/
+chmod +x ~/Desktop/fourchannel.desktop
+
+
+`DELETE COMMAND FOR INSTALLED APPS:`
+
+sudo rm -r /usr/local/bin/fourchannel-launch
+
+
+`REPLACE THE CURRENT DB WITH YOUR BACKUP`:
+
+cp /home/sai/Downloads/backup_20250429_112908/db_backup_20250429_112908.sqlite3 /home/sai/Desktop/rasperripi_mini/four_channel/db.sqlite3
+
+`Ensure correct permissions:`
+
+chmod 664 /home/sai/Desktop/rasperripi_mini/four_channel/db.sqlite3
+chown sai:sai /home/sai/Desktop/rasperripi_mini/four_channel/db.sqlite3
+
+
+
+
+
+
+
+
+
+
+
+
+
+REAL TIME CLOCK
+
+Step 1: Connect DS3231 RTC to Raspberry Pi (5-Pin)
+
+    RTC Pin	Connect To Raspberry Pi GPIO Pin
+    GND	Pin 6 (Ground)
+    VCC	Pin 1 (3.3V or 5V)
+    SDA	Pin 3 (GPIO 2, SDA1)
+    SCL	Pin 5 (GPIO 3, SCL1)
+
+Step 2: Enable I2C on Raspberry Pi
+    sudo raspi-config
+    Interfacing Options → I2C → Enable
+    sudo reboot
+
+
+Step 3: Check if RTC is Detected
+
+    sudo i2cdetect -y 1
+    You should see an entry like 0x68 (that's the DS3231's I2C address).
+
+Step 4: Load RTC Kernel Module
+
+    sudo nano /boot/config.txt
+    Add this line at the bottom:
+        dtoverlay=i2c-rtc,ds3231
+    Save and reboot
+
+Step 5: Disable Fake HW Clock
+    sudo apt-get -y remove fake-hwclock
+    sudo systemctl disable fake-hwclock
+
+Step 6: Set or Read Time from RTC
+
+    sudo hwclock -r
+    sudo hwclock -w
+    sudo hwclock -s
+
+
+✅ One-Time Setup: Set Time into RTC (Manually)
+🔧 Step 1: Manually Set System Time (if not already correct)
+
+    sudo date -s "2025-07-10 15:35:00"
+     Replace with the correct current date and time.
+
+
+     sudo hwclock -w
+     sudo hwclock -s
+
+
+    sudo nano /etc/rc.local
+
+        #!/bin/sh -e
+        #
+        # rc.local
+        #
+        # This script is executed at the end of each multiuser runlevel.
+        # Make sure that the script will "exit 0" on success or any other
+        # value on error.
+
+        **/sbin/hwclock -s**
+        exit 0
+
+
+    sudo hwclock -s
+
+Then save and reboot:
+    sudo reboot
+
+
+

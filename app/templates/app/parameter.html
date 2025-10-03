@@ -1,0 +1,1297 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+PARAMETER SETTINGS
+{% endblock title %}
+{% block content %}
+<style>
+      
+html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+   
+
+
+}
+
+body {
+   
+    background-color: black;
+    border: 10px double white;
+    padding: 5px;
+}
+
+    .box_main{
+        width: 100%;
+        height: 100%;
+        margin-top: 2%;
+        display: flex;
+    }
+    .box-2{
+        height:90%;
+        width: 15%;
+        margin-left: 5%;
+        background-color:rgb(243, 232, 243);
+        border: 2px solid black;  
+       
+    }
+
+
+    .box-1{
+        height: 90%;
+        width: 70%;
+        margin-left: 5%;
+       
+        background-color: lightblue;
+        border: 2px solid black;    
+    }
+
+        .custom-input {
+        background-color: lightblue;
+        cursor: pointer;
+        }
+
+        .custom-input:focus {
+        background-color: red;
+        }
+
+
+    .box-3{
+        height: 10%;
+        width: 95%;
+        margin-left: 20px;
+        border: 2px solid black;
+        margin-top: 7%;
+        background-color: gray;
+        border-radius: 10px;
+        text-align: center;
+    }
+   
+    #model_dropdown {
+    width: 220px;
+}
+
+   
+    .box-2 input[type="text"] {
+        border: none;
+        width: 100%;
+        font-size: 1.2vw;
+        outline: none;
+    }
+
+    label {
+            display: inline-block;
+            width: 15%;
+            margin-top: 2%;
+            text-align: center;
+            margin-left: 5%;
+            font-weight: bold;
+            font-size: 1.2vw;
+            
+        }
+
+        input {
+            margin-top: 10px;
+            box-sizing: border-box;
+            width: 15%;
+            font-weight: 1vw;
+        }
+        select {
+            margin-top: 10px;
+            box-sizing: border-box;
+            width: 15%;
+            height: 30px;
+            font-size: 1vw;
+        }
+        #add-btn{
+            width: 18%;
+            height: 80%;
+            margin-top: 7px;
+            margin-left: 5%;
+            font-size: 1.2vw;
+           
+            background-color: orange;
+            border-radius: 15px;
+            border: 2px solid white;
+        }
+        #deleteParameterBtn{
+            width: 18%;
+            height: 80%;
+            margin-top: 7px;
+            margin-left: 5%;
+            font-size: 1.2vw;
+            background-color:red;
+            border-radius: 15px;
+            border: 2px solid white;
+        }
+        #save-btn{
+            width: 18%;
+            height: 80%;
+            margin-top: 7px;
+            margin-left: 5%;
+            font-size: 1.2vw;
+            background-color: rgb(142, 230, 11);
+            border-radius: 15px;
+            border: 2px solid white;
+        }
+        #cancel-btn{
+            width: 18%;
+            height: 80%;
+            margin-top: 7px;
+            margin-left: 5%;
+            font-size: 1.2vw;
+            background-color: yellow;
+            border-radius: 15px;
+            border: 2px solid white;
+        }
+
+       
+
+        .model-list.selected {
+            background-color: lightskyblue; 
+        }
+
+        .parameter-list {
+            display: none;
+        }
+       
+        .parameter-list li.selected {
+            background-color: red;
+        }
+
+#notification {
+    display: none;
+    position: fixed;    
+    top: 50%;
+    left: 50%;
+    height: 120px;
+    width: 350px;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
+    border: 2px solid black;
+}
+
+.box-2 {
+    cursor: pointer; /* Change cursor to pointer when hovering over the box */
+    
+}
+
+/* For main model names */
+.model-name {
+    font-size: 1.4vw;   /* increase size */
+    font-weight: bold; /* optional: make bold */
+    color: #333;       /* optional: darker text */
+    margin-bottom: 5px;
+}
+
+/* For nested parameter names */
+.nested-ul li {
+    font-size: 1.2vw;   /* a bit smaller than model name */
+    margin-left: 20px; /* indent for clarity */
+    color: #555;       /* softer color */
+    font-style: italic;
+    font-weight: bold;
+}
+
+
+ .box-2 {
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+
+.box-2 ul li {
+    cursor: pointer; /* Change cursor to pointer when hovering over list items */
+}
+
+
+
+@keyframes walkInBox {
+    0% { left: -200px; }
+    100% { left: 20px; }
+}
+@keyframes fadeInBox {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+    50% { box-shadow: 0 0 40px rgba(255,0,0,1); }
+    100% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+}
+
+#plc-notification {
+    position: fixed;
+    width: 95vw;
+    height: 80vh;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: red;
+    color: white;
+    font-size: 5vw; /* reduced font size */
+    font-weight: bold;
+    padding: 30px 50px;
+    border-radius: 15px;
+    z-index: 9999;
+    opacity: 0;
+    overflow: hidden; /* keep human inside box */
+    display: none; /* Hides completely by default */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#human-inside {
+    position: absolute;
+    bottom: 5px;
+    left: -200px; /* start hidden to left */
+    width: 250px; /* increased size */
+}
+
+
+       
+</style>
+
+<!-- 
+<center style="color: white; text-shadow: 2px 2px 4px #000000;text-align: center; margin-top: 2%;">
+    <h1><b>PARAMETER SETTINGS</b></h1></center> -->
+    <div id="notification" style="display: none;"></div>
+<div class="box_main" id="box_main">
+
+    <div class="box-2" id="model_name">
+        {% for data in table_body_1_data %}
+            <ul class="model-ul">
+                <li class="model-name" data-model-id="{{ data.model_id }}">{{ data.part_model }}</li>
+                <ul class="nested-ul">
+                    {% for item in paraname %}
+                        <li>{{ item.parameter_name }}</li>
+                    {% endfor %}
+                </ul>
+            </ul>
+        {% endfor %}
+    </div>
+
+
+<div class="box-1" id="box1">
+
+    <label for="sr.no">PARAMETER.NO</label>
+    <input type="text" id="sr_no" name="sr_no" required>
+
+    <label style="margin-left: 50px;">MASTER</label>
+    <label for="single" style="margin-left: -50px;">Single
+        <input type="radio" id="single" name="radioOption" style="transform: scale(1.5);" onclick="handleRadioClick('single')" >
+    </label>
+    <label for="double" style="margin-left: 10px;">Double
+        <input type="radio" id="double" name="radioOption"style="transform: scale(1.5);" onclick="handleRadioClick('double')" >
+    </label><br>
+
+    <label for="partModel">PART MODEL</label>
+    <input type="text" id="partModel" readonly required>
+
+    <label for="analog_zero">ANALOG ZERO</label>
+<input type="text" id="analog_zero" style="width: 10%;" value="{{ value.analog_zero }}">
+
+<label for="high_mv" style="text-align: right;margin-left: 5px;">HIGH M-V</label>
+<input type="text" id="high_mv" style="width: 10%;" value="{{ value.high_mv }}"><br>
+
+<label for="parameter_name">PARAMETER NAME</label>
+<input type="text" id="parameter_name" value="{{ value.parameter_name }}" required>
+
+<label for="reference_value">MASTER VALUE</label>
+<input type="text" id="reference_value" style="width: 10%;" value="{{ value.reference_value }}">
+
+<label for="low_mv" style="text-align: right; margin-left: 5px;">LOW M-V</label>
+<input type="text" id="low_mv" style="width: 10%;" value="{{ value.low_mv }}"><br>
+
+    <label for="measurement_mode">MEASUREMENT MODE</label>
+    <select id="measurement_mode" name="measurement_mode" required>
+        <option value="CUR" {% if value.measurement_mode == 'CUR' %}selected{% endif %}>CUR</option>
+        <option value="MAX" {% if value.measurement_mode == 'MAX' %}selected{% endif %}>MAX</option>
+        <option value="MIN" {% if value.measurement_mode == 'MIN' %}selected{% endif %}>MIN</option>
+        <option value="TIR" {% if value.measurement_mode == 'TIR' %}selected{% endif %}>TIR</option>
+        <option value="AVR" {% if value.measurement_mode == 'AVR' %}selected{% endif %}>AVR</option>
+        <option value="DTM" {% if value.measurement_mode == 'DTM' %}selected{% endif %}>DTM</option>
+        <option value="RUNOUT" {% if value.measurement_mode == 'RUNOUT' %}selected{% endif %}>RUNOUT</option>
+    </select>
+
+    
+
+    <label for="job_dia">JOB DIA</label>
+    <select id="job_dia" style="width: 10%;" name="job_dia" required>
+        <option value="OD" {% if value.job_dia == 'OD' %}selected{% endif %}>OD</option>
+        <option value="ID" {% if value.job_dia == 'ID' %}selected{% endif %}>ID</option>
+    </select>
+
+    <label for="nominal" style="margin-left: 40px;">NOMINAL</label>
+    <input type="text" id="nominal" style="width: 10%;margin-left: -35px;" value="{{ value.nominal }}" required><br>
+
+    <label for="probe_no">PROBE NO</label>
+    <input type="text" id="probe_no" name="probe_no"  value="{{ value.probe_no }}" oninput="this.value = this.value.toUpperCase()" required>
+
+    <label for="usl" style="margin-left: 90px;">USL</label>
+    <input type="text" id="usl" style="width: 10%;margin-left: -25px;" value="{{ value.usl }}" required>
+
+    <label for="lsl" style="margin-left: 55px;">LSL</label>
+    <input type="text" id="lsl" style="width: 10%;margin-left: -50px;" value="{{ value.lsl }}" required><br>
+
+    <label for="mastering" style="margin-top: 15px;">MASTERING GROUP</label>
+    <select id="mastering" style="width: 15%;" name="mastering" required>
+        <script>
+            for (var i = 1; i <= 30; i++) {
+                document.write('<option value="' + i + '" {% if value.mastering == i %}selected{% endif %}>' + i + '</option>');
+            }
+        </script>
+    </select>
+
+    <label for="utl" style="margin-left: 90px;">UTL</label>
+    <input type="text" id="utl" style="width: 10%;margin-left: -25px;" value="{{ value.utl }}" required>
+
+    <label for="ltl" style="margin-left: 55px;">LTL</label>
+    <input type="text" id="ltl" style="width: 10%;margin-left: -50px;" value="{{ value.ltl }}" required><br>
+
+    <label for="step_no">STEP NO</label>
+    <select id="step_no" style="width: 15%;" name="step_no" required>
+        <script>
+            for (var i = 1; i <= 20; i++) {
+                document.write('<option value="' + i + '" {% if value.step_no == i %}selected{% endif %}>' + i + '</option>');
+            }
+        </script>
+    </select>
+
+    <label for="digits">NO OF DIGITS</label>
+    <select id="digits" style="width: 10%;" name="digits" required>
+        <script>
+            for (var i = 1; i <= 4; i++) {
+                document.write('<option value="' + i + '" {% if value.digits == i %}selected{% endif %}>' + i + '</option>');
+            }
+        </script>
+    </select>
+
+    <label for="hide" style="text-align: right;margin-left: 5px;">HIDE</label>
+    <input type="checkbox" id="hide" style="transform: scale(1.5);width: 5%;margin-left:0px;" name="hideCheckbox" ><br>
+
+    <label for="attribute" style="text-align: right;margin-left: 15px;display: none;">ATTRIBUTE</label>
+    <input type="checkbox" id="attribute" style="transform: scale(1.5);width: 10%;margin-left:0px;display: none;" name="attributeCheckbox" onchange="handleAttributeChange()">
+    
+    <label for="auto_man" style="text-align: right;margin-left: 15px;">AUTO/MANUAL</label>
+    <input type="checkbox" id="auto_man" style="transform: scale(2);width: 10%;margin-left:0px;" name="auto_manCheckbox" >
+    
+    <label for="timer" style="text-align: right;margin-left: 160px;">TIMER</label>
+    <input type="text" id="timer" style="width: 10%;margin-left: 25px;" name="timer" disabled>
+    
+    
+    
+    <br>
+
+    <div class="box-3">
+        <button type="button" id="add-btn"><b> ADD NEW [F1]</b></button>
+        <button type="button" id="save-btn" onclick="validateForm()"><b>SAVE [F2]</b></button>
+        <button type="button" id="deleteParameterBtn"><b> DELETE [F3]</b></button>
+        <a href="{% url 'index' %}">
+            <button type="button" id="cancel-btn"><b>CANCEL [F4]</b></button>
+        </a>
+
+
+          
+
+        <script>
+
+            
+const autoManCheckbox = document.getElementById('auto_man');
+const timerInput = document.getElementById('timer');
+
+// Enable/disable timer input based on checkbox
+autoManCheckbox.addEventListener('change', () => {
+    timerInput.disabled = !autoManCheckbox.checked;
+
+    if (autoManCheckbox.checked) {
+        timerInput.style.backgroundColor = '';
+        timerInput.style.color = '';
+        timerInput.focus();
+    } else {
+        timerInput.style.color = 'black';
+        timerInput.value = ''; // clear input when disabled
+    }
+});
+
+// Allow only numbers
+timerInput.addEventListener('input', () => {
+    // Remove anything that's not a digit
+    timerInput.value = timerInput.value.replace(/[^0-9]/g, '');
+});
+
+
+
+
+document.addEventListener('keydown', function(event) {
+        // Check for specific function keys
+        switch (event.key) {
+            case 'F1':
+                event.preventDefault(); // Prevent default action
+                document.getElementById('add-btn').click(); // Trigger Add New button
+                break;
+            case 'F2':
+                event.preventDefault(); // Prevent default action
+                document.getElementById('save-btn').click(); // Trigger Save button
+                break;
+            case 'F3':
+                event.preventDefault(); // Prevent default action
+                document.getElementById('deleteParameterBtn').click(); // Trigger Delete button
+                break;
+            case 'F4':
+                event.preventDefault(); // Prevent default action
+                document.getElementById('cancel-btn').click(); // Trigger Cancel button
+                break;
+        }
+    });
+
+        </script>
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+////////////////////////////////////////////////////////////////////////////////////
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.querySelectorAll("select").forEach(select => {
+//         select.addEventListener("focus", function () {
+//             let rect = this.getBoundingClientRect(); // Get current position of select box
+//             let optionCount = Math.min(this.options.length, 8); // Show max 8 options at a time
+//             let optionHeight = 30; // Approximate height of each option in px
+//             let totalHeight = optionCount * optionHeight;
+
+//             // Create a floating dropdown
+//             this.style.overflowY = "auto"; // Enable scrolling inside dropdown
+//             this.style.height = `${totalHeight}px`; // Set height for visible options
+//             this.size = optionCount; // Expand dropdown
+//             this.style.top = `${rect.top - totalHeight}px`; // Move dropdown above
+
+//             // Prevent page scroll when dropdown is open
+//             document.body.style.overflow = "hidden";
+//         });
+
+//         select.addEventListener("blur", function () {
+//             this.style.zIndex = "1";
+//             this.style.overflow = "hidden";
+//             this.style.height = "30px"; // Reset height
+//             this.size = 1; // Collapse dropdown
+
+//             // Restore page scrolling
+//             document.body.style.overflow = "auto";
+//         });
+
+//         select.addEventListener("change", function () {
+//             this.blur(); // Collapse after selection
+//         });
+//     });
+// });
+
+
+
+
+
+document.getElementById("measurement_mode").addEventListener("change", function () {
+    const selectedMode = this.value;
+
+    const analogZero = document.getElementById("analog_zero");
+    const highMv = document.getElementById("high_mv");
+    const referenceValue = document.getElementById("reference_value");
+    const lowMv = document.getElementById("low_mv");
+    const single = document.getElementById("single");
+    const double = document.getElementById("double");
+    const jobDia = document.getElementById("job_dia");
+
+    if (selectedMode === "TIR") {
+        console.log("tir")
+    } else {
+        // Enable fields generally
+        [analogZero, highMv, referenceValue, lowMv].forEach(field => {
+            field.disabled = false;
+            field.style.filter = "";
+        });
+        single.disabled = false;
+        double.disabled = false;
+        jobDia.disabled = false;
+        jobDia.style.filter = "";
+
+        // Now apply logic based on selected radio button
+        if (single.checked) {
+            // Apply single mastering rules
+            highMv.disabled = true;
+            highMv.style.filter = "blur(2px)";
+            lowMv.disabled = true;
+            lowMv.style.filter = "blur(2px)";
+            analogZero.disabled = false;
+            analogZero.style.filter = "";
+            referenceValue.disabled = false;
+            referenceValue.style.filter = "";
+        } else if (double.checked) {
+            // Apply double mastering rules
+            analogZero.disabled = true;
+            analogZero.style.filter = "blur(2px)";
+            referenceValue.disabled = true;
+            referenceValue.style.filter = "blur(2px)";
+            highMv.disabled = false;
+            highMv.style.filter = "";
+            lowMv.disabled = false;
+            lowMv.style.filter = "";
+        }
+    }
+});
+
+
+
+// Add event listeners for single and double radio buttons
+document.getElementById("single").addEventListener("change", function () {
+    if (this.checked) {
+        document.getElementById("high_mv").disabled = true;
+        document.getElementById("high_mv").style.filter = "blur(2px)";
+        document.getElementById("low_mv").disabled = true;
+        document.getElementById("low_mv").style.filter = "blur(2px)";
+
+        document.getElementById("analog_zero").disabled = false;
+        document.getElementById("analog_zero").style.filter = "";
+        document.getElementById("reference_value").disabled = false;
+        document.getElementById("reference_value").style.filter = "";
+    }
+});
+
+document.getElementById("double").addEventListener("change", function () {
+    if (this.checked) {
+        document.getElementById("analog_zero").disabled = true;
+        document.getElementById("analog_zero").style.filter = "blur(2px)";
+        document.getElementById("reference_value").disabled = true;
+        document.getElementById("reference_value").style.filter = "blur(2px)";
+
+        document.getElementById("high_mv").disabled = false;
+        document.getElementById("high_mv").style.filter = "";
+        document.getElementById("low_mv").disabled = false;
+        document.getElementById("low_mv").style.filter = "";
+    }
+});
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+function handleAttributeChange() {
+    var isAttributeChecked = document.getElementById('attribute').checked;
+    var fieldsToDisable = [
+        'analog_zero', 'high_mv', 'reference_value', 'low_mv', 
+        'measurement_mode', 'job_dia', 'nominal', 'probe_no', 
+        'usl', 'lsl', 'mastering', 'utl','step_no', 'ltl', 'digits', 'hide'
+    ];
+
+    fieldsToDisable.forEach(function(fieldId) {
+        var field = document.getElementById(fieldId);
+        if (field) {
+            field.disabled = isAttributeChecked;
+            if (isAttributeChecked) {
+                field.blur(); // Remove focus if checkbox is checked
+            }
+        }
+    });
+
+    // Ensure the fields that should remain enabled are not affected
+    ['sr_no', 'partModel', 'parameter_name'].forEach(function(fieldId) {
+        var field = document.getElementById(fieldId);
+        if (field) {
+            field.disabled = false;
+        }
+    });
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Updated validateForm function to only check required fields that are not disabled
+function validateForm() {
+
+    // Get radio button states
+    const singleRadio = document.getElementById('single').checked;
+    const doubleRadio = document.getElementById('double').checked;
+
+    // Get input fields
+    const analogZero = document.getElementById('analog_zero');
+    const referenceValue = document.getElementById('reference_value');
+    const highMV = document.getElementById('high_mv');
+    const lowMV = document.getElementById('low_mv');
+
+    // Clear previous required attributes
+    analogZero.removeAttribute('required');
+    referenceValue.removeAttribute('required');
+    highMV.removeAttribute('required');
+    lowMV.removeAttribute('required');
+
+    // Dynamically set required fields
+    if (singleRadio) {
+        analogZero.setAttribute('required', 'true');
+        referenceValue.setAttribute('required', 'true');
+    } else if (doubleRadio) {
+        highMV.setAttribute('required', 'true');
+        lowMV.setAttribute('required', 'true');
+    }
+
+
+
+
+    const requiredFields = document.querySelectorAll('#box1 input[required]:not([disabled]), #box1 select[required]:not([disabled])');
+    let allFilled = true;
+
+    requiredFields.forEach(field => {
+        if (!field.value) {
+            allFilled = false;
+            field.style.border = "1px solid red"; // Highlight empty fields
+        } else {
+            field.style.border = ""; // Reset if filled
+        }
+    });
+
+    if (allFilled) {
+        saveValues();
+    } else {
+        alert('Please fill All required fields before *Saving*.');
+    }
+}
+
+
+    
+
+
+ 
+
+     window.addEventListener('DOMContentLoaded', (event) => {
+            var inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.setAttribute('autocomplete', 'off');
+            });
+        });
+
+let selectedModelId;
+let selectedParameterID;
+
+// Keep track of the last selected model and parameter
+let lastSelectedModel = null;
+let lastSelectedParameterElement = null;
+
+function updateUI(data) {
+    console.log('Updating UI with data:', data);
+
+    const filteredValuesContainer = document.querySelector('.model-ul .nested-ul.active');
+
+    // Clear previous content
+    filteredValuesContainer.innerHTML = '';
+
+    resetInputFields();
+
+    if (data && data.paraname && data.paraname.length > 0) {
+        data.paraname.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item.parameter_name;
+            
+            listItem.setAttribute('data-sr-no', item.sr_no);
+            listItem.setAttribute('data-parameter', item.id);
+
+            listItem.addEventListener('click', function () {
+                if (lastSelectedParameterElement) {
+                    lastSelectedParameterElement.style.backgroundColor = '';
+                }
+
+                listItem.style.backgroundColor = 'red';
+                lastSelectedParameterElement = listItem;
+
+                // Update the selectedId when a parameter is clicked
+                selectedId = item.id;
+
+                const selectedParameterName = item.parameter_name;
+                const selectedParameterID = item.id;
+
+                const parameterNameInput = document.getElementById('parameter_name');
+                parameterNameInput.value = selectedParameterName;
+
+                const parameterIndex = data.paraname.findIndex(param => param.id === selectedParameterID);
+
+                // Set sr_no based on the index (+1 because indices start from 0)
+                const srNoInput = document.getElementById('sr_no');
+                srNoInput.value = parameterIndex + 1;
+
+                // console.log('Selected parameter:', selectedParameterName);
+                // console.log('Selected parameter ID:', selectedParameterID);
+
+                // Include the selectedParameterID in the fetch URL
+                fetch(`/parameter/?parameter_name=${selectedParameterName}&id=${selectedParameterID}&sr_no=${item.sr_no}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(details => {
+                            // console.log('Details about selected parameter:', details);
+                            // Access the HTML elements and update their values
+                                document.getElementById('parameter_name').value = details.parameter_details.parameter_name;
+                                document.getElementById('sr_no').value = details.parameter_details.sr_no;
+                                 // Handle radio buttons
+                        const singleRadio = document.getElementById('single');
+                        const doubleRadio = document.getElementById('double');
+                        
+                        if (details.parameter_details.single_radio) {
+                            singleRadio.checked = true;
+                            doubleRadio.checked = false;
+                        } else if (details.parameter_details.double_radio) {
+                            doubleRadio.checked = true;
+                            singleRadio.checked = false;
+                        } else {
+                            // Unselect both radio buttons if no radio is specified
+                            singleRadio.checked = false;
+                            doubleRadio.checked = false;
+                        }
+
+                                document.getElementById('probe_no').value = details.parameter_details.probe_no;
+                                document.getElementById('analog_zero').value = details.parameter_details.analog_zero;
+                                document.getElementById('high_mv').value = details.parameter_details.high_mv;
+
+                                // Handle dropdowns
+                                document.getElementById('measurement_mode').value = details.parameter_details.measurement_mode;
+
+                                document.getElementById('reference_value').value = details.parameter_details.reference_value;
+                                document.getElementById('low_mv').value = details.parameter_details.low_mv;
+                                const analogZeroInput = document.getElementById('analog_zero');
+                                const highMvInput = document.getElementById('high_mv');
+                                const lowMvInput = document.getElementById('low_mv');
+                                const referenceValueInput = document.getElementById('reference_value');
+
+                                if (details.parameter_details.measurement_mode === "TIR") {
+                                   
+
+                                   analogZeroInput.disabled = true;
+                                   highMvInput.disabled = true;
+                                   lowMvInput.disabled = true;
+                                   referenceValueInput.disabled = true;
+                               } else if (details.parameter_details.analog_zero) {
+                                   highMvInput.disabled = true;
+                                   lowMvInput.disabled = true;
+                                   analogZeroInput.disabled = false;
+                                   referenceValueInput.disabled = false;
+                               } else if (details.parameter_details.high_mv) {
+                                   analogZeroInput.disabled = true;
+                                   referenceValueInput.disabled = true;
+                                   highMvInput.disabled = false;
+                                   lowMvInput.disabled = false;
+                               } else {
+                                   analogZeroInput.disabled = false;
+                                   highMvInput.disabled = false;
+                                   lowMvInput.disabled = false;
+                                   referenceValueInput.disabled = false;
+                               }
+                                
+                                document.getElementById('nominal').value = details.parameter_details.nominal;
+                                document.getElementById('usl').value = details.parameter_details.usl;
+                                document.getElementById('lsl').value = details.parameter_details.lsl;
+
+                                document.getElementById('mastering').value = details.parameter_details.mastering;
+                                document.getElementById('step_no').value = details.parameter_details.step_no;
+
+                                // Handle checkbox
+                                document.getElementById('hide').checked = details.parameter_details.hide_checkbox;
+                                document.getElementById('utl').value = details.parameter_details.utl;
+                                document.getElementById('ltl').value = details.parameter_details.ltl;
+                                document.getElementById('digits').value = details.parameter_details.digits;
+                                document.getElementById('job_dia').value = details.parameter_details.job_dia;
+                                document.getElementById('attribute').checked = details.parameter_details.attribute;
+                                document.getElementById('auto_man').checked = details.parameter_details.auto_man;
+                                document.getElementById('timer').value = details.parameter_details.timer;
+
+                        })
+                        .catch(error => console.error('Error fetching details:', error));
+                });
+            filteredValuesContainer.appendChild(listItem);
+        });
+    } else {
+        const listItem = document.createElement('li');
+        listItem.textContent = 'No parameters found for the selected model.';
+        filteredValuesContainer.appendChild(listItem);
+    }
+}
+
+// Rest of your existing code remains unchanged
+
+
+
+
+document.querySelectorAll('.model-name').forEach(model => {
+    model.addEventListener('click', function(event) {
+        const target = event.target;
+        const selectedModel = target.textContent.trim();
+
+        const selectedUL = target.nextElementSibling;
+        const partModelInput = document.getElementById('partModel');
+        const parameterNameInput = document.getElementById('parameter_name')
+
+        parameterNameInput.value ='';
+
+        // If the clicked model is the same as the last selected model, toggle its active state
+        if (lastSelectedModel === target) {
+            selectedUL.classList.toggle('active');
+            selectedUL.style.display = selectedUL.classList.contains('active') ? 'block' : 'none';
+            return; // Do not proceed with fetching data and updating UI
+        }
+
+        // Deactivate all other models
+        document.querySelectorAll('.model-name').forEach(otherModel => {
+            if (otherModel !== target) {
+                const otherUL = otherModel.nextElementSibling;
+                otherUL.classList.remove('active');
+                otherUL.style.display = 'none';
+            }
+        });
+
+        // Remove background color from the last selected model
+        if (lastSelectedModel) {
+            lastSelectedModel.style.backgroundColor = '';
+        }
+
+        // Update last selected model
+        lastSelectedModel = target;
+
+        // Activate the clicked model
+        selectedUL.classList.add('active');
+        target.style.backgroundColor = 'lightblue';
+
+        // Display selected model name in the input field
+        partModelInput.value = selectedModel;
+
+        // Display the nested-ul for the selected model
+        selectedUL.style.display = 'block';
+ 
+        // Make a GET request with the 'id' parameter
+        fetch(`/parameter/?model_name=${selectedModel}`)
+            .then(response => response.json())
+            .then(data => {
+                // Update the UI with the filtered data
+                updateUI(data);
+                
+                // Retrieve the first parameter and trigger a click event
+                const firstParameter = document.querySelector('.nested-ul.active li:first-child');
+                if (firstParameter) {
+                    firstParameter.click(); // Simulate a click on the first parameter
+                }
+                // Set sr_no to 1 if the model has no parameters
+                const srNoInput = document.getElementById('sr_no');
+                if (data.paraname.length === 0) {
+                    srNoInput.value = 1;
+                }
+            
+            })
+            .catch(error => console.error('Error:', error));
+    });
+});
+
+
+///////////////////////////////////////////////    
+function saveValues() {
+    const selectedUL = document.querySelector('.model-ul .nested-ul.active');
+    const inputValue = document.getElementById('parameter_name').value.trim();
+    const singleRadio = document.getElementById('single').checked;
+    const doubleRadio = document.getElementById('double').checked;
+    const probeNo = document.getElementById('probe_no').value;
+    const analogZero = document.getElementById('analog_zero').value;
+    const highMV = document.getElementById('high_mv').value;
+    const measurementMode = document.getElementById('measurement_mode').value;
+    const referenceValue = document.getElementById('reference_value').value;
+    const lowMV = document.getElementById('low_mv').value;
+    const nominal = document.getElementById('nominal').value;
+    const usl = document.getElementById('usl').value;
+    const lsl = document.getElementById('lsl').value;
+    const mastering = document.getElementById('mastering').value;
+    const stepNo = document.getElementById('step_no').value;
+    const hideCheckbox = document.getElementById('hide').checked;
+    const srNo = document.getElementById('sr_no').value;
+    const digits = document.getElementById('digits').value;
+    const utl = document.getElementById('utl').value;
+    const ltl = document.getElementById('ltl').value;
+    const job_dia = document.getElementById('job_dia').value;
+    const attribute = document.getElementById('attribute').checked;
+    const auto_man = document.getElementById('auto_man').checked;
+      const timer = document.getElementById('timer').value;
+    
+    // Validation for high_mv and low_mv
+    if (parseFloat(highMV) < parseFloat(lowMV)) {
+        alert('Error: HIGH M-V should be greater than LOW M-V.');
+        return; // Stop further processing
+    }
+
+    // Validation for USL and LSL
+    if (parseFloat(usl) <= parseFloat(lsl)) {
+        alert('Error: USL should be greater than LSL.');
+        return; // Stop further processing
+    }
+
+    // Validation for UTL and LTL
+    if (parseFloat(utl) <= parseFloat(ltl)) {
+        alert('Error: UTL should be greater than LTL.');
+        return; // Stop further processing
+    }
+
+     // Validation for UTL and LTL
+     if (parseFloat(utl) <= parseFloat(usl)) {
+        alert('Error: UTL should be greater than USL.');
+        return; // Stop further processing
+    }
+
+     // Validation for UTL and LTL
+     if (parseFloat(lsl) <= parseFloat(ltl)) {
+        alert('Error: LSL should be greater than LTL.');
+        return; // Stop further processing
+    }
+
+
+    
+    if (selectedUL) {
+        const data = {
+            modelId: selectedUL.parentElement.querySelector('.model-name').textContent.trim(),
+            parameterValue: inputValue,
+            singleRadio: singleRadio,
+            doubleRadio: doubleRadio,
+            probeNo: probeNo,
+            analogZero: analogZero,
+            highMV: highMV,
+            measurementMode: measurementMode,
+            referenceValue: referenceValue,
+            lowMV: lowMV,
+            nominal: nominal,
+            usl: usl,
+            lsl: lsl,
+            mastering: mastering,
+            stepNo: stepNo,
+            hideCheckbox: hideCheckbox,
+            srNo: srNo,
+            digits: digits,
+            utl: utl,
+            ltl: ltl,
+            job_dia: job_dia,
+            attribute:attribute,
+            auto_man:auto_man,
+            timer:timer,
+        };
+        // console.log("the data to be send to the backend:",data)
+
+        // Get CSRF token from cookies
+        const csrfToken = document.cookie.match(/csrftoken=([^;]+)/);
+        if (!csrfToken) {
+            alert("CSRF token not found.");
+            return;
+        }
+
+       // Perform AJAX POST request with CSRF token
+$.ajax({
+    type: 'POST',
+    url: '/parameter/',  // Update this URL if necessary
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+    headers: {
+        'X-CSRFToken': csrfToken[1],
+    },
+    success: function (response) {
+        // Handle the success response
+        if (response.success) {
+            showNotification(response.message, true);  // Show success notification
+        } else {
+                    alert(response.message);  // Show error message as an alert
+                }
+        // Handle the success response from the server if needed
+        // console.log('Data saved successfully:', response);
+
+        // Store the selected item and additional data in session storage
+        sessionStorage.setItem('modelId', data.modelId);
+        sessionStorage.setItem('parameterValue', data.parameterValue);
+
+        // Log the stored values
+        // console.log('Stored values in sessionStorage:');
+        // console.log('modelId:', sessionStorage.getItem('modelId'));
+        // console.log('parameterValue:', sessionStorage.getItem('parameterValue'));
+    },
+    error: function (error) {
+                try {
+                    // Parse the error response JSON if it's a valid JSON string
+                    const errorMessage = JSON.parse(error.responseText).message;
+                    alert('Error saving data: ' + errorMessage);  // Show error message as an alert
+                } catch (e) {
+                    // Handle cases where the response is not valid JSON
+                    alert('Error saving data: ' + error.responseText);  // Show the raw response
+                }
+            }
+        });
+
+    } else {
+        alert('Please select a model to add parameters.');
+    }
+}
+
+
+
+
+window.onload = function() {
+    // Retrieve values from sessionStorage
+    const modelId = sessionStorage.getItem('modelId');
+    const parameterValue = sessionStorage.getItem('parameterValue');
+
+    // console.log('Retrieved modelId from sessionStorage:', modelId);
+    // console.log('Retrieved parameterValue from sessionStorage:', parameterValue);
+
+    if (modelId && parameterValue) {
+        // Select all model items
+        const modelItems = document.querySelectorAll('.model-ul .model-name');
+
+        modelItems.forEach(item => {
+            const itemText = item.textContent.trim();
+            // console.log('Checking model item:', itemText);  // Log the text content
+
+            // Compare with the retrieved modelId
+            if (itemText === modelId.trim()) {
+                // console.log('Match found for modelId:', itemText);
+
+                // Simulate a click on the model item
+                item.click();  // Simulates the click event on the model item
+                item.classList.add('selected');  // Optionally add a class to highlight the item
+
+            } else {
+                console.log('No match for modelId:', itemText);
+            }
+        });
+    } else {
+        console.log('No modelId or parameterValue found in sessionStorage.');
+    }
+};
+
+
+
+////////////////////////////////////////////////////////////////
+
+
+    
+function handleRadioClick(option) {
+    // Get references to the input fields
+    var analogZeroInput = document.getElementById('analog_zero');
+    var highMvInput = document.getElementById('high_mv');
+    var referenceValueInput = document.getElementById('reference_value');
+    var lowMvInput = document.getElementById('low_mv');
+
+    // Clear values of all fields
+    analogZeroInput.value = '';
+    highMvInput.value = '';
+    referenceValueInput.value = '';
+    lowMvInput.value = '';
+
+    // Reset all fields to enabled
+    analogZeroInput.disabled = false;
+    highMvInput.disabled = false;
+    referenceValueInput.disabled = false;
+    lowMvInput.disabled = false;
+
+    // Disable specific fields based on the radio button clicked
+    if (option === 'single') {
+        highMvInput.disabled = true;
+        lowMvInput.disabled = true;
+    } else if (option === 'double') {
+        analogZeroInput.disabled = true;
+        referenceValueInput.disabled = true;
+    }
+}
+
+// Add event listeners for input fields to handle clearing and validation
+document.getElementById('high_mv').addEventListener('input', function(event) {
+    if (!document.getElementById('double').checked) {
+        alert('Please select the "double" radio button first.');
+        event.target.value = ''; // Clear the input field
+    }
+});
+
+document.getElementById('low_mv').addEventListener('input', function(event) {
+    if (!document.getElementById('double').checked) {
+        alert('Please select the "double" radio button first.');
+        event.target.value = ''; // Clear the input field
+    }
+});
+
+document.getElementById('analog_zero').addEventListener('input', function(event) {
+    if (!document.getElementById('single').checked) {
+        alert('Please select the "single" radio button first.');
+        event.target.value = ''; // Clear the input field
+    }
+});
+
+document.getElementById('reference_value').addEventListener('input', function(event) {
+    if (!document.getElementById('single').checked) {
+        alert('Please select the "single" radio button first.');
+        event.target.value = ''; // Clear the input field
+    }
+});
+       
+
+          
+          
+             function resetInputFields() {
+                document.getElementById('parameter_name').value = '';
+                document.getElementById('analog_zero').value = '';
+                document.getElementById('high_mv').value = '';
+                document.getElementById('reference_value').value = '';
+                document.getElementById('low_mv').value = '';
+                document.getElementById('nominal').value = '';
+                document.getElementById('usl').value = '';
+                document.getElementById('lsl').value = '';
+
+                // Clear radio button states
+                document.getElementById('single').checked = false;
+                document.getElementById('double').checked = false;
+
+                // Clear checkbox state
+                document.getElementById('hide').checked = false;
+                document.getElementById('attribute').checked = false;
+                document.getElementById('auto_man').checked = false;
+
+                // Clear dropdown selection
+                document.getElementById('measurement_mode').value = ''; // You can set the default value here if needed
+
+                // Clear other dropdown selections if applicable
+                document.getElementById('probe_no').value = ''; // Set the default value or an empty string
+                document.getElementById('mastering').value = ''; // Set the default value or an empty string
+                document.getElementById('step_no').value = '';
+                document.getElementById('utl').value = '';
+                document.getElementById('ltl').value = '';
+                document.getElementById('digits').value = '';
+                document.getElementById('job_dia').value = '';
+                document.getElementById('timer').value = '';
+                
+                
+                if(lastSelectedParameterElement){
+                    lastSelectedParameterElement.style.backgroundColor ='';
+                }
+                // Reset the selectedId
+                selectedId = null;
+            }
+
+
+// Event listener for the "Add New" button
+document.getElementById('add-btn').addEventListener('click', function () {
+    const nestedUl = document.querySelector('.nested-ul.active');
+    const totalParameters = nestedUl ? nestedUl.querySelectorAll('li').length : 0;
+
+    // Increment the total number of parameters by 1
+    const nextSrNo = totalParameters + 1;
+
+    // Set the incremented sr_no
+    document.getElementById('sr_no').value = nextSrNo;
+
+    resetInputFields(); // Clear the input fields when the button is clicked
+});
+
+
+
+
+
+
+                    
+/////////////////////////////////////////////
+ 
+ 
+document.addEventListener('DOMContentLoaded', function() {
+    var deleteButton = document.getElementById('deleteParameterBtn');
+
+    deleteButton.addEventListener('click', function() {
+        if (selectedId) {
+            fetch('/parameter/?id=' + selectedId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any additional headers if needed
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log(data.message);
+                    showNotification('Data deleted successfully', true);
+                } else {
+                    console.error(data.message);
+                    showNotification('Error deleting data', false);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error deleting data', false);
+            });
+        } else {
+            console.error('No ID selected for deletion.');
+            showNotification('No ID selected for deletion', false);
+        }
+    });
+});
+
+function showNotification(message, isSuccess) {
+    var notificationElement = document.getElementById('notification');
+    notificationElement.textContent = message;
+
+    if (isSuccess) {
+        notificationElement.style.backgroundColor = 'lightgreen';
+    } else {
+        notificationElement.style.backgroundColor = 'coral';
+    }
+
+    // Add an "OK" button to the notification
+    var okButton = document.createElement('button');
+    okButton.textContent = 'OK';
+    okButton.style.display = 'block';   // Make the button a block element
+    okButton.style.margin = 'auto';     // Center the button horizontally
+    okButton.style.marginTop = '10px';  // Add some top margin for spacing
+    okButton.style.padding = '10px';
+    okButton.style.height = '40px';     // Set the button height
+    okButton.style.width = '80px';      // Set the button width
+    okButton.style.border = 'none';     // Remove the default button border
+    okButton.style.backgroundColor = 'orangered'; // Red background color
+    okButton.style.color = 'white';     // White text color
+
+    okButton.addEventListener('click', function() {
+        // Hide the notification when the "OK" button is clicked
+        window.location.href = '{% url "parameter" %}';
+    });
+
+    notificationElement.appendChild(okButton);
+
+    // Center the notification vertically and horizontally
+    notificationElement.style.display = 'flex';
+    notificationElement.style.flexDirection = 'column';
+    notificationElement.style.alignItems = 'center';
+    notificationElement.style.textAlign = 'center';
+    notificationElement.style.justifyContent = 'center';
+    notificationElement.style.position = 'fixed';
+    notificationElement.style.top = '50%';
+    notificationElement.style.left = '50%';
+    notificationElement.style.transform = 'translate(-50%, -50%)';
+    notificationElement.style.zIndex = '1000';
+
+    // Add a margin-top of 30px to the notification text
+    notificationElement.style.marginTop = '30px';
+
+    // Display the notification
+    notificationElement.style.display = 'block';
+
+    // console.log('Notification displayed:', message);
+}
+  
+  
+</script>   
+{% endblock content %}

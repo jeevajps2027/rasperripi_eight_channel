@@ -1,0 +1,312 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.7.2-web/css/all.min.css' %}">
+    <script src="{% static 'jquery-jquery-f79d5f1/dist/jquery.min.js' %}"></script>
+  <!-- Add XLSX library for Excel conversion -->
+
+   <script src="{% static 'js-xlsx-master/dist/xlsx.full.min.js' %}"></script>
+
+   <!-- Add jsPDF library for PDF conversion -->
+   
+   <script src="{% static 'parallax-jsPDF-57cbe94/dist/jspdf.umd.min.js' %}"></script>
+
+
+    <title>X-bar Control Chart</title>
+ <!-- Include Plotly JS -->
+    <script src="{% static 'plotly-plotly.js-c8e0bef/dist/plotly.min.js' %}"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width:1150px;
+            margin: auto;
+            border: 2px solid black;
+            height: 700px;
+            margin-top: 0px;
+        }
+
+        #heading{
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        background-color: blue;
+        color: white;
+        height: 25px;
+        margin-top: 0px;
+
+    }
+
+        .details {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            width: 700px;
+        }
+
+        .error-message {
+            text-align: center;
+            color: red;
+        }
+
+        .first-table {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .first-table td{
+            width: 230px;
+        }
+        .label {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 10px;
+        }
+        .value {
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        th, td {
+            border: 1px solid #ccc;
+            text-align: center;
+            font-weight: bold;
+            width: 100px;
+            font-size: 15px;
+            border: 1px solid black; /* Add borders to table cells */
+            padding: 4px; /* Add padding to table cells */
+        }
+        table {
+            width: auto; /* Allow the table to size based on content */
+            table-layout: auto; /* Allow the table to adjust its layout based on content */
+            border-collapse: collapse; /* Collapse table borders */
+        }
+#prevButton{
+    width: 80px;
+    height: 35px;
+    margin-top: -35px;
+    float: right;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+#mail_btn {
+    width: 150px;
+    height: 35px;
+    margin-top: -35px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    margin-left: 500px;
+}
+
+#pdf_btn {
+    width: 150px;
+    height: 35px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    float: left;
+}
+
+        #popupMessage{
+    display: none;
+    position: fixed; 
+    top: 20px;
+    width: 300px;
+    height: 70px;
+    left: 40%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    transform: translateX(-50%);
+    background-color: yellow; 
+    color: black; 
+    border: 1px solid black ; 
+    padding: 10px;
+    z-index: 1000;
+}
+
+.container-1{
+    height: 35px;
+    background-color: blue;
+}
+
+#loading_spinner {
+    position: fixed;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw;
+    color: #022244;
+    z-index: 9999; /* Ensure spinner appears on top */
+}
+
+.fa-spinner {
+    margin-top: 10%;
+    margin-right: 20%; /* Add space between spinner and text */
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="loading_spinner" style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i> 
+        <div style="text-align: center; margin-left: -120px; font-size: 50px; font-weight: bold; color: rgb(128, 36, 0);">
+            Please wait a moment...
+        </div>
+    </div>  
+    
+
+    <div class="container">
+        <div class="container-1">
+            <div id="heading">X BAR</div>
+            <form id="exportForm" method="post" action="{% url 'xBar' %}" style="margin-top:-25px ;">
+                {% csrf_token %}
+                <div class="button-container">
+                    <!-- Send Mail Button (Left Side) -->
+                    <button type="submit" class="no-pdf" onclick="hideDropdown()" name="export_type" value="send_mail" id="mail_btn">Send Mail</button>
+                    
+                    <!-- Email Selection Dropdown -->
+                    <label for="email" class="no-pdf"></label>
+                    <select name="recipient_email" class="no-pdf" id="recipientEmail" style="background-color: yellow; height: 35px; ">
+                        <option class="no-pdf" value="{{ email_1 }}">{{ email_1 }}</option>
+                        <option class="no-pdf" value="{{ email_2 }}">{{ email_2 }}</option>
+                    </select>
+                
+                    <!-- PDF Conversion Button (Right Side) -->
+                    <button type="submit" name="export_type" value="pdf" id="pdf_btn" class="no-pdf">PDF CONVERSION</button>
+                </div>
+                
+            </form>
+            <div><button id="prevButton" class="no-pdf" >BACK</button></div>  
+        </div>
+
+     <!-- Add this in your consolidateSrNo.html -->
+<div id="popupMessage" class="no-pdf"></div>
+
+
+    <script>
+
+$(document).ready(function () {
+        $("#pdf_btn").click(function () {
+            $("#loading_spinner").show(); // Show the spinner
+        });
+
+        $("#mail_btn").click(function () {
+            $("#loading_spinner").show(); // Show the spinner
+        });
+    });
+
+
+
+    // Get the success message from the context if it exists
+    var successMessage = "{{ success_message|escapejs }}";  // Ensure safe rendering of message
+
+    if (successMessage) {
+    // If there is a success message, display the popup
+    var messageDiv = document.getElementById('popupMessage');
+    messageDiv.innerHTML = `<div>${successMessage}</div>`;  // Set the message content
+    messageDiv.style.display = 'block';  // Make the popup visible
+
+    // Optionally, hide the popup after 5 seconds
+    setTimeout(function() {
+    messageDiv.style.display = 'none';  // Hide the popup after 5 seconds
+    }, 3000);  // Adjust the time duration as needed
+    }
+
+</script>
+
+        <table class="first-table">
+            {% for data in x_bar_values %}
+            <tr>
+                <td>
+                    <span class="label">PARTMODEL:</span>
+                    <span class="value">{{ data.part_model }}</span>
+                </td>
+                <td>
+                    <span class="label">PARAMETER NAME:</span>
+                    <span class="value">{{ data.parameter_name }}</span>
+                </td>
+                <td>
+                    <span class="label">OPERATOR:</span>
+                    <span class="value">{{ data.operator }}</span>
+                </td>
+
+                <td>
+                    <span class="label">SHIFT:</span>
+                    <span class="value">{{ data.shift }}</span>
+                </td>
+                <td>
+                    <span class="label">CURRENT DATE:</span>
+                    <span class="value">{{ data.current_date_time }}</span>
+                </td>
+                
+            </tr>
+            <tr>
+                <td>
+                    <span class="label">MACHINE:</span>
+                    <span class="value">{{ data.machine }}</span>
+                </td>
+                <td>
+                    <span class="label">VENDOR CODE:</span>
+                    <span class="value">{{ data.vendor_code }}</span>
+                </td>
+                
+
+                <td>
+                    <span class="label">FROM DATE:</span>
+                    <span class="value">{{ data.formatted_from_date }}</span>
+                </td>
+
+                <td>
+                    <span class="label">TO DATE:</span>
+                    <span class="value">{{ data.formatted_to_date }}</span>
+                </td>
+
+                <td >
+                    <span class="label">TOTAL:</span>
+                    <span class="value" id="total-count">{{ total_count }}</span>
+                </td>
+            </tr>
+           
+            {% endfor %}
+        </table>
+
+
+
+      
+
+        {% if no_results %}
+        <p><h1 style="color: red;">No Data Found</h1></p>
+        {% else %}
+            <div class="chart-container">
+                <!-- Plotly chart will be rendered here -->
+                {{ chart|safe }}
+            </div>
+        {% endif %}
+
+    </div>
+    <script>
+        document.getElementById('prevButton').addEventListener('click', function() {
+        // Redirect to the report page
+        window.location.href = '/spc/'; // Replace 'report_page.html' with the actual URL of your report page
+    });
+    
+    
+    
+    </script>
+</body>
+</html>

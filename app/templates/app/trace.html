@@ -1,0 +1,943 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+Tracability
+{% endblock title %}
+{% block content %}
+<style>
+  
+  html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    
+    
+}
+
+
+body {
+   
+   background-color: black;
+   border: 10px double white;
+   padding: 5px;
+}
+
+.box_main{
+        width: 100%;
+        height: 70%;
+        margin-top: 2%;
+        display: flex;
+        
+    }
+.box-0{
+    width: 70%;
+    height:8%;
+    margin-left:25%;
+    margin-top: 2%;
+    text-align: center;
+    background-color: orange;
+    border: 2px solid black;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.box {
+    width: 70%;
+    margin-left: 5%;
+    height: 100%;
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+}
+
+.box-1 {
+    width: 15%;
+    height: 100%;
+    margin-left: 5%;
+    background-color:white;
+    color: black;
+    border: 2px solid black;
+    padding-top: 50px;
+    padding-left: 5px;
+  }
+  .button_box{
+    height: 10%;
+    width: 70%;
+    background-color: gray;
+    display: flex;
+    margin-left: 25%;
+    background-color: black;
+   
+  }
+.inner-box-1, .inner-box-2, .inner-box-3, .inner-box-4, .inner-box-5, .inner-box-6{
+    width: 13vw; 
+    height: 8vh;
+    background-color:lightblue; 
+    border: 2px solid black; 
+    margin: 3%;
+    padding-top: 10%;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+.item-1, .item-2, .item-3, .item-4, .item-5, .item-6{
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s; 
+  }
+
+
+
+  #cancel-btn{
+    background-color: orange;
+    color:white;
+    height: 7vh;
+    width: 15vw;
+   margin-left: 15%;
+   margin-top: 5%;
+   font-size: 1.5vw;
+   border: 2px solid white;
+}
+
+#save-btn{
+    background-color: green;
+    color: white;
+    height: 7vh;
+    width: 15vw;
+    margin-left: 15%;
+    margin-top: 1%;
+    font-size: 1.5vw;
+    border: 2px solid white;
+}
+
+#delete-btn{
+    background-color: red;
+    color: white;
+    height: 7vh;
+    width: 15vw;
+    margin-left: 15%;
+    margin-top: 1%;
+    font-size: 1.5vw;
+    border: 2px solid white;
+}
+
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+#notification {
+    display: none;
+    position: fixed;    
+    top: 50%;
+    left: 60%;
+    height: 30vh;
+    width: 30vw;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 2vw;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
+    border: 2px solid black;
+    text-align: center;
+}
+
+.selected {
+        background-color:red;
+    }
+    .no-outline{
+        border: none;
+        outline: none;
+    }    /* CSS styles for selected column */
+        .selected-column {
+            background-color: yellow;
+        }
+
+      #start_time1{
+        font-size: 10vh;
+        color: black;
+      }
+      #stop_time1{
+        font-size: 10vh;
+        color: black;
+      }
+
+      #start_time{
+        font-size: 10vh;
+        height: 10vh;
+        width: 8vw;
+        text-align: center;
+        border: 10px solid black;
+      
+      }
+      #stop_time{
+        font-size: 5vh;
+        height: 10vh;
+        width: 8vw;
+        text-align: center;
+        border: 10px solid black;
+        
+      }
+
+
+
+      @keyframes walkInBox {
+    0% { left: -200px; }
+    100% { left: 20px; }
+}
+@keyframes fadeInBox {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+    50% { box-shadow: 0 0 40px rgba(255,0,0,1); }
+    100% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+}
+
+
+
+</style>
+<div class="box-0">
+    <center style="color:black;text-shadow: 2px 2px 4px white;">
+        <h1><b> TRACABILITY</b></h1></center>
+</div>
+
+<div id="notification" style="display: none;"></div>
+<div class="box_main" id="box_main">
+<div class="box-1">
+    <div id="part" class="inner-box-1" onclick="enlargeItem(1),showItem('item-1')"><h4><b>Part</b></h4></div>
+    <div id="batchNumber" class="inner-box-2" onclick="enlargeItem(2),showItem('item-2')"><h4><b>Batch Number</b></h4></div>
+    <div id="machine" class="inner-box-3" onclick="enlargeItem(3),showItem('item-3')"><h4><b>Machine</b></h4></div>
+    <div id="operator" class="inner-box-4" onclick="enlargeItem(4),showItem('item-4')"><h4><b>Operator</b></h4></div>
+    <div id="vendorCode" class="inner-box-5" onclick="enlargeItem(5),showItem('item-5')"><h4><b>Vendor Code</b></h4></div>
+    <!-- <div id="time_setting" class="inner-box-6" onclick="enlargeItem(6),showItem('item-6')"><h4><b>Cycle_Time</b></h4></div> -->
+</div>
+
+<div class="box" id="boxContent"style="overflow-x: auto;overflow-y:auto;">
+
+    <!-- <div class="item item-6" id="item6">
+        
+        <label for="start_time" id="start_time1">START_TIME</label>
+        <input type="text" id="start_time"><br>
+        <label for="stop_time" id="stop_time1">STOP_TIME</label>
+        <input type="text" id="stop_time">
+        <button id="cycle_save" onclick="saveData_cycle()" >SAVE</button>
+    </div> -->
+
+
+    <script>
+function saveData_cycle() {
+    const start_time = document.getElementById("start_time").value;
+    const stop_time = document.getElementById("stop_time").value;
+
+    if (!start_time || !stop_time) {
+        alert("Both start and stop time are required!");
+        return;
+    }
+
+    fetch('/save_time/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            start_time: start_time,
+            stop_time: stop_time
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        loadData();  // After save, reload values
+    });
+}
+
+// Load existing values on page load
+function loadData() {
+    fetch('/get_time/')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to fetch time data");
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById("start_time").value = data.start_time || '';
+        document.getElementById("stop_time").value = data.stop_time || '';
+    })
+    .catch(error => {
+        console.error("Load time error:", error);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    loadData();
+});
+
+
+// CSRF helper
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (const cookie of cookies) {
+            const trimmed = cookie.trim();
+            if (trimmed.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+
+
+    <div class="item item-1" id="item1">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Sr.No</th>
+                    <th style="width: 20%;" id="partmodel">Part Model</th>
+                    <th style="width: 20%;" id="customername">Customer Name</th>
+                    <th style="width: 20%;" id="partname">Part Name</th>
+                    <th style="width: 20%;" id="partno">Part No</th>
+                    <th style="width: 20%;" id="char_lmt">Char Lmt</th>
+                    <th style="width: 20%;" id="hide">Punch no</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody-1">
+                {% for data in table_body_1_data %}
+                <tr data-id="{{ data.id }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td><input type="text" value="{{ data.part_model }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="text" value="{{ data.customer_name }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="text" value="{{ data.part_name }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="text" value="{{ data.part_no }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="text" value="{{ data.char_lmt }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="checkbox" {% if data.hide %}checked{% endif %}></td>
+                </tr>
+                {% endfor %}
+        
+            </tbody>
+        </table><br>
+        <button onclick="addRow('item-1', 6)">Add New</button>
+    </div>
+
+    <div class="item item-2" id="item2">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Sr.No</th>
+                    <th id="batchno" style="width: 20%;">Batch No</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody-2">
+                {% for data in table_body_2_data %}
+                <tr data-id="{{ data.id }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td><input type="text" value="{{ data.batch_no }}" class="no-outline" style="width: 100%;"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table><br>
+        <button onclick="addRow('item-2', 2)">Add New</button>
+    </div>
+
+    <div class="item item-3" id="item3">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Sr.No</th>
+                    <th id="machineno" style="width: 20%;">Machine No</th>
+                    <th id="machinename" style="width: 20%;">Machine Name</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody-3">
+                {% for data in table_body_3_data %}
+                <tr data-id="{{ data.id }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td><input type="text" value="{{ data.machine_no }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="text" value="{{ data.machine_name }}" class="no-outline" style="width: 100%;"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table><br>
+        <button onclick="addRow('item-3', 3)">Add New</button>
+    </div>
+
+    <div class="item item-4" id="item-4">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Sr.No</th>
+                    <th id="operatorno" style="width: 20%;">Operator No</th>
+                    <th id="operatorname" style="width: 20%;">Operator Name</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody-4">
+                {% for data in table_body_4_data%}
+                <tr data-id="{{ data.id }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td><input type="text" value="{{ data.operator_no }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="text" value="{{ data.operator_name }}" class="no-outline" style="width: 100%;"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table><br>
+        <button onclick="addRow('item-4', 3)">Add New</button>
+    </div>
+
+    <div class="item item-5" id="item-5">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Sr.No</th>
+                    <th id="vendorcode" style="width: 25%;">Vendor Code</th>
+                    <th id="email" style="width: 25%;">Email</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody-5">
+                {% for data in table_body_5_data %}
+                <tr data-id="{{ data.id }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td><input type="text" value="{{ data.vendor_code }}" class="no-outline" style="width: 100%;"></td>
+                    <td><input type="text" value="{{ data.email }}" class="no-outline" style="width: 100%;"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table><br>
+        <button onclick="addRow('item-5', 3)">Add New</button>
+    </div>
+</div>
+</div>
+
+
+    <!-- <div id="plc-notification">
+    <img id="human-inside" src="/static/images/air.png" alt="Human Writer">
+    <div id="plc-message"></div> -->
+</div>
+
+
+<div class="button_box">
+<a href="{% url 'index' %}" >
+    <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+</a>
+<button type="button" id="delete-btn" onclick="deleteSelectedRows()"><b>DELETE SELECTED</b></button>
+<button type="button" id="save-btn" onclick="saveData()" ><b>SAVE</b></button>
+</div>
+
+<script>
+
+
+
+// let isVisible = false;
+// let typingTimer = null;
+
+// function typeMessage(message, element, speed = 100) {
+//     element.innerText = "";
+//     let index = 0;
+//     typingTimer = setInterval(() => {
+//         element.innerText += message[index];
+//         index++;
+//         if (index >= message.length) {
+//             clearInterval(typingTimer);
+//         }
+//     }, speed);
+// }
+
+// function showNotificationWithHuman() {
+//     if (isVisible) return;
+//     isVisible = true;
+
+//     const box = document.getElementById("plc-notification");
+//     const human = document.getElementById("human-inside");
+//     const msg = document.getElementById("plc-message");
+
+//     // Make visible
+//     box.style.display = "flex";
+//     box.style.animation = "fadeInBox 0.5s forwards, pulse 1s infinite";
+//     box.style.opacity = "1";
+
+//     setTimeout(() => {
+//         human.style.animation = "walkInBox 2s forwards";
+//     }, 300);
+
+//     setTimeout(() => {
+//         typeMessage("⚠ PLEASE CHECK AIR! ⚠", msg, 150);
+//     }, 2300);
+// }
+
+// function hideNotificationAndHuman() {
+//     clearInterval(typingTimer);
+
+//     const box = document.getElementById("plc-notification");
+//     const human = document.getElementById("human-inside");
+
+//     box.style.display = "none"; // Completely remove from layout
+//     box.style.opacity = "0";
+//     box.style.animation = "";
+
+//     human.style.left = "-200px";
+//     human.style.animation = "";
+
+//     isVisible = false;
+// }
+
+
+// function fetchActiveCoils() {
+//     fetch("/get_plc_status/")
+//         .then(response => response.json())
+//         .then(data => {
+//             const activeCoils = data.active_coils || [];
+//             console.log("✅ Step 1 coils:", activeCoils);
+
+//             if (activeCoils.includes(113)) {
+//                 showNotificationWithHuman();
+               
+//             } else {
+//                 hideNotificationAndHuman();
+//             }
+
+            
+//         })
+//         .catch(error => console.error("❌ PLC fetch error", error));
+// }
+
+// // Start checking every 500 ms
+// setInterval(fetchActiveCoils, 500);
+
+    // Function to handle row selection
+    function handleRowSelection(event) {
+        var selectedRow = event.currentTarget;
+        var allRows = document.querySelectorAll('table tbody tr');
+    
+        // Remove 'selected' class and background color for all rows
+        allRows.forEach(row => {
+            row.classList.remove('selected');
+        });
+    
+        // Toggle 'selected' class for the clicked row and set its background color
+        selectedRow.classList.add('selected');
+    }
+    
+    
+    
+    
+    // Function to handle clicking based on session storage
+function clickBasedOnSessionStorage() {
+    // Get the session storage value
+    var selectedTableBodyId = sessionStorage.getItem('selectedTableBodyId');
+    //console.log("Selected Table Body ID:", selectedTableBodyId);
+
+    // Determine which inner box to click based on the tableBodyId value
+    if (selectedTableBodyId === 'tableBody-1') {
+        enlargeItem(1);  // Simulate clicking inner-box-1
+        showItem('item-1');
+    } else if (selectedTableBodyId === 'tableBody-2') {
+        enlargeItem(2);  // Simulate clicking inner-box-2
+        showItem('item-2');
+    } else if (selectedTableBodyId === 'tableBody-3') {
+        enlargeItem(3);  // Simulate clicking inner-box-3
+        showItem('item-3');
+    } else if (selectedTableBodyId === 'tableBody-4') {
+        enlargeItem(4);  // Simulate clicking inner-box-4
+        showItem('item-4');
+    } else if (selectedTableBodyId === 'tableBody-5') {
+        enlargeItem(5);  // Simulate clicking inner-box-5
+        showItem('item-5, .item-6');
+    }else if (selectedTableBodyId === 'tableBody-6') {
+        enlargeItem(6);  // Simulate clicking inner-box-5
+        showItem('item-6');
+    } else {
+            console.log('Invalid session storage value. Defaulting to item-1.');
+            enlargeItem(1);  // Default to inner-box-1
+            showItem('item-1');  // Default to item-1
+        }
+}
+
+// Function to highlight and enlarge an item
+function enlargeItem(index) {
+    document.querySelectorAll('.box-1 > div').forEach(function (el) {
+        el.style.backgroundColor = '';  // Reset background color for all boxes
+    });
+    var clickedInnerBox = document.querySelector(`.box-1 .inner-box-${index}`);
+    if (clickedInnerBox) {
+        clickedInnerBox.style.backgroundColor = 'red';  // Highlight the clicked box
+    } else {
+        console.log('No inner-box found with index:', index);
+    }
+}
+
+// Function to display the selected item
+function showItem(itemClassName) {
+    var itemClasses = document.querySelectorAll('.item');
+    itemClasses.forEach(function (item) {
+        item.style.display = 'none';  // Hide all items
+    });
+
+    var selectedItem = document.querySelector('.' + itemClassName);
+    if (selectedItem) {
+        selectedItem.style.display = 'block';  // Show the selected item
+    } else {
+        console.log('No item found with class:', itemClassName);
+    }
+}
+
+        
+        var rowData = {};
+        
+        window.onload = function () {
+            showItem('item-1');
+            document.querySelector('.box-1 .inner-box-1').style.backgroundColor='red';
+        };
+        
+ 
+    
+    // Define an object to hold row data
+    var rowData = {};
+    
+    function addRow(itemClassName, numColumns) {
+        var tableBodyId = 'tableBody-' + itemClassName.charAt(itemClassName.length - 1);
+        var tableBody = document.querySelector('#' + tableBodyId);
+        var newRow = tableBody.insertRow(tableBody.rows.length);
+        var rowIndex = tableBody.rows.length;
+    
+        newRow.addEventListener('click', function(event) {
+            var rows = tableBody.querySelectorAll('tr');
+            rows.forEach(function(row) {
+                row.style.backgroundColor = ''; // Reset background color for all rows
+            });
+    
+            event.currentTarget.style.backgroundColor = 'lightblue'; // Set background color for the clicked row
+        });
+    
+        for (var i = 0; i < numColumns; i++) {
+            var cell = newRow.insertCell(i);
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.style.width = '100%';
+            input.style.padding = '0';
+            input.style.border = 'none';
+            input.style.outline = 'none';
+            cell.appendChild(input);
+        }
+
+// Conditionally add a checkbox in the last column for tableBody-1
+if (tableBodyId === 'tableBody-1') {
+        var checkboxCell = newRow.insertCell(numColumns);
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkboxCell.appendChild(checkbox);
+    }
+
+    // Add the new row data to the rowData object
+    if (!rowData[tableBodyId]) {
+        rowData[tableBodyId] = [];
+    }
+
+    var checkboxValue = tableBodyId === 'tableBody-1' ? checkbox.checked : null;
+
+    rowData[tableBodyId].push({
+        rowIndex: rowIndex,
+        values: Array.from(newRow.cells).map(cell => cell.querySelector('input').value),
+        checkboxValue: checkboxValue
+    });
+}
+
+    
+function saveData() {
+    var tableData = {};
+
+    // Loop through each table body
+    Object.keys(rowData).forEach(function(key) {
+        var rowsData = rowData[key];
+        var rows = [];
+        rowsData.forEach(function(rowData) {
+            var row = {
+                rowIndex: rowData.rowIndex,
+                values: []
+            };
+            var tableBody = document.getElementById(key);
+            var cells = tableBody.rows[rowData.rowIndex - 1].cells;
+            for (var i = 1; i < cells.length; i++) {
+                if (key === 'tableBody-1' && i === cells.length - 1) {
+                    row.values.push(cells[i].querySelector('input').checked);
+                } else {
+                    row.values.push(cells[i].querySelector('input').value);
+                }
+            }
+            rows.push(row);
+        });
+        tableData[key] = rows;
+    });
+
+    sendDataToServer(tableData);
+
+    // Get selected row data
+    var selectedRow = document.querySelector('.selected');
+    if (!selectedRow) {
+        console.error('No row selected.');
+        return;
+    }
+
+    var selectedTableBodyId = selectedRow.closest('tbody').id;
+    var selectedRowId = selectedRow.getAttribute('data-id');
+    var selectedRowCells = selectedRow.querySelectorAll('td');
+    var values = [];
+    selectedRowCells.forEach(function(cell, index) {
+        if (cell.querySelector('input')) {
+            if (selectedTableBodyId === 'tableBody-1' && index === selectedRowCells.length - 1) {
+                values.push(cell.querySelector('input').checked);
+            } else {
+                values.push(cell.querySelector('input').value);
+            }
+        }
+    });
+
+    var dataToSend = {
+        tableBodyId: selectedTableBodyId,
+        rowId: selectedRowId,
+        values: values
+    };
+
+    //console.log('Data to send:', dataToSend);
+
+    // Store the tableBodyId in session storage
+    sessionStorage.setItem('selectedTableBodyId', selectedTableBodyId);
+    //console.log("sessionStorage",sessionStorage);
+
+    // Send the selected row's data to the server
+    sendDataToServer(dataToSend);
+}
+
+function sendDataToServer(data) {
+    const csrftoken = getCookie('csrftoken');
+    
+    $.ajax({
+        url: '/trace/',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrftoken  // Ensure CSRF token is included or disable CSRF for testing
+        },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function(response) {
+            //console.log(response);  // Log successful response
+            showNotification('DATA SAVED SUCCESSFULLY', true);
+        },
+        error: function(xhr, status, error) {
+            //console.log('Error:', error);  // Log the error for debugging
+            //console.log('Status:', status);  // Log status for debugging
+            //console.log('Response:', xhr.responseText);  // Log server response for further inspection
+            showNotification('Error: Failed to save the data', false);
+        }
+    });
+}
+  
+ 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+////////////////////////////////
+
+
+
+
+
+
+    ///////////////////////
+// Initialize variable to keep track of the currently selected row
+   var selectedRow = null;
+
+// Function to handle row and column selection
+function handleRowAndColumnSelection(event) {
+    var clickedElement = event.target;
+
+    // Check if clicked element is an input element
+    if (clickedElement.tagName === 'INPUT') {
+        // If it's an input element, get the corresponding td element
+        clickedElement = clickedElement.closest('td');
+    }
+    
+    var currentRow = clickedElement.parentElement;
+
+    // If a new row is selected, clear the selection from the previous row
+    if (selectedRow !== currentRow) {
+        // Remove 'selected' class and background color for all rows
+        if (selectedRow) {
+            selectedRow.classList.remove('selected');
+            selectedRow.querySelectorAll('td').forEach(cell => {
+                cell.classList.remove('selected-column');
+            });
+        }
+
+        // Update the selectedRow variable to the currently selected row
+        selectedRow = currentRow;
+    }
+
+    // Toggle 'selected' class for the clicked row and set its background color
+    currentRow.classList.add('selected');
+
+    // Retrieve the ID from the 'data-id' attribute of the selected row
+    var rowId = currentRow.getAttribute('data-id');
+    //console.log('Selected Row ID:', rowId);
+
+    // Get index of selected column
+    var selectedColumnIndex = Array.from(currentRow.children).indexOf(clickedElement);
+    //console.log("column :",selectedColumnIndex);
+
+    // Remove 'selected-column' class for all cells in the selected row
+    currentRow.querySelectorAll('td').forEach(cell => {
+        cell.classList.remove('selected-column');
+    });
+
+    // Add 'selected-column' class to the selected column cells in the row
+    currentRow.cells[selectedColumnIndex].classList.add('selected-column');
+}
+
+// Add event listener to each cell in the table body
+var tableCells = document.querySelectorAll('table tbody td');
+tableCells.forEach(cell => {
+    cell.addEventListener('click', handleRowAndColumnSelection);
+});
+
+
+
+
+
+
+function deleteSelectedRows() {
+    var selectedRow = document.querySelector('.selected');
+    if (selectedRow) {
+        // Call the handleRowSelection to retrieve the ID from the console
+        handleRowSelection({ currentTarget: selectedRow });
+
+        // Now you can proceed with deleting the row using AJAX
+        var tableBodyId = selectedRow.closest('tbody').id;
+        var rowId = selectedRow.getAttribute('data-id');
+
+        var dataToDelete = {};
+        dataToDelete[tableBodyId] = [parseInt(rowId)];
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/trace/',
+            data: JSON.stringify(dataToDelete),
+            contentType: 'application/json',
+            success: function(response) {
+                // Handle successful response from the server
+                // Update the UI or perform any additional actions
+                //console.log(response);
+                selectedRow.remove();
+                showNotification('DATA DELETED SUCCESSFULLY', true); 
+            },
+            error: function(error) {
+                // Handle error from the server
+                //console.error('Error:', error);
+                showNotification('Error: Failed to delete data', false); 
+            }
+        });
+    } else {
+        // Inform the user that no row is selected
+        //console.log('No row selected');
+        showNotification('No row selected', false); 
+    }
+}
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(function (row) {
+            row.addEventListener('click', handleRowSelection);
+        });
+    });
+
+  // Function to show a notification with an OK button
+function showNotification(message, isSuccess) {
+    var notificationElement = document.getElementById('notification');
+    notificationElement.textContent = message;
+
+    if (isSuccess) {
+        notificationElement.style.backgroundColor = 'lightgreen';
+    } else {
+        notificationElement.style.backgroundColor = 'coral';
+    }
+
+    // Add an "OK" button to the notification
+    var okButton = document.createElement('button');
+    okButton.textContent = 'OK';
+    okButton.style.display = 'block';   // Make the button a block element
+    okButton.style.margin = 'auto';     // Center the button horizontally
+    okButton.style.marginTop = '10px';  // Add some top margin for spacing
+    okButton.style.padding = '10px';
+    okButton.style.height = '60px';     // Set the button height
+    okButton.style.width = '100px';      // Set the button width
+    okButton.style.border = 'none';     // Remove the default button border
+    okButton.style.backgroundColor = 'orangered'; // Red background color
+    okButton.style.color = 'white';     // White text color
+
+    // Add event listener to the OK button
+    okButton.addEventListener('click', function() {
+        // Redirect to the desired page (adjust the URL if needed)
+        window.location.href = '{% url "trace" %}';
+
+        // Call clickBasedOnSessionStorage to simulate clicking the right box
+        clickBasedOnSessionStorage();
+    });
+
+    notificationElement.appendChild(okButton);
+
+    // Center the notification vertically and horizontally
+    notificationElement.style.display = 'flex';
+    notificationElement.style.flexDirection = 'column';
+    notificationElement.style.alignItems = 'center';
+    notificationElement.style.textAlign = 'center';
+    notificationElement.style.justifyContent = 'center';
+    notificationElement.style.top = '50%';
+    notificationElement.style.left = '50%';
+    notificationElement.style.transform = 'translate(-50%, -50%)';
+    notificationElement.style.zIndex = '1000';
+    notificationElement.style.fontWeight = 'bold';
+    // Display the notification
+    notificationElement.style.display = 'block';
+}
+
+// Ensure the session storage based logic runs after page load
+window.onload = function() {
+    clickBasedOnSessionStorage();
+};
+
+         </script>
+    {% endblock %}

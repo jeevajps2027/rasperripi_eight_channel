@@ -1,0 +1,383 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.7.2-web/css/all.min.css' %}">
+    <script src="{% static 'jquery-jquery-f79d5f1/dist/jquery.min.js' %}"></script>
+  <!-- Add XLSX library for Excel conversion -->
+
+   <script src="{% static 'js-xlsx-master/dist/xlsx.full.min.js' %}"></script>
+
+   <!-- Add jsPDF library for PDF conversion -->
+   
+   <script src="{% static 'parallax-jsPDF-57cbe94/dist/jspdf.umd.min.js' %}"></script>
+
+    <title>Jobwise Report</title>
+
+    <style>
+        body {
+    border: 2px solid white;
+    font-family: Arial, sans-serif;
+    font-size: 16px; /* big default text */
+}
+
+.data-box {
+
+    padding: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.first-table {
+    background-color: #fff;
+    border: 2px solid #000;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.label {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+}
+
+.value {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* ==== Main Table ==== */
+.table_data table {
+    width: 100%;              /* full page width */
+    border-collapse: collapse;
+    table-layout: fixed;      /* keep columns uniform */
+    font-size: 12px;          /* nice and readable */
+}
+
+.table_data th,
+.table_data td {
+    border: 1.5px solid black;
+    text-align: center;
+    font-weight: bold;
+    padding: 1px;
+    height: 45px;             /* ~15 rows per page */
+    word-wrap: break-word;
+    page-break-inside: avoid; /* don’t cut rows between pages */
+}
+
+/* Fix header row */
+.table_data th {
+    background-color: #f2f2f2;
+    font-size: 10px;
+}
+
+/* For first summary table */
+.first-table td {
+    border: 1.5px solid black;
+    width: 20%;               /* each column takes space evenly */
+    padding: 6px;
+    font-size: 14px;
+}
+        #h1{
+            color: red; 
+            text-align: center;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+/* Dropdown menu style */
+#dropdownContent {
+    display: none; /* Hide dropdown content by default */
+}
+
+.dropdown {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: -120px; /* Adjusted left position for the dropdown content */
+        }
+        .dropdown-content button {
+            color: black;
+            padding: 10px 10px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            display: block;
+            background-color: lightpink;
+            display: block;
+        }
+            
+        table {
+            width: auto; /* Allow the table to size based on content */
+            table-layout: auto; /* Allow the table to adjust its layout based on content */
+            border-collapse: collapse; /* Collapse table borders */
+        }
+       
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9; /* Alternate row background color */
+        }
+#prevButton{
+    width: 80px;
+    height: 35px;
+    margin-top: -35px;
+    float: right;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+#excel_btn{
+    width: 150px;
+    height: 35px;
+    margin-top: -35px;
+    margin-left: 60px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+}
+
+#mail_btn {
+    width: 150px;
+    height: 35px;
+    margin-top: -35px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    margin-left: 200px;
+}
+
+#pdf_btn {
+    width: 150px;
+    height: 35px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    float: left;
+}
+#popupMessage{
+    display: none;
+    position: fixed; 
+    top: 20px;
+    width: 300px;
+    height: 70px;
+    left: 40%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    transform: translateX(-50%);
+    background-color: yellow; 
+    color: black; 
+    border: 1px solid black ; 
+    padding: 10px;
+    z-index: 1000;
+}
+
+.container-1{
+    height: 35px;
+    background-color: blue;
+}
+
+
+#heading{
+    text-align: center;
+    font-weight: bold;
+    background-color: blue;
+    color: white;
+    height: 25px;
+    margin-top: 0px;
+
+}
+
+.container {
+    margin: auto;
+    border: 2px solid black;
+    margin-top: 0px;
+}     
+
+#loading_spinner {
+    position: fixed;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    font-size: 5vw;
+    color: #022244;
+    z-index: 9999; /* Ensure spinner appears on top */
+}
+
+.fa-spinner {
+    margin-top: 10%;
+    margin-right: 20%; /* Add space between spinner and text */
+}
+    </style>
+</head>
+<body>
+
+    <div id="loading_spinner" style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i> 
+        <div style="text-align: center; margin-left: -120px; font-size: 50px; font-weight: bold; color: rgb(128, 36, 0);">
+            Please wait a moment...
+        </div>  
+    </div>      
+    <div class="container">
+        <div class="container-1">
+            <div id="heading"></div>
+            <form id="exportForm" method="post" action="{% url 'jobReport' %}" style="margin-top:-25px ;">
+                {% csrf_token %}
+                <div class="button-container">
+                    <!-- Send Mail Button (Left Side) -->
+                    <button type="submit" class="no-pdf" onclick="hideDropdown()" name="export_type" value="send_mail" id="mail_btn">Send Mail</button>
+                    
+                    <!-- Email Selection Dropdown -->
+                    <label for="email" class="no-pdf"></label>
+                    <select name="recipient_email" class="no-pdf" id="recipientEmail" style="background-color: yellow; height: 35px; ">
+                        <option class="no-pdf" value="{{ email_1 }}">{{ email_1 }}</option>
+                        <option class="no-pdf" value="{{ email_2 }}">{{ email_2 }}</option>
+                    </select>
+                
+                    <!-- PDF Conversion Button (Right Side) -->
+                    <button type="submit" name="export_type" value="pdf" id="pdf_btn" class="no-pdf">PDF CONVERSION</button>
+                    <button type="submit" class="excel no-pdf" name="export_type" id="excel_btn" onclick="exportToExcel(event)" value="excel">Export to Excel</button>
+                </div>
+                
+            </form>
+            <div><button id="prevButton" class="no-pdf" >BACK</button></div>  
+        </div>
+    
+    
+    
+     <!-- Add this in your consolidateSrNo.html -->
+    <div id="popupMessage" class="no-pdf"></div>
+
+
+    <script>
+
+$(document).ready(function () {
+        $("#pdf_btn").click(function () {
+            $("#loading_spinner").show(); // Show the spinner
+        });
+
+        $("#excel_btn").click(function () {
+            $("#loading_spinner").show(); // Show the spinner
+        });
+
+        $("#mail_btn").click(function () {
+            $("#loading_spinner").show(); // Show the spinner
+        });
+    });
+
+
+
+        function hideDropdown() {
+            document.getElementById("dropdown").style.display = "none";
+        }
+
+      // Get the success message from the context if it exists
+    var successMessage = "{{ success_message|escapejs }}";  // Ensure safe rendering of message
+
+if (successMessage) {
+    // If there is a success message, display the popup
+    var messageDiv = document.getElementById('popupMessage');
+    messageDiv.innerHTML = `<div>${successMessage}</div>`;  // Set the message content
+    messageDiv.style.display = 'block';  // Make the popup visible
+    
+    // Optionally, hide the popup after 5 seconds
+    setTimeout(function() {
+        messageDiv.style.display = 'none';  // Hide the popup after 5 seconds
+    }, 3000);  // Adjust the time duration as needed
+}
+       
+       
+    </script>
+    
+    
+    <table class="first-table">
+        <h1 id="h1">Jobwise Report</h1>
+        {% for data in jobwise_values %}
+        <tr>
+            <td>
+                <span class="label">PARTMODEL:</span>
+                <span class="value">{{ data.part_model }}</span>
+            </td>
+            <td>
+                <span class="label">JOB NO:</span>
+                <span class="value">{{ data.job_no }}</span>
+            </td>
+            
+            <td>
+                <span class="label">CURRENT DATE:</span>
+                <span class="value">{{ data.current_date_time }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">OPERATOR:</span>
+                <span class="value">{{operators_values}}</span>
+            </td>
+            <td>
+                <span class="label">SHIFT:</span>
+                <span class="value">{{shifts_values}}</span>
+            </td>
+            <td>
+                <span class="label">OVERALL STATUS:</span>
+                <span class="value">{{part_status_values}}</span>
+            </td>
+            
+        </tr>
+        
+        {% endfor %}
+    </table>
+    
+{% if no_results %}
+    <div class="data-box">
+        <p>No Data Found</p>
+    </div>
+{% else %}
+    <div class="data-box">
+        <div class="table_data">
+            {{ table_html | safe }}
+        </div>
+    </div>
+{% endif %}
+</div>
+<!-- JavaScript to dynamically update status counts and print to console -->
+<script>
+
+
+
+
+
+
+document.getElementById('prevButton').addEventListener('click', function() {
+    // Redirect to the report page
+    window.location.href = '/report/'; // Replace 'report_page.html' with the actual URL of your report page
+});
+
+
+    function toggleDropdown() {
+    var dropdownContent = document.getElementById("dropdownContent");
+    dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block";
+}
+
+
+// Function to hide the dropdown
+function hideDropdown() {
+    var dropdownContent = document.getElementById("dropdownContent");
+    dropdownContent.style.display = "none"; // Hide the dropdown content
+}
+ </script>
+</body>
+</html>

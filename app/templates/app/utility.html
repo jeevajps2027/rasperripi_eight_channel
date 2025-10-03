@@ -1,0 +1,1522 @@
+{% extends 'app/layouts/main.html' %}
+{% block title %}
+Utility
+{% endblock title %}
+{% block content %}
+
+
+<style>
+  
+ 
+  html, body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    
+    
+}
+
+
+body {
+   
+   background-color: black;
+   border: 10px double white;
+   padding: 5px;
+}
+
+.box_main{
+        width: 100%;
+        height: 70%;
+        margin-top: 2%;
+        display: flex;
+        
+    }
+.box {
+    width: 60vw;
+    height: 75vh;
+    margin-left:5% ;
+    margin-top:3%;
+    background-color: lightgrey;
+    border: 2px solid black;
+    text-align: center;
+}
+
+.box-1 {
+    width: 20vw;
+    height: 75vh;
+    margin-top:3%;
+    margin-left: 5%;
+    background-color: white;
+    border: 2px solid black;
+    padding-top: 20px;
+    padding-left: 5px;
+  }
+
+.inner-box-1, .inner-box-2, .inner-box-3, .inner-box-4 ,.inner-box-5, .inner-box-6{
+    width: 18vw; 
+    height: 10vh;
+    background-color:rgb(245, 188, 83);
+    border: 2px solid black; 
+    margin: 5px;
+    padding-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5vw;
+    font-family: Arial, Helvetica, sans-serif;
+    
+  }
+
+.item-1, .item-2, .item-3, .item-4, .item-5, .item-6{
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+    background-color: lightgrey;
+    
+  }
+  label {
+            display: inline-block;
+            width: 150px;
+            margin-top: 15px;
+            text-align: center;
+            margin-left: 20px;
+            font-weight: bold;
+            
+        }
+        
+
+  select {
+      margin-top: 10px;
+      box-sizing: border-box;
+      width: 20%;
+      height: 30px;
+  }
+  
+  #cancel-btn{
+             background-color: red;
+             color:black;
+             height: 7vh;
+             width: 12vw;
+             margin-left: 10px;
+             margin-top: 30px;
+             
+             font-size: 1.2vw;
+               
+         }
+
+         #clear-btn, #clear-btn-3{
+            background-color: orange;
+             color:black;
+             height: 7vh;
+             width: 12vw;
+             margin-left: 65px;
+             margin-top: 30px;
+          
+             font-size: 1.2vw;
+         }
+  #save-btn-1,#save-btn-2,#save-btn-3,#save-btn-4,#save-btn-5,#save-btn-9,#save-btn-6{
+      background-color: green;
+      color:black;           
+      height: 7vh;
+      width: 12vw;
+      margin-left: 65px; 
+      margin-top: 30px;
+    
+      font-size: 1.2vw;
+  }
+  
+  .item-1 input[type="radio"] {
+        transform: scale(1.5); /* Adjust the scale factor to make the radio buttons bigger */
+    }
+
+    .custom-border {
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 2px 2px 5px #888888;
+        display: inline-block; 
+        width: 80%;
+        height: 100%;
+    }
+
+    .custom-border label{
+        font-weight: bold;
+        width: 30%;
+        font-size: 1.2vw;
+    }
+
+.custom-border select,
+.custom-border input[type="text"],
+ .custom-border input[type="number"]
+ {
+    font-weight: bold;
+    width: 30%;
+    height: 50px;
+    font-size: 1.2vw;
+    text-align: center;
+}
+.custom-border input[type="datetime-local"]{
+font-weight: bold;
+    width: 50%;
+    height: 50px;
+    font-size: 1.2vw;
+    text-align: center;
+}
+
+.custom-border input[type="radio"] {
+    transform: scale(1.5); /* makes radio button 1.5× bigger */
+    margin-right: 5px;     /* optional spacing */
+}
+
+    textarea {
+        margin-left: 20px;
+        width: 400px;
+        height: 200px;
+        font-weight: bold;
+        font-size: 1vw;
+    }
+    .container {
+            display: flex;
+            align-items: center; /* Center elements vertically */
+            justify-content: center; /* Center elements horizontally */
+            margin-top: 20px; /* Adjust as needed */
+            background-color: lightgrey;
+        }
+
+        .label-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center label vertically within the container */
+            margin-left: -320px; /* Space between label and textarea */
+        }
+
+        .ruled-textarea {
+            width: 350px;
+            height: 150px;
+            margin-left: 30px;
+            line-height: 30px; /* Adjust to match the height of each line */
+            background: repeating-linear-gradient(
+                white, 
+                white 29px, /* Adjust to match the height of each line minus the border width */
+                black 30px /* Adjust to match the line-height */
+            );
+            border: 1px solid #ccc;
+            padding: 5px;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            resize: none; /* Prevent resizing to maintain the line structure */
+        }
+
+        .preview-container {
+            width: 100px;
+            height: 100px;
+            border: 2px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 20px; /* Space between input and image */
+        }
+
+        .preview-container img {
+            max-width: 100px; /* Adjust as needed */
+            max-height: 100px; /* Adjust as needed */
+            display: block;
+            border: 2px solid black;
+        }
+       
+         /* Basic styling for the custom dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+       /* Styling for the custom dropdown button */
+    .dropdown-button {
+        padding: 7px;
+        border: 1px solid #d1d1d1; /* Light gray border */
+        background-color: #f0f0f0; /* Mild gray background */
+        cursor: pointer;
+        width: 230px;
+    border: 1px solid black;
+}
+
+   .dropdown-button.green {
+            background-color: rgb(57, 248, 57);
+        }
+        .dropdown-button.red {
+            background-color: rgb(248, 68, 68);
+        }
+
+/* Styling for the dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #e3f2fd; /* Very light mild blue background */
+    border: 1px solid #10232b; /* Mild blue border */
+    z-index: 1;
+    width: 230px;
+    box-sizing: border-box;
+    color: black; /* Softer dark blue text color */
+}
+
+/* Styling for the input boxes inside the dropdown */
+.dropdown-content input {
+    width: calc(100% - 20px);
+    margin: 10px;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #e1f5fe; /* Very light mild blue background for inputs */
+    border: 1px solid #81d4fa; /* Mild blue border for inputs */
+    color: #0277bd; /* Softer blue text color for inputs */
+}
+
+.item-5 select{
+    text-align: center;
+    font-size: 1vw;
+    width: 26%;
+}
+
+
+@keyframes walkInBox {
+    0% { left: -200px; }
+    100% { left: 20px; }
+}
+@keyframes fadeInBox {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+    50% { box-shadow: 0 0 40px rgba(255,0,0,1); }
+    100% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+}
+
+.item-1 label{
+    font-weight: bold;
+    font-size: 1.5vw;
+    width: 30%;
+    margin-left: 0;
+}
+.item-1 select{
+    font-weight: bold;
+    font-size: 1.5vw;
+    width: 30%;
+    height: 30%;
+   text-align: center;
+    margin-left: 0;
+}
+
+.item-1 .colon {
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 2vw;
+}
+.item-1 input{
+    font-weight: bold;
+    font-size: 1.5vw;
+    width: 30%;
+    height: 30%;
+    text-align: center;
+    margin-left: 0;
+}
+
+
+
+
+
+
+
+.item-5 label{
+    font-weight: bold;
+    font-size: 1.5vw;
+    width: 30%;
+    margin-left: 0;
+}
+.item-5 select{
+    font-weight: bold;
+    font-size: 1.5vw;
+    width: 30%;
+    height: 30%;
+   text-align: center;
+    margin-left: 0;
+}
+
+.item-5 .colon {
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 2vw;
+}
+.item-5 input{
+    font-weight: bold;
+    font-size: 1.5vw;
+    width: 30%;
+    height: 30%;
+    text-align: center;
+    margin-left: 0;
+}
+
+
+</style>
+<div class="box_main">
+
+<div class="box-1">
+    <div id="set_master_interval" class="inner-box-1" onclick="enlargeItem(1),showItem('item-1')">PARAMETER FACTOR</div>
+    <div id="shift_settings" class="inner-box-2" onclick="enlargeItem(2),showItem('item-2')" style="margin-top: 5%;">SHIFT SETTINGS</div>
+    <div id="customer_input" class="inner-box-3" onclick="enlargeItem(3),showItem('item-3')" style="margin-top: 5%;">CUSTOMER DETAILS</div>
+    <div id="backup_data" class="inner-box-4" onclick="enlargeItem(4),showItem('item-4')" style="margin-top: 5%;">BACKUP DATA</div>
+    <div id="parameter_factor" class="inner-box-5" onclick="enlargeItem(5),showItem('item-5')" style="margin-top: 5%;">MAIL SETTINGS</div>  
+    <div id="set_master" class="inner-box-6" onclick="enlargeItem(6),showItem('item-6')"  style="margin-top: 5%;">Set Master Interval</div>      
+</div>
+
+<div class="box" id="boxContent"style="overflow-x: auto;overflow-y:auto;">
+
+    <div class="item item-6" id="master_interval">
+        <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240); font-weight: bold;font-size: 2vw; margin-bottom: 2%;">
+            MASTER INTERVAL SETTINGS
+           </center>
+            {% for data in master_interval_settings %}
+            <div class="custom-border" style="margin-top: 30px;">
+                <input type="radio" id="TimeWise" name="radiogroup" value="option1" {% if data.timewise == 1 %} checked {% endif %}>
+                <label for="TimeWise" style="text-align: left;">TIME WISE</label><br>
+                <input type="radio" id="ComponentWise" name="radiogroup" value="option2" {% if data.componentwise == 1 %} checked {% endif %}>
+                <label for="ComponentWise">COMPONENT WISE</label><br><br>
+                <label for="hour" style="margin-top: 30px;">EVERY HOUR:</label>
+                <input type="number" id="hour" name="hour" value="{{ data.hour|default_if_none:'' }}"><br>
+                <label for="minute" style="margin-top: 30px;">MINUTE:</label>
+                <input type="number" id="minute" name="minute" value="{{ data.minute|default_if_none:'' }}"><br>
+                <label for="component_no" style="margin-top: 30px;">COMPONENT NO:</label>
+                <input type="number" id="component_no" name="component_no" value="{{ data.component_no|default_if_none:'' }}"><br><br>
+            </div><br>
+            {% empty %}
+            <div class="custom-border" style="margin-top: 30px;">
+                <input type="radio" id="TimeWise" name="radiogroup" value="option1">
+                <label for="TimeWise" style="text-align: left;">TIME WISE</label><br>
+                <input type="radio" id="ComponentWise" name="radiogroup" value="option2">
+                <label for="ComponentWise">COMPONENT WISE</label><br><br>
+                <label for="hour" style="margin-top: 30px;">EVERY HOUR:</label>
+                <input type="number" id="hour" name="hour"><br>
+                <label for="minute" style="margin-top: 30px;">MINUTE:</label>
+                <input type="number" id="minute" name="minute"><br>
+                <label for="component_no" style="margin-top: 30px;">COMPONENT NO:</label>
+                <input type="number" id="component_no" name="component_no"><br><br>
+            </div><br>
+            {% endfor %}
+            
+        <a href="{% url 'index' %}" >
+            <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+            </a>
+        <button type="button" id="clear-btn"><b>CLEAR VALUES</b></button>  
+          <button type="button" id="save-btn-6"><b>SAVE</b></button>  
+
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const radio1 = document.getElementById('TimeWise');
+                const radio2 = document.getElementById('ComponentWise');
+                const hourInput = document.getElementById('hour');
+                const minuteInput = document.getElementById('minute');
+                const componentNoInput = document.getElementById('component_no');
+    
+                radio1.addEventListener('change', function() {
+                    if (this.checked) {
+                        hourInput.disabled = false;
+                        minuteInput.disabled = false;
+                        componentNoInput.disabled = true;
+                    }
+                });
+    
+                radio2.addEventListener('change', function() {
+                    if (this.checked) {
+                        hourInput.disabled = true;
+                        minuteInput.disabled = true;
+                        componentNoInput.disabled = false;
+                    }
+                });
+    
+                // Initial state
+                if (radio1.checked) {
+                    hourInput.disabled = false;
+                    minuteInput.disabled = false;
+                    componentNoInput.disabled = true;
+                } else if (radio2.checked) {
+                    hourInput.disabled = true;
+                    minuteInput.disabled = true;
+                    componentNoInput.disabled = false;
+                }
+            });
+
+            $(document).ready(function() {
+                $('#clear-btn').click(function() {
+                    // Call the clearValues function to clear all input values
+                    clearValues();
+                });
+                function clearValues() {
+                    $('#hour').val('');
+                    $('#minute').val('');
+                    $('#component_no').val('');
+                    // Uncheck radio buttons
+                    $('#TimeWise').prop('checked', false);
+                    $('#ComponentWise').prop('checked', false);
+                    $('#hour').prop('disabled', false);
+                    $('#minute').prop('disabled', false);
+                    $('#component_no').prop('disabled', false);
+                }
+                $('#save-btn-6').click(function() {
+                    const data = {
+                        id: 'master_setting',
+                        timewise: $('#TimeWise').is(':checked'),
+                        componentwise: $('#ComponentWise').is(':checked'),
+                        hour: $('#hour').val(),
+                        minute: $('#minute').val(),
+                        component_no: $('#component_no').val()
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/utility/',  // Replace with your actual backend endpoint
+                        data: JSON.stringify(data),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function(response) {
+                            alert('Settings saved successfully!');
+                            window.location.reload();  // Reload the page
+                            // You can also redirect or update the UI based on the response if needed
+                        },
+                        error: function(error) {
+                            alert('An error occurred while saving settings.');
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        </script>
+    </div>
+    <div class="item item-1" id="parameter_factor">
+    <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>Parameter Factor</b></h2>
+    </center>
+
+    <label for="part_model">PART MODEL</label>
+    <span class="colon">:</span>
+    {% if part_model_values %}
+        <select id="part_model" name="part_model" required onchange="sendPartModelValue()">
+            <option value="" disabled selected>Select a part model</option>
+            {% for part_model in part_model_values %}
+                <option value="{{ part_model }}">{{ part_model }}</option>
+            {% endfor %}
+        </select>
+    {% else %}
+        <p>No part models available.</p>
+    {% endif %}
+    <br>
+
+    
+
+    <label for="parameter_name" >PARAMETER NAME</label>
+    <span class="colon">:</span>
+    <select id="parameter_name" name="parameter_name" required>
+        
+    </select> <br>
+
+    <label for="method">METHOD</label>
+    <span class="colon">:</span>
+    <select id="method" name="method" required>
+        <option value="+">+</option>
+        <option value="-">-</option>
+    </select>
+    <br>
+
+    <label for="value" >VALUE</label>
+    <span class="colon">:</span>
+    <input type="text" id="value" name="value"  required> <br>
+    
+
+    <a href="{% url 'index' %}">
+        <button type="button" id="cancel-btn"><b>CANCEL</b></button>
+    </a>
+    <button type="submit" id="save-btn-1"><b>SAVE</b></button>
+
+    </div>
+
+    <script>
+        // Function to send the selected part_model value to the backend
+function sendPartModelValue() {
+    const selectElement = document.getElementById('part_model');
+    const selectedValue = selectElement.value;
+
+    // Sending a POST request to the backend
+    fetch('/utility/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') // Add CSRF token
+        },
+        body: JSON.stringify({ part_model: selectedValue })
+    })
+        .then(response => response.json())
+        .then(data => {
+            //console.log('Response from server:', data);
+
+            // Now update the parameter_name dropdown
+            const parameterNameDropdown = document.getElementById('parameter_name');
+            
+            // Clear the current options
+            parameterNameDropdown.innerHTML = '';
+
+            // Add the default "Select the parameter name" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select the parameter name';
+            parameterNameDropdown.appendChild(defaultOption);
+
+            // Check if there are parameter names returned
+            if (data.parameter_names && data.parameter_names.length > 0) {
+                // Add an initial "Select" option
+               
+
+                // Populate the dropdown with parameter names
+                data.parameter_names.forEach(param => {
+                    const option = document.createElement('option');
+                    option.value = param;
+                    option.textContent = param;
+                    parameterNameDropdown.appendChild(option);
+                });
+            } else {
+                // If no parameter names, display a message
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'No parameters available';
+                parameterNameDropdown.appendChild(option);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Function to send all form data to the backend when the form is submitted
+function handleSaveButtonClick(event) {
+    event.preventDefault();  // Prevent the default form submission behavior
+
+    const partModel = document.getElementById('part_model').value;
+    const parameterName = document.getElementById('parameter_name').value;
+    const method = document.getElementById('method').value;
+    const value = document.getElementById('value').value;
+
+    // Prepare the data to send in the request
+    const formData = {
+        id :"parameter_factor",
+        part_model: partModel,
+        parameter_name: parameterName,
+        method: method,
+        value: value
+    };
+
+    // Send a POST request to save the data
+    fetch('/utility/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')  // Add CSRF token
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            //console.log('Data saved successfully:', data);
+            alert('Data saved successfully!');
+        })
+        .catch(error => {
+            //console.error('Error:', error);
+            alert('An error occurred while saving data.');
+        });
+}
+
+// Attach event listener to the save button
+document.getElementById('save-btn-1').addEventListener('click', handleSaveButtonClick);
+
+    
+document.getElementById('part_model').addEventListener('change', function() {
+    const partModel = this.value;
+    
+    if (partModel) {
+        fetch(`/get_parameters/?part_model=${partModel}`)
+            .then(response => response.json())
+            .then(data => {
+                const parameterDropdown = document.getElementById('parameter_name');
+                parameterDropdown.innerHTML = '<option value="" disabled selected>Select a parameter</option>';
+
+                data.parameter_names.forEach(param => {
+                    const option = document.createElement('option');
+                    option.value = param;
+                    option.textContent = param;
+                    parameterDropdown.appendChild(option);
+                });
+
+                document.getElementById('value').value = ''; // Clear the value field
+            })
+            .catch(error => console.error('Error fetching parameters:', error));
+    }
+});
+
+document.getElementById('parameter_name').addEventListener('change', function() {
+    const partModel = document.getElementById('part_model').value;
+    const parameterName = this.value;
+
+    if (partModel && parameterName) {
+        fetch(`/get_parameter_value/?part_model=${partModel}&parameter_name=${parameterName}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('value').value = data.value || ''; // Set the retrieved value
+                document.getElementById('method').value = data.method || ''; // Set the retrieved method
+            })
+            .catch(error => console.error('Error fetching value:', error));
+    }
+});
+
+
+        // Helper function to get the CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        // Send the value when the page is loaded
+        window.onload = () => {
+            sendPartModelValue();
+        };
+    </script>
+
+
+
+    <div class="item item-2" id="shift_settings">
+        <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+            <h2><b>Shift Settings</b></h2>
+        </center>
+        <div class="custom-border" style="margin-top: 30px;">
+            <label for="shift" style="margin-top: 30px;">SHIFT:</label>
+            <select id="shift" name="shift">
+                <option value="">-- Select Shift --</option>
+                {% for row in table_body_2_data %}
+                    <option value="{{ row.batch_no }}">{{ row.batch_no }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="shift_time" style="margin-top: 30px;">START TIME:</label>
+            <input type="text" id="shift_time" name="shift_time" value="08:00:00 AM" oninput="this.value = this.value.toUpperCase()" ><br><br>
+
+
+            <textarea readonly>
+                {% if shift_settings %}
+                    {% for data in shift_settings %}
+                    {{ data.shift }} - {{ data.shift_time }}
+                    {% endfor %}
+                {% else %}
+                    No shift settings available.
+                {% endif %}
+            </textarea>
+        </div><br>
+        <a href="{% url 'index' %}">
+            <button type="button" id="cancel-btn"><b>Cancel</b></button>
+        </a>
+        <button type="button" id="save-btn-2"><b>Save</b></button>  
+    
+        <script>
+            // Set the default placeholder-like value in 12-hour format
+   
+$(document).ready(function() {
+    $('#save-btn-2').click(function() {
+        // Get the value of the time input
+        let rawTime = $('#shift_time').val();
+        const shiftValue = $('#shift').val();
+
+        // Check if the shift value starts with "SHIFT-" and contains a number after it
+        const shiftPattern = /^SHIFT-\d+$/;
+
+        if (!shiftPattern.test(shiftValue)) {
+            alert('Please enter a valid shift value like SHIFT-1, SHIFT-2, etc.');
+            return;  // Stop further execution if validation fails
+        }
+
+        // Validate the time input in HH:MM:SS AM/PM format
+        const timePattern = /^(0[1-9]|1[0-2]):[0-5][0-9]:[0-5][0-9] (AM|PM)$/i;
+        if (!timePattern.test(rawTime)) {
+            alert('Please enter a valid time in HH:MM:SS AM/PM format.');
+            return;  // Stop further execution if validation fails
+        }
+
+        // Construct the data object to be sent
+        const data = {
+            id: 'shift_settings',
+            shift: shiftValue,
+            shift_time: rawTime  // Time is already in HH:MM:SS AM/PM format
+        };
+
+        console.log('Data to be sent:', data);  // Debugging information
+
+        // Make the AJAX request to send the data to the server
+        $.ajax({
+            type: 'POST',
+            url: '/utility/',  // Replace with your actual backend endpoint
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+                //console.log('Response:', response);  // Debugging information
+                alert('Shift settings saved successfully!');
+                window.location.reload();  // Reload the page
+                sessionStorage.setItem('selectedItem', 'shift_settings');
+            },
+            error: function(error) {
+                //console.log('Error:', error);  // Debugging information
+                alert('An error occurred while saving shift settings.');
+            }
+        });
+    });
+
+
+    
+               // Check if an item should be selected after page reload
+               const selectedItem = sessionStorage.getItem('selectedItem');
+               if (selectedItem === 'shift_settings') {
+                   enlargeItem(2);
+                   showItem('item-2');
+                   sessionStorage.removeItem('selectedItem');
+               }
+           });
+        </script>
+    </div>
+
+    
+
+    
+<div class="item item-3" id="customer_details">
+    <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>Customer Details</b></h2>
+    </center>
+
+    <form id="customer-form" onsubmit="return validateForm()">
+        {% for customer in customer_details %}
+        <label for="customer_name" style="margin-left: 0px;">CUSTOMER NAME:</label>
+        <input type="text" id="customer_name" name="customer_name" value="{{ customer.customer_name|default_if_none:'' }}" required>
+
+        <label for="contact_person">CONTACT PERSON:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="contact_person_btn" onclick="toggleDropdown('contact_person')">Enter Contact Person:</div>
+            <div id="dropdown-content-contact_person" class="dropdown-content">
+                <input type="text" id="primary_contact_person" placeholder="Primary Contact Person" value="{{ customer.primary_contact_person|default_if_none:'' }}" required>
+                <input type="text" id="secondary_contact_person" placeholder="Secondary Contact Person" value="{{ customer.secondary_contact_person|default_if_none:'' }}" required>
+            </div>
+        </div>
+
+        <label for="email" style="margin-left: 0px;">EMAIL:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="email_btn" onclick="toggleDropdown('email')">Enter Email:</div>
+            <div id="dropdown-content-email" class="dropdown-content">
+                <input type="email" id="primary_email" placeholder="Primary Email" value="{{ customer.primary_email|default_if_none:'' }}" required>
+                <input type="email" id="secondary_email" placeholder="Secondary Email" value="{{ customer.secondary_email|default_if_none:'' }}" required>
+            </div>
+        </div>
+
+        <label for="phone_no" style="margin-left: 5px;">PHONE NO:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="phone_no_btn" onclick="toggleDropdown('phone_no')">Enter Phone No:</div>
+            <div id="dropdown-content-phone_no" class="dropdown-content">
+                <input type="tel" id="primary_phone_no" placeholder="Primary Phone No" value="{{ customer.primary_phone_no|default_if_none:'' }}" required>
+                <input type="tel" id="secondary_phone_no" placeholder="Secondary Phone No" value="{{ customer.secondary_phone_no|default_if_none:'' }}" required>
+            </div>
+        </div><br>
+
+        <label for="dept" style="margin-left: -400px;">DEPARTMENT:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="dept_btn" onclick="toggleDropdown('dept')">Enter the Dept:</div>
+            <div id="dropdown-content-dept" class="dropdown-content">
+                <input type="tel" id="primary_dept" placeholder="Primary Dept" value="{{ customer.primary_dept|default_if_none:'' }}" required>
+                <input type="tel" id="secondary_dept" placeholder="Secondary Dept" value="{{ customer.secondary_dept|default_if_none:'' }}" required>
+            </div>
+        </div><br>
+
+        <!-- <label for="dept" style="margin-left: -400px;">DEPARTMENT:</label>
+        <input type="text" id="dept" name="dept" value="{{ customer.dept|default_if_none:'' }}" required><br> -->
+
+        <label for="mac_address" style="margin-left: -10px;">MAC ADDRESS:</label>
+        <input type="text" id="mac_address" name="mac_address" value="{{ mac_address }}" disabled>
+
+        <label for="ip_address">IP ADDRESS:</label>
+        <input type="text" id="ip_address" name="ip_address" value="{{ ip_address }}" disabled><br>
+
+        <div class="container">
+            <div class="label-container">
+                <label for="address" style="text-align: right;">ADDRESS:</label>
+            </div>
+            <textarea id="address" name="address" class="ruled-textarea" required>{{ customer.address|default_if_none:'' }}</textarea>
+        </div>
+        {% empty %}
+        <!-- Display an empty form when there are no customer details -->
+        <label for="customer_name" style="margin-left: 0px;">CUSTOMER NAME:</label>
+        <input type="text" id="customer_name" name="customer_name" value="" required>
+
+        <label for="contact_person">CONTACT PERSON:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="contact_person_btn" onclick="toggleDropdown('contact_person')">Enter Contact Person:</div>
+            <div id="dropdown-content-contact_person" class="dropdown-content">
+                <input type="text" id="primary_contact_person" placeholder="Primary Contact Person" required>
+                <input type="text" id="secondary_contact_person" placeholder="Secondary Contact Person" required>
+            </div>
+        </div>
+
+        <label for="email" style="margin-left: 0px;">EMAIL:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="email_btn" onclick="toggleDropdown('email')">Enter Email:</div>
+            <div id="dropdown-content-email" class="dropdown-content">
+                <input type="email" id="primary_email" placeholder="Primary Email" required>
+                <input type="email" id="secondary_email" placeholder="Secondary Email" required>
+            </div>
+        </div>
+
+        <label for="phone_no" style="margin-left: 5px;">PHONE NO:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="phone_no_btn" onclick="toggleDropdown('phone_no')">Enter Phone No:</div>
+            <div id="dropdown-content-phone_no" class="dropdown-content">
+                <input type="tel" id="primary_phone_no" placeholder="Primary Phone No" required>
+                <input type="tel" id="secondary_phone_no" placeholder="Secondary Phone No" required>
+            </div>
+        </div><br>
+
+        <label for="dept" style="margin-left: -400px;">DEPARTMENT:</label>
+        <div class="dropdown">
+            <div class="dropdown-button" id="dept_btn" onclick="toggleDropdown('dept')">Enter the Dept:</div>
+            <div id="dropdown-content-dept" class="dropdown-content">
+                <input type="tel" id="primary_dept" placeholder="Primary Dept" required>
+                <input type="tel" id="secondary_dept" placeholder="Secondary Dept" required>
+            </div>
+        </div><br>
+
+        <label for="mac_address" style="margin-left: -10px;">MAC ADDRESS:</label>
+        <input type="text" id="mac_address" name="mac_address" value="{{ mac_address }}" disabled>
+
+        <label for="ip_address">IP ADDRESS:</label>
+        <input type="text" id="ip_address" name="ip_address" value="{{ ip_address }}" disabled><br>
+
+        <div class="container">
+            <div class="label-container">
+                <label for="address" style="text-align: right;">ADDRESS:</label>
+            </div>
+            <textarea id="address" name="address" class="ruled-textarea" required></textarea>
+        </div>
+        {% endfor %}
+
+        <a href="{% url 'index' %}">
+            <button type="button" id="cancel-btn"><b>Cancel</b></button>
+        </a>
+        <button type="button" id="clear-btn-3"><b>Clear values</b></button>
+        <button type="submit" id="save-btn-3"><b>Save</b></button>
+    </form>
+
+    <script>
+         function toggleDropdown(id) {
+            var dropdownContent = document.getElementById('dropdown-content-' + id);
+            var dropdownButton = document.getElementById(id + '_btn');
+            if (dropdownContent.style.display === "none" || dropdownContent.style.display === "") {
+                dropdownContent.style.display = "block";
+            } else {
+                dropdownContent.style.display = "none";
+            }
+            // Update the button style based on the content
+            updateButtonStyle(id);
+        }
+
+        function updateButtonStyle(id) {
+            var dropdownButton = document.getElementById(id + '_btn');
+            var dropdownContent = document.getElementById('dropdown-content-' + id);
+            var inputs = dropdownContent.querySelectorAll('input');
+            var hasValue = Array.from(inputs).some(input => input.value.trim() !== '');
+
+            if (hasValue) {
+                dropdownButton.classList.add('green');
+                dropdownButton.classList.remove('red');
+            } else {
+                dropdownButton.classList.add('red');
+                dropdownButton.classList.remove('green');
+            }
+        }
+         function validateForm() {
+            var isValid = true;
+            var requiredFields = document.querySelectorAll('#customer-form [required]');
+            
+            requiredFields.forEach(function(field) {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    alert('Please fill out all required fields.');
+                    field.focus();
+                }
+            });
+
+            return isValid;
+        }
+
+        // Initial call to set styles based on current values
+        document.addEventListener('DOMContentLoaded', function() {
+            ['contact_person', 'email', 'phone_no'].forEach(function(id) {
+                updateButtonStyle(id);
+            });
+        });
+    
+        $(document).ready(function() {
+            $('#clear-btn-3').click(function() {
+                // Call the clearValues function to clear all input values
+                clearValues();
+            });
+    
+            function clearValues() {
+                $('#customer_name').val('');
+                $('#primary_contact_person').val(''); // Clear contact person fields
+                $('#secondary_contact_person').val('');
+                $('#primary_email').val(''); // Clear email fields
+                $('#secondary_email').val('');
+                $('#primary_phone_no').val(''); // Clear phone number fields
+                $('#secondary_phone_no').val('');
+                $('#primary_dept').val(''); // Clear phone number fields
+                $('#secondary_dept').val('');
+                $('#mac_address').val(''); // Clear MAC address
+                $('#ip_address').val(''); // Clear IP address
+                $('#address').val(''); // Clear address textarea
+            }
+    
+            $('#save-btn-3').click(function() {
+                const data = {
+                    id: 'customer_details',
+                    customer_name: $('#customer_name').val(),
+                    primary_contact_person: $('#primary_contact_person').val(),
+                    secondary_contact_person: $('#secondary_contact_person').val(),
+                    primary_email: $('#primary_email').val(),
+                    secondary_email: $('#secondary_email').val(),
+                    primary_phone_no: $('#primary_phone_no').val(),
+                    secondary_phone_no: $('#secondary_phone_no').val(),
+                    primary_dept: $('#primary_dept').val(),
+                    secondary_dept: $('#secondary_dept').val(),
+                    mac_address: $('#mac_address').val(),
+                    ip_address: $('#ip_address').val(),
+                    address: $('#address').val(),
+                };
+    
+                //console.log('Data to be sent:', data);  // Debugging information
+    
+                // Send the data to the backend as JSON
+                $.ajax({
+                    type: 'POST',
+                    url: '/utility/',  // Replace with your actual backend endpoint
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function(response) {
+                        //console.log('Response:', response);  // Debugging information
+                        alert('Customer details saved successfully!');
+                        // Save the selected item in session storage
+                        sessionStorage.setItem('selectedItem', 'customer_details');
+                        // Reload the page after a short delay to ensure session storage is updated
+                        setTimeout(function() {
+                            location.reload();
+                        }, 500); // Adjust the delay as needed
+                    },
+                    error: function(error) {
+                        //console.error('Error:', error);  // Debugging information
+                        alert('An error occurred while saving customer details.');
+                    }
+                });
+            });
+    
+            // Check if an item should be selected after page reload
+            const selectedItem = sessionStorage.getItem('selectedItem');
+            if (selectedItem === 'customer_details') {
+                enlargeItem(3);
+                showItem('item-3');
+                sessionStorage.removeItem('selectedItem');  // Remove the item from session storage
+            }
+        });
+    </script>
+    
+        
+</div> 
+
+
+<div class="item item-4" id="backup_date">
+    <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>Backup Date</b></h2>
+    </center>
+    <div class="custom-border" style="margin-top: 30px;"> 
+        <label for="backup" style="margin-top: 30px;">BACKUPDATE:</label>
+        <input type="datetime-local" class="backup-data" value="{{ backup_date }}" id="backup_data" name="backup_data" ><br><br>
+        <label for="confirm_backup" style="margin-top: 30px;" hidden>Confirm Backup:</label>
+        <input type="checkbox" id="confirm_backup" name="confirm_backup" hidden><br><br>
+        <textarea readonly>
+            {% if backup_date %}
+                {{ backup_date.backup_date }}
+            {% else %}
+                No backup_date is available.
+            {% endif %}
+        </textarea>
+    </div><br>
+    <a href="{% url 'index' %}">
+        <button type="button" id="cancel-btn"><b>Cancel</b></button>
+    </a>
+    <button type="button" id="save-btn-4"><b>Save</b></button>  
+
+    <script>
+// this is the code to display the checkbox to display the aert message
+// Use DOMContentLoaded to ensure all HTML elements are loaded
+// document.addEventListener("DOMContentLoaded", function() {
+//         // Check the checkbox
+//         document.getElementById("confirm_backup").checked = true;
+//     });
+        // Function to format the date and time
+        function formatDateTime(dateTime) {
+            var date = new Date(dateTime);
+            var day = date.getDate().toString().padStart(2, '0');
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var year = date.getFullYear();
+            var hours = date.getHours();
+            var minutes = date.getMinutes().toString().padStart(2, '0');
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            var strTime = hours + ':' + minutes + ':' + "00" + ' ' + ampm;
+            return day + '-' + month + '-' + year + ' ' + strTime;
+        }
+
+        // Function to get the current date and time
+        function getCurrentDateTime() {
+            var now = new Date();
+            var day = now.getDate().toString().padStart(2, '0');
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // January is 0
+            var year = now.getFullYear();
+            var hours = now.getHours();
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            var timeString = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+            var dateString = day + '-' + month + '-' + year;
+            return dateString + ' ' + timeString;
+        }
+
+document.getElementById('save-btn-4').addEventListener('click', function() {
+    var activeItem = document.querySelector('.item[style*="display: block"]');
+    if (activeItem) {
+        var data = {};
+        var formElements = activeItem.querySelectorAll('input, select');
+        formElements.forEach(function(element) {
+            if (element.type === 'datetime-local') {
+                data[element.name] = formatDateTime(element.value);
+            } else if (element.type === 'checkbox') {
+                // Get the checkbox value
+                data[element.name] = element.checked;  // true or false
+            } else {
+                data[element.name] = element.value;
+            }
+        });
+        // Add the current date and time to the data
+        data.currentDateTime = getCurrentDateTime();
+        
+        // Add the ID of the active item to the data
+        data.itemId = activeItem.id;
+        data.id = 'backup_date';
+        //console.log("Data to be sent:", data); // Log the data to be sent
+
+        $.ajax({
+            type: 'POST',
+            url: '/utility/',  // Replace with your actual backend endpoint
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+                //console.log('Response:', response);  // Debugging information
+                alert('Backup_date saved successfully!');
+                window.location.reload();  // Reload the page
+                sessionStorage.setItem('selectedItem', 'backup_settings');
+            },
+            error: function(error) {
+                //console.log('Error:', error);  // Debugging information
+                alert('An error occurred while saving backup settings.');
+            }
+        });
+        const selectedItem = sessionStorage.getItem('selectedItem');
+               if (selectedItem === 'backup_date') {
+                   enlargeItem(4);
+                   showItem('item-4');
+                   sessionStorage.removeItem('selectedItem');
+               }
+    }
+
+
+});
+
+
+// Check if an item should be selected after page reload
+               
+        </script>
+    
+</div>
+
+
+
+<div class="item item-5" id="Mail_Settings">
+    <center style="color: purple; text-shadow: 2px 2px 4px rgb(240, 118, 240);">
+        <h2><b>Mail Settings</b></h2>
+    </center>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label>Sender Email</label>
+  <span class="colon">:</span>
+  <input type="email" name="sender_email" value="{{ mail_settings.sender_email }}" required><br>
+
+  <label>Password</label>
+  <span class="colon">:</span>
+  <input type="password" name="sender_password" value="{{ mail_settings.sender_password }}" required><br>
+
+  <label>SMTP Server</label>
+  <span class="colon">:</span>
+  <input type="text" name="smtp_server"value="{{ mail_settings.smtp_server|default:'smtp.gmail.com' }}" required><br>
+
+  <label>Port</label>
+  <span class="colon">:</span>
+  <input type="number" name="smtp_port" value="{{ mail_settings.smtp_port|default:'587' }}" required readonly><br>
+
+
+</form>
+
+<a href="{% url 'index' %}">
+        <button type="button" id="cancel-btn"><b>Cancel</b></button>
+    </a>
+    <button type="button" id="save-btn-9"><b>Save</b></button>
+
+    </div>
+<script>
+document.getElementById("save-btn-9").addEventListener("click", function () {
+    const sender_email = document.querySelector("input[name='sender_email']").value;
+    const sender_password = document.querySelector("input[name='sender_password']").value;
+    const smtp_server = document.querySelector("input[name='smtp_server']").value;
+    const smtp_port = document.querySelector("input[name='smtp_port']").value;
+
+    fetch("{% url 'utility' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+            id: "mail_settings",
+            sender_email,
+            sender_password,
+            smtp_server,
+            smtp_port
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert("Mail settings saved successfully!");
+        } else {
+            alert("Error saving mail settings.");
+        }
+    });
+});
+</script>
+
+    <!-- <script>
+        // Function to send the selected part_model value to the backend
+function sendPartModelValue() {
+    const selectElement = document.getElementById('part_model');
+    const selectedValue = selectElement.value;
+
+    // Sending a POST request to the backend
+    fetch('/utility/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') // Add CSRF token
+        },
+        body: JSON.stringify({ part_model: selectedValue })
+    })
+        .then(response => response.json())
+        .then(data => {
+            //console.log('Response from server:', data);
+
+            // Now update the parameter_name dropdown
+            const parameterNameDropdown = document.getElementById('parameter_name');
+            
+            // Clear the current options
+            parameterNameDropdown.innerHTML = '';
+
+            // Add the default "Select the parameter name" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select the parameter name';
+            parameterNameDropdown.appendChild(defaultOption);
+
+            // Check if there are parameter names returned
+            if (data.parameter_names && data.parameter_names.length > 0) {
+                // Add an initial "Select" option
+               
+
+                // Populate the dropdown with parameter names
+                data.parameter_names.forEach(param => {
+                    const option = document.createElement('option');
+                    option.value = param;
+                    option.textContent = param;
+                    parameterNameDropdown.appendChild(option);
+                });
+            } else {
+                // If no parameter names, display a message
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'No parameters available';
+                parameterNameDropdown.appendChild(option);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Function to send all form data to the backend when the form is submitted
+function handleSaveButtonClick(event) {
+    event.preventDefault();  // Prevent the default form submission behavior
+
+    const partModel = document.getElementById('part_model').value;
+    const parameterName = document.getElementById('parameter_name').value;
+    const method = document.getElementById('method').value;
+    const value = document.getElementById('value').value;
+
+    // Prepare the data to send in the request
+    const formData = {
+        id :"parameter_factor",
+        part_model: partModel,
+        parameter_name: parameterName,
+        method: method,
+        value: value
+    };
+
+    // Send a POST request to save the data
+    fetch('/utility/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')  // Add CSRF token
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            //console.log('Data saved successfully:', data);
+            alert('Data saved successfully!');
+        })
+        .catch(error => {
+            //console.error('Error:', error);
+            alert('An error occurred while saving data.');
+        });
+}
+
+// Attach event listener to the save button
+document.getElementById('save-btn-5').addEventListener('click', handleSaveButtonClick);
+
+    
+document.getElementById('part_model').addEventListener('change', function() {
+    const partModel = this.value;
+    
+    if (partModel) {
+        fetch(`/get_parameters/?part_model=${partModel}`)
+            .then(response => response.json())
+            .then(data => {
+                const parameterDropdown = document.getElementById('parameter_name');
+                parameterDropdown.innerHTML = '<option value="" disabled selected>Select a parameter</option>';
+
+                data.parameter_names.forEach(param => {
+                    const option = document.createElement('option');
+                    option.value = param;
+                    option.textContent = param;
+                    parameterDropdown.appendChild(option);
+                });
+
+                document.getElementById('value').value = ''; // Clear the value field
+            })
+            .catch(error => console.error('Error fetching parameters:', error));
+    }
+});
+
+document.getElementById('parameter_name').addEventListener('change', function() {
+    const partModel = document.getElementById('part_model').value;
+    const parameterName = this.value;
+
+    if (partModel && parameterName) {
+        fetch(`/get_parameter_value/?part_model=${partModel}&parameter_name=${parameterName}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('value').value = data.value || ''; // Set the retrieved value
+                document.getElementById('method').value = data.method || ''; // Set the retrieved method
+            })
+            .catch(error => console.error('Error fetching value:', error));
+    }
+});
+
+
+        // Helper function to get the CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        // Send the value when the page is loaded
+        window.onload = () => {
+            sendPartModelValue();
+        };
+    </script> -->
+
+
+</div>
+
+       <!-- <div id="plc-notification">
+    <!-- <img id="human-inside" src="/static/images/air.png" alt="Human Writer"> -->
+    <div id="plc-message"></div>
+</div> -->
+
+
+
+<script>
+
+
+
+// let isVisible = false;
+// let typingTimer = null;
+
+// function typeMessage(message, element, speed = 100) {
+//     element.innerText = "";
+//     let index = 0;
+//     typingTimer = setInterval(() => {
+//         element.innerText += message[index];
+//         index++;
+//         if (index >= message.length) {
+//             clearInterval(typingTimer);
+//         }
+//     }, speed);
+// }
+
+// function showNotificationWithHuman() {
+//     if (isVisible) return;
+//     isVisible = true;
+
+//     const box = document.getElementById("plc-notification");
+//     const human = document.getElementById("human-inside");
+//     const msg = document.getElementById("plc-message");
+
+//     // Make visible
+//     box.style.display = "flex";
+//     box.style.animation = "fadeInBox 0.5s forwards, pulse 1s infinite";
+//     box.style.opacity = "1";
+
+//     setTimeout(() => {
+//         human.style.animation = "walkInBox 2s forwards";
+//     }, 300);
+
+//     setTimeout(() => {
+//         typeMessage("⚠ PLEASE CHECK AIR! ⚠", msg, 150);
+//     }, 2300);
+// }
+
+// function hideNotificationAndHuman() {
+//     clearInterval(typingTimer);
+
+//     const box = document.getElementById("plc-notification");
+//     const human = document.getElementById("human-inside");
+
+//     box.style.display = "none"; // Completely remove from layout
+//     box.style.opacity = "0";
+//     box.style.animation = "";
+
+//     human.style.left = "-200px";
+//     human.style.animation = "";
+
+//     isVisible = false;
+// }
+
+
+// function fetchActiveCoils() {
+//     fetch("/get_plc_status/")
+//         .then(response => response.json())
+//         .then(data => {
+//             const activeCoils = data.active_coils || [];
+//             console.log("✅ Step 1 coils:", activeCoils);
+
+//             if (activeCoils.includes(113)) {
+//                 showNotificationWithHuman();
+               
+//             } else {
+//                 hideNotificationAndHuman();
+//             }
+
+            
+//         })
+//         .catch(error => console.error("❌ PLC fetch error", error));
+// }
+
+// // Start checking every 500 ms
+// setInterval(fetchActiveCoils, 500);
+
+     window.addEventListener('DOMContentLoaded', (event) => {
+            var inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.setAttribute('autocomplete', 'off');
+            });
+        });
+  function enlargeItem(index) {
+            document.querySelectorAll('.box-1 > div').forEach(function (el) {
+                el.style.backgroundColor = ''; 
+            });
+            var clickedInnerBox = document.querySelector(`.box-1 .inner-box-${index}`);
+            clickedInnerBox.style.backgroundColor = 'red';
+           
+            
+        }
+        
+        function showItem(itemClassName) {
+            var itemClasses = document.querySelectorAll('.item');
+            itemClasses.forEach(function (item) {
+                item.style.display = 'none';
+            });
+        
+            var selectedItem = document.querySelector('.' + itemClassName);
+            if (selectedItem) {
+                selectedItem.style.display = 'block';
+            }
+        }
+        window.onload = function () {
+            showItem('item-1');
+            document.querySelector('.box-1 .inner-box-1').style.backgroundColor='red';
+        };
+</script>
+
+{% endblock content %}

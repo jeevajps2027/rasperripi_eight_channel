@@ -1,0 +1,49 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.7.2-web/css/all.min.css' %}">
+    <!-- Add XLSX library for Excel conversion -->
+
+<script src="{% static 'js-xlsx-master/dist/xlsx.full.min.js' %}"></script>
+
+<!-- Add jsPDF library for PDF conversion -->
+
+<script src="{% static 'parallax-jsPDF-57cbe94/dist/jspdf.umd.min.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}">
+
+
+    <script src="{% static 'jquery-jquery-f79d5f1/dist/jquery.min.js' %}"></script>
+
+
+    
+
+    <title>
+        {% block title %}
+        {% endblock title %}
+     
+    </title>
+    <link rel="stylesheet" href="{% static 'Font-Awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+   
+  </head>
+  <body>
+   {% block content %}
+   {% endblock content %}
+
+   {% block scripts %}
+   {% endblock scripts %}
+
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}">
+  </body>
+</html>
