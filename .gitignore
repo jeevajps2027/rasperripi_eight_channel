@@ -8,8 +8,8 @@ js-xlsx-master/
 parallax-jsPDF-57cbe94/
 plotly-plotly.js-c8e0bef/
 db.sqlite3/
-twochannel_deb/
-twochannel_deb.deb/
+eightchannel_deb/
+eightchannel_deb.deb/
 
 # Ignore all SQLite database files
 *.sqlite3

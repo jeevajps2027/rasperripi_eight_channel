@@ -1,7 +1,7 @@
 {% extends 'app/layouts/main.html' %}
 {% load static %}
 {% block title %}
-Measurement Page
+Index Page
 {% endblock title %}
 {% block content %}
     <style>
@@ -223,6 +223,12 @@ Measurement Page
     align-items: center;   /* vertically center bulb with text */
     gap: 10px;             /* space between text and bulb */
 }
+#openRustDesk{
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+  font-size: 1.5vw;
+}
 
 
     </style>
@@ -239,11 +245,7 @@ Measurement Page
         <span class="plc-label" style="color: white;font-weight: bold;margin-left: 10px;">COMMUNICATION</span>
         <div id="notification1" class="com-light" style="margin-top: 10px;"></div>
     </div>
-    <div class="notify">
-        <input type="text" id="notification1" readonly style="display: none;" ><br>
-        <input type="text" id="notification2" readonly style="display: none;" ><br>
-        <input type="text" id="notification3" readonly style="display: none;" >
-    </div>
+  <button id="openRustDesk">OPEN RUSTDESK</button>
     <div class="centerImage1">
         <a href="/probe/">
             <img src="{% static 'images/calibration.jpg' %}" id="probe"></a>
@@ -319,6 +321,16 @@ Measurement Page
 
     
     <script>
+
+        $('#openRustDesk').on('click', function() {
+    $.get('/open_rustdesk/', function(response) {
+        if (response.status === "success") {
+            console.log("RustDesk launched successfully!");
+        } else {
+            alert("Failed: " + response.message);
+        }
+    });
+});
 
 // Initialize WebSocket connection
 const socket1 = new WebSocket('ws://localhost:8000/ws/index/');

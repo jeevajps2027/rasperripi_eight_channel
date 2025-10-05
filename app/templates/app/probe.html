@@ -61,7 +61,7 @@ body {
 .container-a{
     height: 40px;
     display: flex;
-    margin-top: 12px;
+    margin-top: 10%;
     box-sizing: border-box;
     padding: 0;
     background-color: lightgray;
@@ -73,7 +73,7 @@ body {
 .container-b{
     height: 50px;
     display: flex;
-    margin-top: 12px;
+    margin-top: 10%;
     box-sizing: border-box;
     padding: 0;
     background-color: lightgray;
@@ -86,7 +86,7 @@ body {
 .container-c{
     height: 50px;
     display: flex;
-    margin-top: 12px;
+    margin-top: 10%;
     box-sizing: border-box;
     padding: 0;
     background-color: lightpink;
@@ -100,7 +100,7 @@ body {
 .container-d{
     height: 50px;
     display: flex;
-    margin-top: 12px;
+    margin-top: 10%;
     box-sizing: border-box;
     padding: 0;
     background-color: lightgray;
@@ -112,7 +112,7 @@ body {
 .container-e{
     height: 50px;
     display: flex;
-    margin-top: 12px;
+    margin-top: 10%;
     box-sizing: border-box;
     padding: 0;
     background-color: lightgray;
@@ -125,7 +125,7 @@ body {
 .container-f{
     height: 50px;
     display: flex;
-    margin-top: 12px;
+    margin-top: 10%;
     box-sizing: border-box;
     padding: 0;
     background-color: lightpink;
@@ -138,7 +138,7 @@ body {
 .container-p{
     height: 50px;
     display: flex;
-    margin-top: 12px;
+    margin-top: 10%;
     box-sizing: border-box;
     padding: 0;
     background-color: yellowgreen;
@@ -227,7 +227,7 @@ body {
 
 .indicator-bar {
     height: 7%;
-    margin-top: 2%;
+    margin-top: 10%;
     width: 0%;
     background: green;
     transition: width 0.3s ease, background 0.3s ease;
@@ -283,6 +283,9 @@ body {
     font-weight: bold;
 }
 
+.textarea_class{
+    margin-top: 10%;
+}
 
 </style>
 <div class="box-0">
@@ -322,7 +325,7 @@ SELECTED PROBE:
         <div class="card" id="card-1" data-probe-id="probe-1">
             <input type="radio" name="size" id="radio-1" onclick="setCurrentProbe('Probe-1')">
             <label for="Probe-1"><b>PROBE-1</b></label>
-            <textarea id="probe-A" style="max-height: 100px;"></textarea>
+            <textarea id="probe-A" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-1" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-1" oninput="allowOnlyNumbers(this)">
@@ -338,7 +341,7 @@ SELECTED PROBE:
         <div class="card" id="card-2" data-probe-id="probe-2">
             <input type="radio" name="size" id="radio-2" onclick="setCurrentProbe('Probe-2')">
             <label for="Probe-2"><b>PROBE-2</b></label>
-            <textarea id="probe-B" style="max-height: 100px;"></textarea>
+            <textarea id="probe-B" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-2" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-2" oninput="allowOnlyNumbers(this)">
@@ -353,7 +356,7 @@ SELECTED PROBE:
         <div class="card" id="card-3" data-probe-id="probe-3">
             <input type="radio" name="size" id="radio-3" onclick="setCurrentProbe('Probe-3')">
             <label for="Probe-3"><b>PROBE-3</b></label>
-            <textarea id="probe-C" style="max-height: 100px;"></textarea>
+            <textarea id="probe-C" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-3" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-3" oninput="allowOnlyNumbers(this)">
@@ -368,7 +371,7 @@ SELECTED PROBE:
         <div class="card" id="card-4" data-probe-id="probe-4">
             <input type="radio" name="size" id="radio-4" onclick="setCurrentProbe('Probe-4')">
             <label for="Probe-4"><b>PROBE-4</b></label>
-            <textarea id="probe-D" style="max-height: 100px;"></textarea>
+            <textarea id="probe-D" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-4" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-4" oninput="allowOnlyNumbers(this)">
@@ -383,7 +386,7 @@ SELECTED PROBE:
         <div class="card" id="card-5" data-probe-id="probe-5">
             <input type="radio" name="size" id="radio-5" onclick="setCurrentProbe('Probe-5')">
             <label for="Probe-5"><b>PROBE-5</b></label>
-            <textarea id="probe-E" style="max-height: 100px;"></textarea>
+            <textarea id="probe-E" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-5" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-5" oninput="allowOnlyNumbers(this)">
@@ -398,7 +401,7 @@ SELECTED PROBE:
         <div class="card" id="card-6" data-probe-id="probe-6">
             <input type="radio" name="size" id="radio-6" onclick="setCurrentProbe('Probe-6')">
             <label for="Probe-6"><b>PROBE-6</b></label>
-            <textarea id="probe-F" style="max-height: 100px;"></textarea>
+            <textarea id="probe-F" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-6" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-6" oninput="allowOnlyNumbers(this)">
@@ -413,7 +416,7 @@ SELECTED PROBE:
         <div class="card" id="card-7" data-probe-id="probe-7">
             <input type="radio" name="size" id="radio-7" onclick="setCurrentProbe('Probe-7')">
             <label for="Probe-7"><b>PROBE-7</b></label>
-            <textarea id="probe-G" style="max-height: 100px;"></textarea>
+            <textarea id="probe-G" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-7" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-7" oninput="allowOnlyNumbers(this)">
@@ -445,7 +448,7 @@ SELECTED PROBE:
         <div class="card" id="card-8" data-probe-id="probe-8">
             <input type="radio" name="size" id="radio-8" onclick="setCurrentProbe('Probe-8')">
             <label for="Probe-8"><b>PROBE-8</b></label>
-            <textarea id="probe-H" style="max-height: 100px;"></textarea>
+            <textarea id="probe-H" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-8" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-8" oninput="allowOnlyNumbers(this)">
@@ -459,7 +462,7 @@ SELECTED PROBE:
         <div class="card" id="card-9" data-probe-id="probe-9">
             <input type="radio" name="size" id="radio-9" onclick="setCurrentProbe('Probe-9')">
             <label for="Probe-9"><b>PROBE-9</b></label>
-            <textarea id="probe-I" style="max-height: 100px;"></textarea>
+            <textarea id="probe-I" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-9" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-9" oninput="allowOnlyNumbers(this)">
@@ -473,7 +476,7 @@ SELECTED PROBE:
         <div class="card" id="card-10" data-probe-id="probe-10">
             <input type="radio" name="size" id="radio-10" onclick="setCurrentProbe('Probe-10')">
             <label for="Probe-6"><b>PROBE-10</b></label>
-            <textarea id="probe-J" style="max-height: 100px;"></textarea>
+            <textarea id="probe-J" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-10" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-10" oninput="allowOnlyNumbers(this)">
@@ -487,7 +490,7 @@ SELECTED PROBE:
         <div class="card" id="card-11" data-probe-id="probe-11">
             <input type="radio" name="size" id="radio-11" onclick="setCurrentProbe('Probe-11')">
             <label for="Probe-11"><b>PROBE-11</b></label>
-            <textarea id="probe-K" style="max-height: 100px;"></textarea>
+            <textarea id="probe-K" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-11" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-11" oninput="allowOnlyNumbers(this)">
@@ -501,7 +504,7 @@ SELECTED PROBE:
         <div class="card" id="card-12" data-probe-id="probe-12">
             <input type="radio" name="size" id="radio-12" onclick="setCurrentProbe('Probe-12')">
             <label for="Probe-12"><b>PROBE-12</b></label>
-            <textarea id="probe-L" style="max-height: 100px;"></textarea>
+            <textarea id="probe-L" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-12" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-12" oninput="allowOnlyNumbers(this)">
@@ -515,7 +518,7 @@ SELECTED PROBE:
         <div class="card" id="card-13" data-probe-id="probe-13">
             <input type="radio" name="size" id="radio-13" onclick="setCurrentProbe('Probe-13')">
             <label for="Probe-13"><b>PROBE-13</b></label>
-            <textarea id="probe-M" style="max-height: 100px;"></textarea>
+            <textarea id="probe-M" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-13" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-13" oninput="allowOnlyNumbers(this)">
@@ -529,7 +532,7 @@ SELECTED PROBE:
         <div class="card" id="card-14" data-probe-id="probe-14">
             <input type="radio" name="size" id="radio-14" onclick="setCurrentProbe('Probe-14')">
             <label for="Probe-14"><b>PROBE-14</b></label>
-            <textarea id="probe-N" style="max-height: 100px;"></textarea>
+            <textarea id="probe-N" class="textarea_class" style="max-height: 100px;"></textarea>
             <input type="text" class="container-b" id="container-b-probe-14" oninput="allowOnlyNumbers(this)">
             <input type="text" class="container-c" value="1.0000">
             <input type="text" class="container-d" id="container-d-14" oninput="allowOnlyNumbers(this)">

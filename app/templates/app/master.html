@@ -387,7 +387,7 @@ input[type="radio"] {
     padding: 0;
     border-radius: 4px;
     width: 18%;
-    height: 33vh;
+    height: 30vh;
     box-sizing: border-box;
     position: relative;
     padding-top: 2rem;  /* ✅ reserve space for radio */
@@ -582,15 +582,15 @@ input[type="radio"] {
 
     <div>
         <!-- <h5 style="color: white;">RAW COUNT:</h5> -->
-        <div class="probe-container" style="display: none;">
+        <div class="probe-container">
             <textarea id="probe-A" ></textarea>
             <textarea id="probe-B" ></textarea>
-            <textarea id="probe-C" style="display: none;"></textarea>
-            <textarea id="probe-D" style="display: none;"></textarea>
-            <textarea id="probe-E" style="display: none;"></textarea>
-            <textarea id="probe-F" style="display: none;"></textarea>
-            <textarea id="probe-G" style="display: none;"></textarea>
-            <textarea id="probe-H" style="display: none;"></textarea>
+            <textarea id="probe-C" ></textarea>
+            <textarea id="probe-D" ></textarea>
+            <textarea id="probe-E" ></textarea>
+            <textarea id="probe-F" ></textarea>
+            <textarea id="probe-G" ></textarea>
+            <textarea id="probe-H" ></textarea>
             <textarea id="probe-I" style="display: none;"></textarea>
             <textarea id="probe-J" style="display: none;"></textarea>
             <textarea id="probe-K" style="display: none;"></textarea>
@@ -1796,7 +1796,7 @@ function updateMastering(selectedRadioButtonId) {
     console.log("The mastering group is being changed");
 
     var selectedMastering = parseInt(document.getElementById('mastering').value);
-    console.log('ypour data is this :',selectedMastering);
+    console.log('your data is this :',selectedMastering);
     var filteredData = globalResponse.filtered_data_single; // Array of parameter names
     var containers = document.querySelectorAll('.input-box-container');
     var matchingContainers = [];
