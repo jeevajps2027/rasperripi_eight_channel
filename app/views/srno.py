@@ -271,7 +271,7 @@ def srno(request):
 
                 body {
                     margin: 0;
-                    font-size: 20px; /* Big readable font */
+                    font-size: 1.5vw; /* Big readable font */
                 }
                 
                 .no-pdf {

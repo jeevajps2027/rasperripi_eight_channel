@@ -1,8 +1,6 @@
 from django.http import JsonResponse
 import subprocess
 
-
-
 def open_rustdesk(request):
     try:
         # Run RustDesk as a background process

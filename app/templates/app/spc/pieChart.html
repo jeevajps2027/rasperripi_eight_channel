@@ -21,8 +21,8 @@
 </head>
 <style>
       .container {
-            max-width: 1150px;
-            height: 700px;
+            width: 100%;
+           height: 90vh;
             margin: auto;
             border: 2px solid black;
             margin-top: 0px;
@@ -37,26 +37,28 @@
     margin-top: 0px;
 
 }
-        #value_list {
-            border: 2px solid black;
-    background-color: rgb(241, 169, 169);
-    height: auto; /* Let the height adjust based on the content */
-    width: 500px;
-    margin-left: 600px;
-    margin-top: -500px;
-    display: grid; /* Use grid layout */
-    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-    grid-auto-rows: minmax(40px, auto); /* Set minimum row height */
-    gap: 10px; /* Add a small gap between items */
+    #value_list {
+    background-color: rgb(250, 181, 181);
+    height: 500px; /* increased height */
+    width: 600px;  /* increased width */
+    margin-left: 40%; /* adjust according to new width */
+    margin-top: -500px; /* adjust to align with image */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 10px; /* adds space between grid items */
+    padding: 10px;
+    font-size: 14px; /* bigger text */
 }
 
 .item {
-    display: flex; /* Center content */
-    align-items: center; /* Vertically center */
-    justify-content: center; /* Horizontally center */
-    background-color: white; /* Change background for items */
-    border: 1px solid #000; /* Optional border for better visibility */
-    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid #000;
+    height: 50px; /* increase height */
+    font-size: 1vw; /* increase font size */
     font-weight: bold;
 }
 

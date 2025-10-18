@@ -379,6 +379,16 @@ input[type=checkbox] {
             font-weight: bold;
             background-color: rgb(6, 238, 6);
         }
+
+        #store-btn{
+            width: 8vw;
+            height: 12vh;
+            margin-left: 1%;
+            margin-top: 5px;
+            font-size: 1.5vw;
+            font-weight: bold;
+            background-color: rgb(6, 238, 6);
+        }
         
         #stop-btn{
             width: 8vw;
@@ -485,7 +495,13 @@ input[type=checkbox] {
 }
 
 #confirm-yes:focus {
-    outline: 3px solid red; /* Yellow border for highlight */
+    outline: 3px solid red; /* Yellow border for highwidth: 8vw;
+            height: 12vh;
+            margin-left: 1%;
+            margin-top: 5px;
+            font-size: 1.5vw;
+            font-weight: bold;
+            background-color: rgb(6, 238, 6);light */
 }
 
 
@@ -1129,10 +1145,10 @@ input[type=checkbox] {
         <div><button type="button" class="btn_outline" id="start-btn" style="pointer-events: none;opacity: 0.5;filter: blur(1px);"> START<br>[F4]</button></div>
         <div><button type="button" class="btn_outline" id="stop-btn">STOP<br>[F5]</button></div>
         <div><button type="button" class="btn_outline" id="save-btn" hidden > SAVE</button></div>
+        <div><button type="button" class="btn_outline" id="store-btn" style="pointer-events: none;opacity: 0.5;filter: blur(1px);" > STORE</button></div>
         <div><button type="button" class="btn_outline" id="back-btn" style="pointer-events: none;opacity: 0.5;filter: blur(1px);" >BACK<br>[F7]</button></div>
 
-          <textarea id="probe-A"  ></textarea>
-            <textarea id="probe-B"></textarea>
+         
 
         </div>
 
@@ -1188,8 +1204,8 @@ input[type=checkbox] {
 <div id="customAlert" ></div>
 
 
-            <!-- <textarea id="probe-A" style="display: none;"  ></textarea>
-            <textarea id="probe-B" style="display: none;"></textarea> -->
+            <textarea id="probe-A" style="display: none;"  ></textarea>
+            <textarea id="probe-B" style="display: none;"></textarea>
             <textarea id="probe-C" style="display: none;"></textarea>
             <textarea id="probe-D" style="display: none;"></textarea>
             <textarea id="probe-E" style="display: none;"></textarea>
@@ -1286,7 +1302,15 @@ input[type=checkbox] {
 <script>
 
 
+document.getElementById("store-btn").addEventListener("click", function() {
+    // Simulate clicking the START button
+    document.getElementById("start-btn").click();
 
+    // Wait 1 second, then click the STOP button
+    setTimeout(function() {
+        document.getElementById("stop-btn").click();
+    }, 500);
+});
 
 
 
@@ -1417,6 +1441,7 @@ let keysEnabled = false;
 
 const enterBtn = document.getElementById("enter_btn_main");
 const backBtn = document.getElementById("back-btn");
+const storeBtn = document.getElementById("store-btn")
 
 // ENTER button logic
 enterBtn.addEventListener("click", function() {
@@ -1426,7 +1451,7 @@ enterBtn.addEventListener("click", function() {
     this.style.display = "none";
 
     // Enable START + BACK buttons (clear disabled styles)
-    [startBtn, backBtn].forEach(btn => {
+    [startBtn, backBtn ,storeBtn].forEach(btn => {
         btn.style.pointerEvents = "auto";
         btn.style.opacity = "1";
         btn.style.filter = "none";
@@ -3002,6 +3027,27 @@ function displaySerialData(
     // Store mode for this step
     window.stepModeMap[step_no] = !!auto_man;
 
+    window.measurementModeMap = window.measurementModeMap || {};
+window.measurementModeMap[step_no] = measurementMode;
+
+// save the measurementMode (normalized) for this step
+window.measurementModeMap = window.measurementModeMap || {};
+window.measurementModeMap[step_no] = String(measurementMode || '').trim().toUpperCase();
+
+// If this incoming call is for the active step, update buttons now
+if (window.currentStep === step_no && typeof updateButtonsForCurrentStep === 'function') {
+    updateButtonsForCurrentStep();
+}
+
+// --- Initialize persistent stores ---
+// set currentStep to first step_no we receive (if not set)
+if (typeof window.currentStep === 'undefined' || window.currentStep === null) {
+    window.currentStep = step_no;
+}
+window.stepModeMap = window.stepModeMap || {};
+
+
+
     // Save thresholds
     window.paramThresholds[step_no] = window.paramThresholds[step_no] || {};
     window.paramThresholds[step_no][parameterNameValues] = {
@@ -3026,6 +3072,10 @@ function displaySerialData(
     if (nextStep <= totalSteps) {
         window.currentStep = nextStep;
         console.log(`Moved to Step: ${window.currentStep}`);
+
+       if (typeof updateButtonsForCurrentStep === 'function') updateButtonsForCurrentStep();
+
+
 
         // --- Auto-monitor for the new current step if it's AUTO ---
 if (window.stepModeMap[window.currentStep]) {
@@ -3393,6 +3443,8 @@ function monitorAutoStep(step, autoStopSeconds = 3) {
     }, 50);
 }
 
+
+
 // Attach auto-monitor for current step if it's AUTO
 if (window.stepModeMap[step_no]) {
     monitorAutoStep(step_no, timer || 3); // timer in seconds, fallback to 3s
@@ -3404,7 +3456,42 @@ setTimeout(() => {
     handler(); // run after a short delay
 }, 50); // 50ms delay ensures DOM elements are ready
 
+// ensure UI reflects the current step after the handler warmed up
+if (window.currentStep === step_no && typeof updateButtonsForCurrentStep === 'function') {
+    updateButtonsForCurrentStep();
 }
+
+}
+
+
+function updateButtonsForCurrentStep() {
+    const storeBtn = document.getElementById("store-btn");
+    const startBtn = document.getElementById("start-btn");
+    const stopBtn = document.getElementById("stop-btn");
+    if (!storeBtn || !startBtn || !stopBtn) return;
+
+    const step = window.currentStep;
+    const mode = (window.measurementModeMap || {})[step];
+    console.log('updateButtonsForCurrentStep -> step', step, 'mode', mode);
+
+    // default hide all
+    storeBtn.style.display = 'none';
+    startBtn.style.display = 'none';
+    stopBtn.style.display = 'none';
+
+    if (String(mode).toUpperCase() === 'CUR') {
+        // CUR: show STORE only
+        storeBtn.style.display = 'inline-block';
+        storeBtn.style.pointerEvents = 'auto';
+    } else {
+        // other modes: show START + STOP
+        startBtn.style.display = 'inline-block';
+        stopBtn.style.display = 'inline-block';
+        startBtn.style.pointerEvents = 'auto';
+        stopBtn.style.pointerEvents = 'auto';
+    }
+}
+
 
 
 // document.getElementById("stop-btn").addEventListener("click", function() {
@@ -3547,7 +3634,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // });
 
 function handleEnterKeyPress(event) {
-    var buttons = document.querySelectorAll('#start-btn, #stop-btn, #save-btn, #back-btn');
+    var buttons = document.querySelectorAll('#start-btn, #stop-btn, #save-btn, #back-btn,#store-btn');
 
    
 
@@ -3769,7 +3856,7 @@ function punchOverwriteCancel() {
         var hide = "{{ hide }}"; // Assuming this is how you pass the value from Django template
         console.log("hide:", hide);
          // Initially disable buttons and set box-2 to a stable state
-        var buttons = document.querySelectorAll(' #start-btn, #stop-btn, #save-btn, #back-btn');
+        var buttons = document.querySelectorAll(' #start-btn, #stop-btn, #save-btn, #back-btn,#store-btn');
         console.log("buttons from the html page",buttons)
     
     

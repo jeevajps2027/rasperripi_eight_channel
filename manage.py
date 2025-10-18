@@ -112,13 +112,67 @@ def wait_for_server():
             pass
         time.sleep(1)
 
+# def launch_chromium_kiosk():
+#     global chromium_process
+#     chromium_process = subprocess.Popen([
+#         "chromium",
+#         "--kiosk",
+#         "--app=http://127.0.0.1:8000/"
+#     ])
+# import shutil
+# import os
+# import subprocess
+
+# def launch_chromium_kiosk():
+#     global chromium_process
+#     chromium_path = shutil.which("chromium") or shutil.which("chromium-browser")
+#     if not chromium_path:
+#         print("❌ Chromium not found! Please install chromium on your Pi.")
+#         return
+
+#     env = os.environ.copy()
+#     env.pop("LD_LIBRARY_PATH", None)  # Use system libraries
+
+#     try:
+#         chromium_process = subprocess.Popen([
+#             chromium_path,
+#             "--kiosk",
+#             "--app=http://127.0.0.1:8000/"
+#         ], env=env)
+#         print(f"✅ Chromium launched: {chromium_path}")
+#     except Exception as e:
+#         print(f"❌ Failed to launch Chromium: {e}")
+
+
+
+import shutil
+import os
+import subprocess
 def launch_chromium_kiosk():
     global chromium_process
-    chromium_process = subprocess.Popen([
-        "chromium-browser",
-        "--kiosk",
-        "--app=http://127.0.0.1:8000/"
-    ])
+    chromium_path = shutil.which("chromium") or shutil.which("chromium-browser")
+    if not chromium_path:
+        print("❌ Chromium not found! Please install chromium on your Pi.")
+        return
+
+    env = os.environ.copy()
+    env.pop("LD_LIBRARY_PATH", None)  # Use system libraries
+
+    try:
+        chromium_process = subprocess.Popen([
+            chromium_path,
+            "--kiosk",                  # Fullscreen
+            "--noerrdialogs",           # Suppress error dialogs
+            "--disable-infobars",       # Remove “Chrome is being controlled”
+            "--disable-session-crashed-bubble",
+            "http://127.0.0.1:8000/"    # Open your Django page
+        ], env=env)
+        print(f"✅ Chromium launched in fullscreen: {chromium_path}")
+    except Exception as e:
+        print(f"❌ Failed to launch Chromium: {e}")
+
+
+
 
 import socket
 

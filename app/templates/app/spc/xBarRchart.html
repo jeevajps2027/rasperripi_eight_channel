@@ -23,24 +23,25 @@
         }
 
         .container {
-            max-width: 1200px;
-            height: 700px;
+            width: 100%;
+           height: 90vh;
             margin: auto;
-            border: 2px solid black;
+          
             margin-top: 0px;
         }
 
-        .chart-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-height: 500px; /* Maximum height for both charts combined */
-        max-width: 800px;
-        float: left;
-        margin-top: 0px;
-        border: 1px solid black;
-       
-    }
+ .chart-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;       /* Set desired width */
+    margin-left: 0;     /* Align to left */
+    margin-top: 10px;   /* Optional top spacing */
+    border: 1px solid black;
+}
+
+
+
+
     .chart {
         margin-bottom: 10px; /* Minimal space between charts */
         width: 100%; /* Make sure charts take full width of the container */
@@ -59,10 +60,13 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            overflow-y: auto;
+            overflow-x: auto;
         }
 
         table, th, td {
             border: 1px solid black;
+            font-size: 0.7vw;
         }
 
         th, td {
@@ -70,30 +74,31 @@
             text-align: center;
         }
 
-        #value_list {
+       #value_list {
     background-color: rgb(250, 181, 181);
-    height: 450px;
-    width: 400px;
-    margin-left: 750px;
-    margin-top: 0px;
-    display: grid; /* Use grid layout */
-    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-    grid-template-rows: repeat(10, 1fr); /* Ten equal rows */
-    
+    height: 600px;  /* increased height */
+    width: 550px;   /* increased width */
+    margin-left: 65%; /* adjust according to layout */
+    margin-top: -450px;   /* spacing from charts */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(12, 1fr); /* increase rows if needed */
+    gap: 10px;  /* spacing between items */
+    padding: 10px;
+    font-size: 14px; /* increase text size */
 }
 
 .item {
-    display: flex; /* Center content */
-    align-items: center; /* Vertically center */
-    justify-content: center; /* Horizontally center */
-    background-color: white; /* Change background for items */
-    border: 1px solid #000; /* Optional border for better visibility */
-    height: 100%; /* Use full height of the grid cell */
-    margin-left: 5px;
-    height: 40px;
-    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid #000;
+    font-size: 14px; /* increased font size */
     font-weight: bold;
+    height: 50px;     /* increased item height */
 }
+
 #prevButton{
             width: 80px;
             height: 35px;

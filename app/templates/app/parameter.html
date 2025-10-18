@@ -301,7 +301,7 @@ body {
     <input type="text" id="partModel" readonly required>
 
     <label for="analog_zero">ANALOG ZERO</label>
-<input type="text" id="analog_zero" style="width: 10%;" value="{{ value.analog_zero }}">
+<input type="text" id="analog_zero" style="width: 10%;" value="{{ value.analog_zero }}" readonly>
 
 <label for="high_mv" style="text-align: right;margin-left: 5px;">HIGH M-V</label>
 <input type="text" id="high_mv" style="width: 10%;" value="{{ value.high_mv }}"><br>
@@ -567,6 +567,7 @@ document.getElementById("single").addEventListener("change", function () {
 
         document.getElementById("analog_zero").disabled = false;
         document.getElementById("analog_zero").style.filter = "";
+        document.getElementById("analog_zero").value = "0";
         document.getElementById("reference_value").disabled = false;
         document.getElementById("reference_value").style.filter = "";
     }
@@ -747,20 +748,52 @@ function updateUI(data) {
                                 document.getElementById('parameter_name').value = details.parameter_details.parameter_name;
                                 document.getElementById('sr_no').value = details.parameter_details.sr_no;
                                  // Handle radio buttons
-                        const singleRadio = document.getElementById('single');
-                        const doubleRadio = document.getElementById('double');
-                        
-                        if (details.parameter_details.single_radio) {
-                            singleRadio.checked = true;
-                            doubleRadio.checked = false;
-                        } else if (details.parameter_details.double_radio) {
-                            doubleRadio.checked = true;
-                            singleRadio.checked = false;
-                        } else {
-                            // Unselect both radio buttons if no radio is specified
-                            singleRadio.checked = false;
-                            doubleRadio.checked = false;
-                        }
+                      // Small delay to ensure DOM elements are ready
+setTimeout(() => {
+    // 1️⃣ Get DOM elements
+    const singleRadio = document.getElementById('single');
+    const doubleRadio = document.getElementById('double');
+    const analogZeroInput = document.getElementById('analog_zero');
+    const highMvInput = document.getElementById('high_mv');
+    const lowMvInput = document.getElementById('low_mv');
+    const referenceValueInput = document.getElementById('reference_value');
+
+    if (!singleRadio || !doubleRadio || !analogZeroInput || !highMvInput || !lowMvInput || !referenceValueInput) {
+        console.warn("Some inputs not found in DOM yet");
+        return;
+    }
+
+    // 2️⃣ Set radio buttons and disable inputs based on database values
+    if (details.parameter_details.single_radio) {
+        singleRadio.checked = true;
+        doubleRadio.checked = false;
+
+        highMvInput.disabled = true;
+        lowMvInput.disabled = true;
+        analogZeroInput.disabled = false;
+        referenceValueInput.disabled = false;
+
+    } else if (details.parameter_details.double_radio) {
+        doubleRadio.checked = true;
+        singleRadio.checked = false;
+
+        analogZeroInput.disabled = true;
+        referenceValueInput.disabled = true;
+        highMvInput.disabled = false;
+        lowMvInput.disabled = false;
+
+    } else {
+        singleRadio.checked = false;
+        doubleRadio.checked = false;
+
+        highMvInput.disabled = false;
+        lowMvInput.disabled = false;
+        analogZeroInput.disabled = false;
+        referenceValueInput.disabled = false;
+    }
+
+}, 50); // 50ms delay ensures DOM is ready
+
 
                                 document.getElementById('probe_no').value = details.parameter_details.probe_no;
                                 document.getElementById('analog_zero').value = details.parameter_details.analog_zero;
@@ -771,10 +804,15 @@ function updateUI(data) {
 
                                 document.getElementById('reference_value').value = details.parameter_details.reference_value;
                                 document.getElementById('low_mv').value = details.parameter_details.low_mv;
-                                const analogZeroInput = document.getElementById('analog_zero');
-                                const highMvInput = document.getElementById('high_mv');
-                                const lowMvInput = document.getElementById('low_mv');
-                                const referenceValueInput = document.getElementById('reference_value');
+
+                                  // 1️⃣ Get DOM elements
+    const singleRadio = document.getElementById('single');
+    const doubleRadio = document.getElementById('double');
+    const analogZeroInput = document.getElementById('analog_zero');
+    const highMvInput = document.getElementById('high_mv');
+    const lowMvInput = document.getElementById('low_mv');
+    const referenceValueInput = document.getElementById('reference_value');
+                                
 
                                 if (details.parameter_details.measurement_mode === "TIR") {
                                    

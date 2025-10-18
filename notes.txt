@@ -42,7 +42,6 @@ Categories=Utility;
 
 
 
-6. Build the .deb file
     dpkg-deb --build fourchannel_deb
 
 

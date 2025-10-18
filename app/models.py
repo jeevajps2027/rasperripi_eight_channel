@@ -108,7 +108,8 @@ class parameter_settings(models.Model):
     hide_checkbox = models.BooleanField(default=False)
     attribute = models.BooleanField(default=False)
     auto_man = models.BooleanField(default=False)
-    timer = models.CharField(max_length=100, blank=True)
+    timer = models.IntegerField(null=True, blank=True)
+
 
     def __str__(self):
         return f'{self.model_id} - {self.parameter_name}'

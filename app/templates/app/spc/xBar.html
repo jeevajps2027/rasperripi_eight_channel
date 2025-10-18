@@ -27,10 +27,11 @@
         }
 
         .container {
-            max-width:1150px;
+          width: 100%;
+           height: 90vh;
             margin: auto;
             border: 2px solid black;
-            height: 700px;
+            
             margin-top: 0px;
         }
 
@@ -52,10 +53,14 @@
         }
 
         .chart-container {
-            margin-top: 30px;
-            width: 700px;
-        }
-
+    display: flex;
+    flex-direction: column;
+    width: 80%;       /* Set desired width */
+      /* Align to left */
+    margin-top: 10px;   /* Optional top spacing */
+    border: 1px solid black;
+    height: 80%;
+}
         .error-message {
             text-align: center;
             color: red;
